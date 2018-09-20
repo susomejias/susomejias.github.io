@@ -1,0 +1,131 @@
+=flex-center($direction)
+    display: flex
+    flex-direction: $direction
+    justify-content: center
+    align-items: center  
+
+=linear-gradient($direction, $color-stops...) 
+
+    @if is-direction($direction) == false 
+        $color-stops: $direction, $color-stops;
+        $direction: 180deg;
+    
+
+    background: nth(nth($color-stops, 1), 1)
+    background: -webkit-linear-gradient(legacy-direction($direction), $color-stops)
+    background: linear-gradient($direction, $color-stops)
+
+
+
+body
+    margin: 0px
+    min-height: 100vh
+    font-family: 'Noto Sans', sans-serif
+    header
+        background-color: #263238
+        width: 100%
+        +flex-center(column)
+        -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)
+        -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)
+        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)      
+        h1
+            margin: 0px
+            padding: 15px 20px
+            font-size: 1.6rem
+            color: #ffff
+            letter-spacing: 3px
+            @media only screen and (min-width: 1024px)
+                font-size: 2rem
+        img
+            height: 100px
+            margin-top: 10px
+            @media only screen and (min-width: 1024px)
+                height: 110px
+        #social
+            margin-bottom: 15px
+            a
+                text-decoration: none
+            img
+                height: 25px
+                margin-left: 9px
+                
+            a:hover
+                img
+                    transform: scale(1.2)
+                    transition: all 0.5s
+                
+    main
+        padding: 20px 10px
+        #containerProyectos
+            padding: 10px 15px
+            display: grid
+            grid-template-columns: repeat(2, 1fr)
+            grid-gap: 30px
+            @media only screen and (min-width: 1024px)
+                grid-template-columns: repeat(4, 1fr)
+            .containerTile
+                display: block
+                text-decoration: none
+                transition: all 1s
+                .tile
+                    +flex-center(column)
+                    border-radius: 3px
+                    color: #fff
+                    min-height: 100px
+                    @media only screen and (min-width: 1024px)
+                        min-height: 200px
+                &:hover
+                    transform: scale(1.1)
+                    transition: all 1s
+    footer
+        padding: 10px 15px
+        height: 100%
+        background-color: #263238
+        margin: 0px
+        -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)
+        -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)
+        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)
+        color: #fff
+        
+        p
+            text-align: center
+            padding: 10px 15px
+        div
+            display: flex
+            flex-direction: column
+            align-items: flex-start
+            margin-top: 30px
+            margin-bottom: 30px
+            @media only screen and (min-width: 1024px)
+                margin-left: 50px
+            a
+                text-decoration: none
+                font-size: 1.5rem
+                color: #fff
+                font-weight: bold
+            p
+                color: #ECEFF1
+
+.violet
+    background-color: #7E57C2
+
+.pink
+    background-color: #EC407A
+
+.green
+    background-color: #26A69A
+
+.orange
+    background-color: #FFA726
+
+.deep-orange
+    background-color: #FF7043
+
+.brown
+    background-color: #8D6E63
+
+.gray
+    background-color: #BDBDBD
+
+.blue
+    background-color: #29B6F6
