@@ -93,6 +93,10 @@ body main #containerProyectos .containerTile .tile {
   min-height: 100px;
 }
 
+body main #containerProyectos .containerTile .tile h3 {
+  text-align: center;
+}
+
 @media only screen and (min-width: 1024px) {
   body main #containerProyectos .containerTile .tile {
     min-height: 200px;
