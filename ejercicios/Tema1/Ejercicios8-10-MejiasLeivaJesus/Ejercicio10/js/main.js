@@ -7,36 +7,47 @@ Definir una función que determine si la cadena de texto que se le pasa como pa
 
 {
 
-    let isPalindromo = function (cadena){
+    let mostrar;
+    
+    function init() { 
+
+        let isPalindromo = function (cadena){
 
     
-        let cadenaSinEspacio = cadena.replace(/ /g, "")
-        let cadenaDelRevesSinEspacios = "";
+            mostrar = document.getElementById("mostrar");
 
-        for (let i = cadenaSinEspacio.length - 1; i >= 0; i--) {
-            
-
-            cadenaDelRevesSinEspacios += cadenaSinEspacio[i];
-
+            let cadenaSinEspacio = cadena.replace(/ /g, "")
+            let cadenaDelRevesSinEspacios = "";
+    
+            for (let i = cadenaSinEspacio.length - 1; i >= 0; i--) {
+                
+    
+                cadenaDelRevesSinEspacios += cadenaSinEspacio[i];
+    
+            }
+    
+            cadenaSinEspacio = cadenaSinEspacio.toLowerCase();
+            cadenaDelRevesSinEspacios = cadenaDelRevesSinEspacios.toLowerCase();
+    
+            // console.log(cadenaSinEspacio);
+            // console.log(cadenaDelRevesSinEspacios);
+    
+            if (cadenaSinEspacio === cadenaDelRevesSinEspacios) {
+    
+                mostrar.textContent =  "La cadena \"" + cadena + "\" es un palindromo";
+    
+            }else{
+    
+                mostrar.textContent = "La cadena \"" + cadena + "\" no es un palindromo";
+            }
+    
         }
-
-        cadenaSinEspacio = cadenaSinEspacio.toLowerCase();
-        cadenaDelRevesSinEspacios = cadenaDelRevesSinEspacios.toLowerCase();
-
-        // console.log(cadenaSinEspacio);
-        // console.log(cadenaDelRevesSinEspacios);
-
-        if (cadenaSinEspacio === cadenaDelRevesSinEspacios) {
-
-            console.log("La cadena es un palindromo");
-
-        }else{
-
-            console.log("La cadena no es un palindromo");
-        }
+    
+        isPalindromo("La ruta nos aporto otro paso natural");
+    
 
     }
 
-    isPalindromo("La ruta nos aporto otro paso natural");
+    window.onload = init;
 
 }

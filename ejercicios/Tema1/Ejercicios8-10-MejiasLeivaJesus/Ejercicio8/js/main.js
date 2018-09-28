@@ -8,20 +8,31 @@ Autor : Jesús Mejias Leiva
 
 {
 
-    let isParImpar = function(numero){
+    
 
-        if ((numero % 2) === 0){
 
-            return console.log("Es numero es par");
+    let mostrar = document.getElementById("mostrar");
 
-        }else{
+    function init (){
 
-            return console.log("Es numero es impar");
+        let isParImpar = function(numero){
 
+            if ((numero % 2) === 0){
+    
+                mostrar.textContent = "Es numero es par";
+    
+            }else{
+    
+                mostrar.textContent = "Es numero es impar";
+                
+            }
+    
         }
+    
+        isParImpar(3);
 
     }
 
-    isParImpar(3);
+    window.onload = init;
 
 }

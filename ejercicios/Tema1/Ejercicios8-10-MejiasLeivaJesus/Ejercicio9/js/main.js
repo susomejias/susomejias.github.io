@@ -7,47 +7,56 @@ Definir una función que muestre información sobre una cadena de texto que se
 
 {
 
-    let infoCadena = function (cadena) {
+    let mostrar;
 
+    function init () {
 
-        let sizeCadena = cadena.length;
-        let mayusculas = "";
-        let minusculas = "";
+        let infoCadena = function (cadena) {
 
-        for (var i = 0; i < cadena.length; i++) {
-            
-            if (cadena[i] === cadena[i].toUpperCase() ) {
+            mostrar = document.getElementById("mostrar");
 
-                mayusculas += cadena[i];
-
-            }else if (cadena[i] === cadena[i].toLowerCase() ) {
-
-                minusculas += cadena[i];
-
+            let sizeCadena = cadena.length;
+            let mayusculas = "";
+            let minusculas = "";
+    
+            for (var i = 0; i < cadena.length; i++) {
+                
+                if (cadena[i] === cadena[i].toUpperCase() ) {
+    
+                    mayusculas += cadena[i];
+    
+                }else if (cadena[i] === cadena[i].toLowerCase() ) {
+    
+                    minusculas += cadena[i];
+    
+                }
+    
+    
             }
-
-
+    
+            if (sizeCadena === mayusculas.length) {
+    
+                mostrar.textContent = "La cadena \"" + cadena + "\" está compuesta solo por letras mayuscula";
+                
+            }else if (sizeCadena === minusculas.length) {
+    
+                mostrar.textContent ="La cadena \"" + cadena + "\" está compuesta solo por letras minusculas";
+    
+            }else{
+    
+                mostrar.textContent = "La cadena \"" + cadena + "\" está compuesta por letras minusculas y mayusculas";
+    
+            }
+    
         }
-
-        if (sizeCadena === mayusculas.length) {
-
-            return console.log("La cadena \"" + cadena + "\" está compuesta solo por letras mayuscula");
-            
-        }else if (sizeCadena === minusculas.length) {
-
-            return console.log("La cadena \"" + cadena + "\" está compuesta solo por letras minusculas");
-
-        }else{
-
-            return console.log("La cadena \"" + cadena + "\" está compuesta por letras minusculas y mayusculas");
-
-        }
+    
+    
+        // llamada funciones
+        
+        infoCadena("holA");
 
     }
 
-
-    // llamada funciones
-    
-    infoCadena("hola");
+    window.onload = init;
 
 }
