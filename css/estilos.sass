@@ -59,15 +59,18 @@ body
         padding: 20px 10px
         #containerProyectos
             padding: 10px 15px
-            display: grid
-            grid-template-columns: repeat(2, 1fr)
-            grid-gap: 30px
+            +flex-center(column)
             @media only screen and (min-width: 1024px)
+                display: grid
                 grid-template-columns: repeat(4, 1fr)
+                grid-gap: 30px
             .containerTile
                 display: block
                 text-decoration: none
                 transition: all 1s
+                width: 100%
+                padding-top: 15px
+                padding-bottom: 15px
                 .tile
                     +flex-center(column)
                     border-radius: 3px

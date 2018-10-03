@@ -66,14 +66,17 @@ body main {
 
 body main #containerProyectos {
   padding: 10px 15px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 @media only screen and (min-width: 1024px) {
   body main #containerProyectos {
+    display: grid;
     grid-template-columns: repeat(4, 1fr);
+    grid-gap: 30px;
   }
 }
 
@@ -81,6 +84,9 @@ body main #containerProyectos .containerTile {
   display: block;
   text-decoration: none;
   transition: all 1s;
+  width: 100%;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 body main #containerProyectos .containerTile .tile {
