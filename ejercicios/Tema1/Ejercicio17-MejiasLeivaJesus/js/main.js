@@ -5,12 +5,12 @@ Mejorar el ejemplo anterior indicando en todo momento al usuario el número de c
 Autor: Jesús Mejias Leiva
 
 */
+
 {
 
     let textArea;
     const MAX_CARACT = 5;
     let info;
-
     let charCod;
 
     function init (){
@@ -19,26 +19,25 @@ Autor: Jesús Mejias Leiva
         info = document.getElementById("info");
 
 
-        textArea.onkeypress = controlCharacterLimit;
+        // textArea.onkeypress = controlCharacterLimit;
+        // textArea.onkeyup = muestraInfo;
 
-
-        textArea.onkeyup = muestraInfo;
-
-        // textArea.addEventListener("keypress", controlCharacterLimit);
-        // textArea.addEventListener("keyup", muestraInfo);
+        textArea.addEventListener("keypress", controlCharacterLimit);
+        textArea.addEventListener("keyup", muestraInfo);
 
     }
 
-    
 
     let controlCharacterLimit = function (ev) {
 
         charCod = ev.key;
-        //console.log(charCod);
+        console.log(charCod);
 
-        if (charCod === "ArrowUp" || charCod === "ArrowDown" || charCod === "ArrowRight" || charCod === "ArrowLeft" || charCod === "Backspace"){
-            return true;
-        }else if (textArea.value.length >= MAX_CARACT){
+        // if (charCod === "ArrowUp" || charCod === "ArrowDown" || charCod === "ArrowRight" || charCod === "ArrowLeft" || charCod === "Backspace"){
+        //     return true;
+        // }else 
+        if (textArea.value.length >= MAX_CARACT){
+            ev.preventDefault();
             return false;
         }
 
