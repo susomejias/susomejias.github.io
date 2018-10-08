@@ -23,7 +23,7 @@ en un elemento de tipo <span> (pistas: displayArea, daFormat)
             inputField: "fecha",
             ifFormat:   "%d / %m / %Y",
             daFormat:   "%A , %d de %B de %Y",
-            displayArea:   "fecha",
+            displayArea:   "fechaF",
             button:     "selector",
             weekNumbers:    false
         });
