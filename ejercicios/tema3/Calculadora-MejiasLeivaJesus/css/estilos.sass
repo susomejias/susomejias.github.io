@@ -1,0 +1,70 @@
+$primaryColor: #263238
+$textColor: #263238
+$secondaryColor: #37474F
+$accentColor: #03DAC6
+
+=flex-center($direction)
+    display: flex
+    flex-direction: $direction
+    justify-content: center
+    align-items: center 
+
+=btn($color)
+    background-color: $color
+    min-height: 50px
+    min-width: 50px
+    color: #fff
+    border-width: 0px
+    outline: 0
+    font-size: 1.2rem
+
+main
+    +flex-center(column)
+    min-height: 100vh
+    font-family: 'Lato', sans-serif
+    h1
+        font-size: 2.6rem
+        color: $primaryColor
+    .container
+        +flex-center(column)
+        min-height: 500px
+        min-width: 500px
+        .show-container
+            +flex-center(row)
+            width: 100%
+            input
+                width: 100%
+                min-height: 70px
+                border-width: 0
+                outline: 0
+                background: #ECEFF1
+                font-size: 1.5rem
+                font-weight: bold
+                text-align: right
+                padding-right: 20px
+                color: $textColor
+        .buttons-container
+            min-height: 300px
+            width: 100%
+            display: grid
+            grid-template-columns: repeat(4, 1fr)
+
+.btnPrincipal
+    +btn($primaryColor)
+
+
+.btnOperation
+    +btn($secondaryColor)
+
+
+.btnAccent
+    +btn($accentColor)
+
+.btnRed
+    +btn(#E53935)
+
+.btnOrange
+    +btn(#FFB300)
+
+.btnGrey
+    +btn(#607D8B)
