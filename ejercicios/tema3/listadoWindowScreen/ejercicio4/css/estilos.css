@@ -1,0 +1,23 @@
+* {
+  font-family: 'Lato', sans-serif;
+  color: #263238;
+}
+
+body {
+  position: relative;
+  min-height: 300vh;
+}
+
+main {
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 300px;
+}
+
+main p {
+  font-size: 1.5rem;
+}

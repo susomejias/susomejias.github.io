@@ -38,6 +38,7 @@ miVentana.document.close();
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <meta http-equiv="X-UA-Compatible" content="ie=edge">
                 <title>Ejercicio-JesúsMejiasLeiva</title>
+                <link rel="stylesheet" href="css/estilos.css">
                 <script type="text/javascript" src="js/windowClose.js"></script>
             </head>
             <body>
@@ -45,8 +46,8 @@ miVentana.document.close();
                     Por favor, comprueba que tu navegador es compatible con javascript, o bien
                     comprueba si lo tienes activado
                 </noscript>
-                <p>Ventana${i}</p>
-                <button id="windowClose">Cerrar</button>
+                <p>Ventana${i + 1}</p>
+                <button class="btn" id="windowClose">Cerrar</button>
             </body>
             </html>`;
 
