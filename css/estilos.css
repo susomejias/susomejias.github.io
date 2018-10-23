@@ -96,6 +96,7 @@ body main #containerProyectos .containerTile .tile {
   align-items: center;
   border-radius: 3px;
   color: #fff;
+  padding: 20px;
   min-height: 100px;
 }
 
