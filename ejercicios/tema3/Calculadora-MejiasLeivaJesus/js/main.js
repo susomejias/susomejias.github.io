@@ -20,9 +20,12 @@
     */ 
     let createLayout = function () { 
 
+        let fragment = document.createDocumentFragment();
+
+
         // crear container
         let containerDiv = document.createElement("div");
-        addDiv(containerDiv, main, "container");
+        addDiv(containerDiv, fragment , "container");
 
         // crear container-mostrar
         let showContainerDiv = document.createElement("div");
@@ -51,6 +54,8 @@
             createButton(buttonsContainerDiv, orderClasss[i], orderText[i]);
 
         }
+
+        main.appendChild(fragment);
 
     }
 
