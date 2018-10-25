@@ -24,9 +24,9 @@ Reloj. Crea una página que cada segundo te muestre actualizado un reloj digital
             
             let date = new Date();
 
-            let hours = date.getHours();
-            let minutes = date.getMinutes();
-            let seconds = date.getSeconds();
+            let hours = ("0" + date.getHours()).slice(-2);
+            let minutes = ("0" + date.getMinutes()).slice(-2);
+            let seconds = ("0" + date.getSeconds()).slice(-2);
 
             clock.textContent = hours + ":" + minutes + ":" + seconds; 
 
