@@ -25,11 +25,10 @@ miVentana.document.close();
 
     let windowsOpen = function () { 
 
-        let windowsArray = [];
 
         for (let i = 0; i < 5; i++) {
             
-            let windowA = window.open("","","width=200,height=200");
+            let windowA = window.open("","","width=200,height=200,left=" + i + 10 + "px");
 
             let html = `<!DOCTYPE html>
             <html lang="es">
