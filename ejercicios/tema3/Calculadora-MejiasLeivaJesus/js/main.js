@@ -6,8 +6,6 @@
 {
 
     let main;
-    let ce;
-    let btn7;
     let buttons;
     let output;
     let calculadora;
@@ -92,7 +90,13 @@
                 //console.log(idValue);
 
                 document.getElementById(idValue).addEventListener("click", () => { 
-                    output.value = parseInt(idValue) 
+                    
+                    
+                    if(output.value === "0"){
+                        output.value = idValue;
+                    }else {
+                        output.value += idValue;
+                    }
                 });
                 
 
@@ -128,13 +132,23 @@
                                     console.log("porcentaje");
                                 break;
                             case "DEL":
-                                    console.log("borrar");
+                                    let deleteString = output.value.substring(0, output.value.length -1);
+                                    console.log(deleteString);
+                                    output.value = deleteString;
+                                    if ( output.value === "") {
+                                        output.value = 0;
+                                    }
+                                    //console.log("borrar");
                                 break;
                             case "CE":
-                                    console.log("resetear");
+                                    output.value = 0;
+                                    //console.log("resetear");
                                 break;
                             case "coma":
-                                    console.log("coma");
+                                    if (!output.value.includes(",")) {
+                                        output.value += ",";
+                                    }
+                                    //console.log("coma");
                                 break;
                             default:
                                 
