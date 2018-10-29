@@ -1,6 +1,6 @@
 /**
     Calculadora Js vanilla
-    @author Jesús Mejias Leiva
+    @author Jesús Mejías Leiva
 */
 
 {
