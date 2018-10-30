@@ -1,6 +1,6 @@
 /**
     Calculadora Js vanilla
-    @author Jesús Mejías Leiva
+    @author Jesús Mejias Leiva
 */
 
 {
@@ -13,8 +13,7 @@
 
         main = document.getElementsByTagName("main")[0];
 
-
-        calculadora.crateLayout();
+        calculadora.createLayout();
         calculadora.functionality();
 
 
@@ -26,9 +25,11 @@
 
         flag: false,
 
+        sameFlag: false,
+
         operation: "",
 
-        crateLayout: function () { 
+        createLayout: function () { 
 
 
             let fragment = document.createDocumentFragment();
@@ -97,9 +98,9 @@
                     document.getElementById(idValue).addEventListener("click", () => { 
                         
                         
-                        if(output.value === "0" || flag){
+                        if(output.value === "0" || this.flag){
                             output.value = parseFloat(idValue);
-                            flag = false
+                            this.flag = false;
                         }else {
                             output.value += parseFloat(idValue);
                         }
@@ -118,79 +119,95 @@
     
                             switch (idValue) {
                                 case "sum":
-                                        cumulative += parseFloat(output.value);
-                                        flag = true;
-                                        operation = "sum";
-                                        //output.value = cumulative;
-                                        //console.log(cumulative);
+                                        this.calculateCumulative("sum");
                                     break;
                                 case "multiplication":
-                                        console.log("multiplicacion");
+                                        this.calculateCumulative("multiplication");
                                     break;
                                 case "division":
-                                        console.log("division");
+                                        this.calculateCumulative("division");
                                     break;
                                 case "moreLess":
-    
-                                        if (parseFloat(output.value) > 0 ) {
-                                            output.value = (parseFloat(output.value) * -1).toString();
-                                        }else {
-                                            //console.log(output.value); 
-                                            output.value = output.value.replace("-" , "");
-                                        }
+
+                                    if (output.value !== "0"){
+                                                
+                                            if (!output.value.includes("-")){
+                                                output.value = "-" + output.value;
+                                            }else{
+                                                output.value = output.value.replace("-" , "");
+                                            }
+                                    }
+                                        
+
                                     break;
                                 case "subtraction":
-                                        if (!output.value.includes("-")){
-                                            output.value = "-";
-                                        }
-                                        //console.log("resta");
+                                        this.calculateCumulative("subtraction");
                                     break;
                                 case "same":
-    
-                                        if (operation === "sum"){
-                                            cumulative += parseFloat(output.value);
-                                            output.value = cumulative;
-                                        }
-    
-                                        flag = false;
-                                        console.log(cumulative);
+                                        this.calculate();
                                     break;
                                 case "percentage":
-                                        console.log("porcentaje");
+                                        
+                                        if (output.value !== "" && output.value !== "0") {
+                                            output.value = parseFloat(output.value / 100);
+                                        }
+
+
                                     break;
                                 case "DEL":
                                         if (output.value.includes("-") && output.value.length === 2){
                                             output.value = output.value.substring(1,2);
+                                        }else if (output.value.includes("-") && output.value.includes(".")) {
+                                            output.value = "0";
+                                        }else if (output.value.includes(".") && !output.value.includes("-")) {
+                                            output.value = "0";
+                                        }else {
+
+                                            output.value = output.value.slice(0, output.value.length -1);
                                         }
                                         
-                                        output.value = output.value.slice(0, output.value.length -1);
                                         
-    
                                         if ( output.value === "") {
                                             output.value = 0;
-                                            cumulative = 0;
+                                            this.cumulative = 0;
                                         }
-                                        flag = false;
+                                        this.flag = false;
     
                                         
                                         //console.log("borrar");
                                     break;
                                 case "CE":
                                         output.value = 0;
-                                        cumulative = 0;
-                                        flag = false;
+                                        this.cumulative = 0;
+                                        this.flag = false;
+                                        this.operation = "";
                                         //console.log("resetear");
                                     break;
                                 case "coma":
                                         if (!output.value.includes(".")) {
                                             output.value += ".";
                                         }
+
                                         //console.log("coma");
                                     break;
                                 case "0":
-                                        if (output.value !== "0") {
-                                            output.value += "0"; 
+
+                                    
+                                        if (this.operation !== ""){
+                                            output.value = "0"
                                         }
+
+                                        if (output.value !== "0" && this.operation !== ""){
+                                            output.value += "0";
+                                        }
+
+                                        if (output.value !== "0" && this.operation === ""){
+                                            output.value += "0";
+                                        }else if (output.value === "0.") {
+                                            output.value += "0";
+                                        }
+
+                                        //console.log(typeof output.value);
     
                                     break;
                                 default:
@@ -226,6 +243,52 @@
             div.className = classs; 
             parent.appendChild(div);
     
+        },
+
+        calculateCumulative: function (type) {
+
+            if (this.operation === ""){
+                this.cumulative += parseFloat(output.value);
+            }
+            this.flag = true;
+            this.operation = type;
+            this.sameFlag = false;
+
+        },
+
+        calculate : function(){
+
+            if (!this.sameFlag) {
+
+                switch (this.operation) {
+
+                    case "sum":
+                        this.cumulative += parseFloat(output.value);
+                        output.value = this.cumulative;
+                        this.sameFlag = true;
+                        break;
+                    case "subtraction":
+                        this.cumulative -= parseFloat(output.value);
+                        output.value = this.cumulative;
+                        this.sameFlag = true;
+                        break;
+                    case "multiplication":
+                        this.cumulative *= parseFloat(output.value);
+                        output.value = this.cumulative;
+                        this.sameFlag = true;
+                        break;
+                    case "division":
+                        this.cumulative /= parseFloat(output.value);
+                        output.value = this.cumulative;
+                        this.sameFlag = true;
+                        break;
+                    
+
+                }
+            }
+
+            this.flag = false;
+
         }
 
     }
