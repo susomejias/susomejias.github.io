@@ -200,19 +200,19 @@
                                     break;
                                 case "0":
 
-                                        let regex = /[0].[0]?/;
+                                        let regexZeroDecimal = /[0]{1}.[0]?/;
 
-                                        if (this.operation !== "" && !regex.test(output.value)){
+                                        if (this.operation !== "" && !regexZeroDecimal.test(output.value)){
                                             output.value = "0";
                                             this.flag = true;
                                         }
 
-                                        if (this.operation !== "" && regex.test(output.value)) {
+                                        if (this.operation !== "" && regexZeroDecimal.test(output.value) && output.value !== "0") {
                                             output.value += "0";
                                             this.flag = false;
                                         }
 
-                                        if (this.operation === ""){
+                                        if (this.operation === "" && output.value !== "0"){
                                             output.value += "0";
                                             this.flag = false;
                                         }
