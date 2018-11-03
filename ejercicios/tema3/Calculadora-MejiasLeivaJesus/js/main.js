@@ -159,8 +159,11 @@
                                             output.value = output.value.substring(1,2);
                                         }else if (output.value.includes("-") && output.value.includes(".")) {
                                             output.value = "0";
+                                            this.cumulative = 0;
+
                                         }else if (output.value.includes(".") && !output.value.includes("-")) {
                                             output.value = "0";
+                                            this.cumulative = 0;
                                         }else {
 
                                             output.value = output.value.slice(0, output.value.length -1);
@@ -171,7 +174,10 @@
                                             output.value = 0;
                                             this.cumulative = 0;
                                         }
+                                        
                                         this.flag = false;
+                                        this.operation = "";
+
     
                                         
                                         //console.log("borrar");
@@ -188,23 +194,27 @@
                                             output.value += ".";
                                         }
 
+                                        this.flag = false;
+
                                         //console.log("coma");
                                     break;
                                 case "0":
 
-                                    
-                                        if (this.operation !== ""){
-                                            output.value = "0"
+                                        let regex = /[0].[0]?/;
+
+                                        if (this.operation !== "" && !regex.test(output.value)){
+                                            output.value = "0";
+                                            this.flag = true;
                                         }
 
-                                        if (output.value !== "0" && this.operation !== ""){
+                                        if (this.operation !== "" && regex.test(output.value)) {
                                             output.value += "0";
+                                            this.flag = false;
                                         }
 
-                                        if (output.value !== "0" && this.operation === ""){
+                                        if (this.operation === ""){
                                             output.value += "0";
-                                        }else if (output.value === "0.") {
-                                            output.value += "0";
+                                            this.flag = false;
                                         }
 
                                         //console.log(typeof output.value);
