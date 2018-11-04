@@ -6,26 +6,23 @@
 {
 
     let main;
-    let buttons;
-    let output;
 
     function init(){
 
+        // container principal del cuál parte todo
         main = document.getElementsByTagName("main")[0];
 
-        calculadora.createLayout();
-        calculadora.functionality();
-
+        calculator.createLayout();
 
     }
 
-    let calculadora = {
+    let calculator = {
+
+        buttons : undefined,
 
         cumulative : 0,
 
-        flag: false,
-
-        sameFlag: false,
+        output: undefined,
 
         operation: "",
 
@@ -37,16 +34,16 @@
     
             // crear container
             let containerDiv = document.createElement("div");
-            this.addDiv(containerDiv, fragment , "container");
+            calculator.addDiv(containerDiv, fragment , "container");
     
             // crear container-mostrar
             let showContainerDiv = document.createElement("div");
-            this.addDiv(showContainerDiv, containerDiv, "show-container");
+            calculator.addDiv(showContainerDiv, containerDiv, "show-container");
     
             // crear input para mostrar la salida
             let showInput = document.createElement("input");
             showInput.type = "text";
-            showInput.value = "0";
+            showInput.value = 0;
             let attrId = document.createAttribute("id");
             attrId.value = "output";
             let disabled = document.createAttribute("disabled");
@@ -57,7 +54,7 @@
     
             // crear container-botones
             let buttonsContainerDiv = document.createElement("div");
-            this.addDiv(buttonsContainerDiv, containerDiv, "buttons-container");
+            calculator.addDiv(buttonsContainerDiv, containerDiv, "buttons-container");
     
             // array con las clases ordenadas para recorrerlas
             let orderClasss = ["btnRed","btnOrange","btnOperation","btnOperation","btnPrincipal", "btnPrincipal","btnPrincipal","btnOperation","btnPrincipal","btnPrincipal", "btnPrincipal","btnOperation","btnPrincipal","btnPrincipal","btnPrincipal", "btnOperation","btnPrincipal","btnOperation","btnGrey","btnAccent"];
@@ -65,180 +62,27 @@
             // array con el texto que contendrán los botones, ordenado para recorrerlo
             let orderText = ["CE","DEL","%","+","7","8","9","-","4","5","6","x","1","2","3","/","0","+/-",",","="];
             
-            let orderIds = ["CE","DEL","percentage","sum","7","8","9","subtraction","4","5","6","multiplication","1","2","3","division","0","moreLess","coma","same"];
+            let orderIds = ["CE","DEL","percentage","sum",7,8,9,"subtraction",4,5,6,"multiplication",1,2,3,"division",0,"moreLess","coma","same"];
     
+            
     
             orderClasss.forEach((element, index) => {
     
-                this.createButton(buttonsContainerDiv, orderClasss[index], orderText[index], orderIds[index]);
+                let btn = calculator.createButton(buttonsContainerDiv, orderClasss[index], orderText[index], orderIds[index]);
+                            
+                
+                btn.addEventListener("click", calculator.clickButton);
     
             });
     
     
             main.appendChild(fragment);
     
-            output = document.getElementById("output");
+            calculator.output = document.getElementById("output");
             buttons = document.getElementsByTagName("button");
-    
+
         },
 
-
-        functionality: function (){
-
-
-            Array.from(buttons).forEach((element) => {
-    
-    
-                let idValue = element.getAttribute("id");
-    
-                if (parseFloat(idValue)) {
-    
-                    //console.log(idValue);
-    
-                    document.getElementById(idValue).addEventListener("click", () => { 
-                        
-                        
-                        if(output.value === "0" || this.flag){
-                            output.value = parseFloat(idValue);
-                            this.flag = false;
-                        }else {
-                            output.value += parseFloat(idValue);
-                        }
-    
-                    });
-                    
-    
-                }else{
-    
-                    //console.log(idValue);
-    
-                    let btn = document.getElementById(idValue);
-                    if(btn){
-    
-                        btn.addEventListener("click", () => {
-    
-                            switch (idValue) {
-                                case "sum":
-                                        this.calculateCumulative("sum");
-                                    break;
-                                case "multiplication":
-                                        this.calculateCumulative("multiplication");
-                                    break;
-                                case "division":
-                                        this.calculateCumulative("division");
-                                    break;
-                                case "moreLess":
-
-                                    if (output.value !== "0"){
-                                                
-                                            if (!output.value.includes("-")){
-                                                output.value = "-" + output.value;
-                                            }else{
-                                                output.value = output.value.replace("-" , "");
-                                            }
-                                    }
-                                        
-
-                                    break;
-                                case "subtraction":
-                                        this.calculateCumulative("subtraction");
-                                    break;
-                                case "same":
-                                        this.calculate();
-                                    break;
-                                case "percentage":
-                                        
-                                        if (output.value !== "" && output.value !== "0") {
-                                            output.value = parseFloat(output.value / 100);
-                                        }
-
-
-                                    break;
-                                case "DEL":
-
-                                        this.cumulative = 0;
-
-                                        if (output.value.includes("-") && output.value.length === 2){
-                                            output.value = output.value.substring(1,2);
-                                        }else if (output.value.includes("-") && output.value.includes(".")) {
-                                            output.value = "0";
-                                            this.cumulative = 0;
-
-                                        }else if (output.value.includes(".") && !output.value.includes("-")) {
-                                            output.value = "0";
-                                            this.cumulative = 0;
-                                        }else {
-
-                                            output.value = output.value.slice(0, output.value.length -1);
-                                        }
-                                        
-                                        
-                                        if ( output.value === "") {
-                                            output.value = 0;
-                                            this.cumulative = 0;
-                                        }
-                                        
-                                        this.flag = false;
-                                        this.operation = "";
-
-    
-                                        
-                                        //console.log("borrar");
-                                    break;
-                                case "CE":
-                                        output.value = 0;
-                                        this.cumulative = 0;
-                                        this.flag = false;
-                                        this.operation = "";
-                                        //console.log("resetear");
-                                    break;
-                                case "coma":
-                                        if (!output.value.includes(".")) {
-                                            output.value += ".";
-                                        }
-
-                                        this.flag = false;
-
-                                        //console.log("coma");
-                                    break;
-                                case "0":
-
-                                        //let regexZeroDecimal = /[0]{1}.[0]?([0]+)?\d?/g;
-
-                                        console.log(output.value);
-                                        console.log(this.flag);
-                                        //console.log(regexZeroDecimal.test(output.value));
-
-                                        if (output.value !== "0") {
-
-                                            if (this.operation !== "" && !output.value.includes(".") && this.flag ){
-                                                output.value = "0";
-                                            }
-    
-                                            if (this.operation !== "" && output.value.includes(".") || this.operation !== "" && output.value !== "0" || this.operation === "") {
-                                                output.value += "0";
-                                            }
-
-
-                                        }
-
-    
-                                    break;
-                                default:
-                                    
-                            }
-    
-                        });
-    
-                    }
-                    
-    
-    
-    
-                }
-    
-            });
-        },
 
         createButton : function (parent, classs, text, id) {
 
@@ -249,6 +93,8 @@
             attrId.value = id;
             boton.setAttributeNode(attrId);
             parent.appendChild(boton);
+
+            return boton;
     
         },
 
@@ -259,56 +105,104 @@
     
         },
 
-        calculateCumulative: function (type) {
+        calculateCumulative: function () {
 
-            if (this.operation === ""){
-                this.cumulative += parseFloat(output.value);
+            switch (calculator.operation) {
+                case "sum":
+                    return parseFloat(calculator.cumulative) + parseFloat(calculator.output.value);
+                case "subtraction":
+                    return parseFloat(calculator.cumulative) - parseFloat(calculator.output.value);
+                case "multiplication":
+                    return parseFloat(calculator.cumulative) * parseFloat(calculator.output.value);
+                case "division":
+                    return parseFloat(calculator.cumulative) / parseFloat(calculator.output.value);
             }
-            this.flag = true;
-            this.operation = type;
-            this.sameFlag = false;
 
         },
 
-        calculate : function(){
+        clickButton: function() {
+            let value = this.getAttribute("id");
+            //console.log(id);
+            switch (value) {
+                case "CE":
+                    calculator.output.value = "0";
+                    calculator.operation = "";
+                    calculator.cumulative = 0;
+                    break;
+                case "DEL":
+                    let cadenaRecortada = calculator.output.value.slice(0,calculator.output.value.length - 1);
+                    if (cadenaRecortada == 0 || calculator.output.value.split("").indexOf("-") != -1) {
+                        calculator.output.value = 0;
+                    } else {
+                        calculator.output.value = cadenaRecortada;
+                    }
+        
+                break;
+                case "percentage": 
+                    if (calculator.output.value !== ""){
+                        calculator.output.value = parseFloat(calculator.output.value) / 100;
+                    }  
+                break;
+                case "sum":
+                case "subtraction":
+                case "multiplication":
+                case "division":
+                    if (calculator.output.value !== "") {
+                        if (calculator.operation !== "") {
+                            calculator.cumulative = calculator.calculateCumulative();
+                            calculator.operation = value;
+                            calculator.isCumulativeFinite();
+                        } else {
+                            calculator.cumulative = parseFloat(calculator.output.value);
+                            calculator.operation = value;
+                            calculator.isCumulativeFinite();
+                        }
+                    }
 
-            if (!this.sameFlag) {
+                break;
+                case "moreLess":
+                    if (calculator.output.value != "" && calculator.output.value != "0") {
+                        let primerCaracter = calculator.output.value.slice(0, 1);
+                        if (primerCaracter == "-"){
+                            calculator.output.value = calculator.output.value.replace("-","");
+                        }else{
+                            calculator.output.value ="-" + calculator.output.value;
+                        }
+                    }
+                break;
+                case "coma":
+                    if (calculator.output.value != "" && !calculator.output.value.includes(".")) {
+                        calculator.output.value += ".";
+                    }
+                    break;
+                case "same":
+                    if (calculator.operation != "" && calculator.output.value.length > 0) {
+                        calculator.cumulative = calculator.calculateCumulative();
+                        calculator.isCumulativeFinite();
+                        calculator.operation = "";
+                    } else {
+                        calculator.operation = "";
+                        calculator.isCumulativeFinite();
+                    }
+                break;
+                default:
 
-                switch (this.operation) {
+                    if (calculator.output.value === "0" || calculator.operation != ""){
+                        calculator.output.value = value;
+                    }else{
+                        calculator.output.value += value;
+                    } 
 
-                    case "sum":
-                        this.cumulative += parseFloat(output.value);
-                        this.isCumulativeFinite();
-                        break;
-                    case "subtraction":
-                        this.cumulative -= parseFloat(output.value);
-                        output.value = this.cumulative;
-                        this.sameFlag = true;
-                        break;
-                    case "multiplication":
-                        this.cumulative *= parseFloat(output.value);
-                        this.isCumulativeFinite();
-                        break;
-                    case "division":
-                        this.cumulative /= parseFloat(output.value);
-                        this.isCumulativeFinite();
-                        break;
-                    
-
-                }
+                break;
             }
-
-            this.flag = false;
-
-        },
+    },
 
         isCumulativeFinite : function (){
 
-            if (isFinite(this.cumulative)) {
-                output.value = this.cumulative;
-                this.sameFlag = true;
+            if (isFinite(calculator.cumulative)) {
+                calculator.output.value = calculator.cumulative;
             }else{
-                output.value = "0";
+                calculator.output.value = "0";
             }
 
         }
