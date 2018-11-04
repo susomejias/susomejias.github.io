@@ -203,24 +203,25 @@
                                     break;
                                 case "0":
 
-                                        let regexZeroDecimal = /[0]{1}.[0]?/;
+                                        //let regexZeroDecimal = /[0]{1}.[0]?([0]+)?\d?/g;
 
-                                        if (this.operation !== "" && !regexZeroDecimal.test(output.value)){
-                                            output.value = "0";
-                                            this.flag = true;
+                                        console.log(output.value);
+                                        console.log(this.flag);
+                                        //console.log(regexZeroDecimal.test(output.value));
+
+                                        if (output.value !== "0") {
+
+                                            if (this.operation !== "" && !output.value.includes(".") && this.flag ){
+                                                output.value = "0";
+                                            }
+    
+                                            if (this.operation !== "" && output.value.includes(".") || this.operation !== "" && output.value !== "0" || this.operation === "") {
+                                                output.value += "0";
+                                            }
+
+
                                         }
 
-                                        if (this.operation !== "" && regexZeroDecimal.test(output.value) && output.value !== "0") {
-                                            output.value += "0";
-                                            this.flag = false;
-                                        }
-
-                                        if (this.operation === "" && output.value !== "0"){
-                                            output.value += "0";
-                                            this.flag = false;
-                                        }
-
-                                        //console.log(typeof output.value);
     
                                     break;
                                 default:
@@ -277,8 +278,7 @@
 
                     case "sum":
                         this.cumulative += parseFloat(output.value);
-                        output.value = this.cumulative;
-                        this.sameFlag = true;
+                        this.isCumulativeFinite();
                         break;
                     case "subtraction":
                         this.cumulative -= parseFloat(output.value);
@@ -287,13 +287,11 @@
                         break;
                     case "multiplication":
                         this.cumulative *= parseFloat(output.value);
-                        output.value = this.cumulative;
-                        this.sameFlag = true;
+                        this.isCumulativeFinite();
                         break;
                     case "division":
                         this.cumulative /= parseFloat(output.value);
-                        output.value = this.cumulative;
-                        this.sameFlag = true;
+                        this.isCumulativeFinite();
                         break;
                     
 
@@ -301,6 +299,17 @@
             }
 
             this.flag = false;
+
+        },
+
+        isCumulativeFinite : function (){
+
+            if (isFinite(this.cumulative)) {
+                output.value = this.cumulative;
+                this.sameFlag = true;
+            }else{
+                output.value = "0";
+            }
 
         }
 
