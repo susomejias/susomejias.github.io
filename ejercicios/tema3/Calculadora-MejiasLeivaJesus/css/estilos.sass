@@ -25,10 +25,14 @@ main
     h1
         font-size: 2.6rem
         color: $primaryColor
+        text-align: center
     .container
         +flex-center(column)
         min-height: 500px
         min-width: 500px
+        @media only screen and (max-width: 768px)
+            min-width: 200px
+
         .show-container
             +flex-center(row)
             width: 100%

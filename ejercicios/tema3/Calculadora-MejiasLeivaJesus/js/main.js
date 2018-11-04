@@ -155,6 +155,9 @@
 
                                     break;
                                 case "DEL":
+
+                                        this.cumulative = 0;
+
                                         if (output.value.includes("-") && output.value.length === 2){
                                             output.value = output.value.substring(1,2);
                                         }else if (output.value.includes("-") && output.value.includes(".")) {
