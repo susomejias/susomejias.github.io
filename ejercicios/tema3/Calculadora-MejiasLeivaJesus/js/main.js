@@ -190,16 +190,7 @@
                         calculator.isCumulativeFinite();
                     }
                 break;
-                default:
-
-                // tenga coma y operacion vacia, machaque
-
-                let regexDecimal = /-?\d+(\.\d+)/;
-
-                console.log(regexDecimal.test(calculator.output.value));
-
-                
-                    
+                default:           
                     
                     if ((calculator.output.value === "0" || calculator.decimalControlFlag)){
                         calculator.output.value = value;
