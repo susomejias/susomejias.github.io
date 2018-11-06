@@ -1,6 +1,6 @@
 /**
     Calculadora Js vanilla
-    @author Jesús Mejias Leiva
+    @author Jesús Mejías Leiva
 */
 
 {
@@ -22,9 +22,11 @@
 
         cumulative : 0,
 
-        output: undefined,
+        output: 0,
 
         operation: "",
+
+        decimalControlFlag : false,
 
         createLayout: function () { 
 
@@ -131,9 +133,12 @@
                     break;
                 case "DEL":
                     let cadenaRecortada = calculator.output.value.slice(0,calculator.output.value.length - 1);
-                    if (cadenaRecortada == 0 || calculator.output.value.split("").indexOf("-") != -1) {
+                    
+                    //console.log(calculadora.output.value.length);
+                    
+                    if (cadenaRecortada == 0 || (calculator.output.value.includes("-") && calculator.output.value.length === 2)) {
                         calculator.output.value = 0;
-                    } else {
+                    }else {
                         calculator.output.value = cadenaRecortada;
                     }
         
@@ -158,7 +163,7 @@
                             calculator.isCumulativeFinite();
                         }
                     }
-
+                    calculator.decimalControlFlag = true;
                 break;
                 case "moreLess":
                     if (calculator.output.value != "" && calculator.output.value != "0") {
@@ -187,12 +192,24 @@
                 break;
                 default:
 
-                    if (calculator.output.value === "0" || calculator.operation != ""){
+                // tenga coma y operacion vacia, machaque
+
+                let regexDecimal = /-?\d+(\.\d+)/;
+
+                console.log(regexDecimal.test(calculator.output.value));
+
+                
+                    
+                    
+                    if ((calculator.output.value === "0" || calculator.decimalControlFlag)){
                         calculator.output.value = value;
+                        calculator.decimalControlFlag = false;
                     }else{
                         calculator.output.value += value;
                     } 
-
+                
+                
+                
                 break;
             }
     },
