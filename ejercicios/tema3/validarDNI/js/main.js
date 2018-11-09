@@ -64,14 +64,11 @@ Utiliza los grupos para capturar el número y la letra. La letra puede estar en 
         showError("Formato incorrecto");
       } else {
         showSuccess("DNI válido");
-        let execDNI = regexpDNI.exec(inputDni.value);
-        let numbers = execDNI[1];
-        let letter = execDNI[2].toUpperCase();
+        [,numbers,letter] = regexpDNI.exec(inputDni.value);
+        
         let validLetter = validLetters[parseInt(numbers) % 23].toUpperCase();
 
-        //console.log(validLetter);
-
-        if (letter !== validLetter) {
+        if (letter.toUpperCase() !== validLetter) {
           showError("Letra incorrecta");
         }
       }
