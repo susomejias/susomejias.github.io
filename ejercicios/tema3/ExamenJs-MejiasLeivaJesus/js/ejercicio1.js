@@ -24,9 +24,9 @@
     if (contador !== null) {
       //console.log(typeof contador);
 
-      if (contador === "1") {
+      if (contador === "0") {
         mensaje.textContent = `Bienvenido a mi humilde morada. Esta es la primera vez que entras. Espero que vuelvas`;
-      } else if (contador === "2") {
+      } else if (contador === "1") {
         mensaje.textContent = `Hola de nuevo. Ya estas aquí por segunda vez. ¿Volveremos a vernos?. `;
       } else {
         mensaje.textContent = `Ya empiezas a ser pesado. Esta es la vez número ${parseInt(
