@@ -1,0 +1,65 @@
+$CATEGORY: $course$/top/Tema3/Objeto document/document
+
+:: Objeto document ::¿De qué objeto padre cuelga el objeto document? 
+{ 
+  =Amarillo
+  ~rojo
+  ~azul
+}
+
+:: Objeto document ::La propiedad parentNode.children devuelve los elementos hijos del elemento padre indicado... 
+{ 
+  T
+}
+
+:: Objeto document ::El método document.hasFocus(), devuelve ...
+{ 
+  ~El tipo de elemento en el cuál estas haciendo foco en el documento.
+  ~El elemento en el cuál se está haciendo foco en el documento.
+  =True si el foco está en el algún lugar del documento o false sino lo está.
+
+}
+
+:: Objeto document ::¿Qué devuelve la propiedad document.styleSheets? 
+{ 
+  ~Un JSON con los estilos enlazados al documento.
+  =Una lista de objetos de tipo stylesheet, de las hojas de estilos enlazadas al documento.
+  ~Una collectionHTML con los elementos style del documento.
+}
+
+
+
+:: Objeto document ::La propiedad document.bgColor nos permite tanto obtener el color de fondo del documento, como también poder cambiar el valor del mismo. 
+{ 
+  T
+}
+
+
+
+:: Objeto document ::¿La propiedad document.forms? 
+{ 
+  ~Devuelve el primer elemento form que encuentre en el documento.
+  =Devuelve una collectionHTML con los distintos elementos form del documento.
+  ~Devuelve el primer o último elemento form, según le indiquemos, que encuentre en el documento.
+}
+
+:: Objeto document ::El método document.querySelector(String selector) devuelve una collectionHTML con los elementos que cumplan la condición indicada en el selector.
+{ 
+  F
+}
+
+
+:: Objeto document ::La propiedad document.readyState devuelve el estado de carga del documento, pero ¿qué valor/es devuelve?
+{ 
+  =Puede devolver loading, interactive o complete.
+  ~Devuelve un porcentaje con el nivel de carga del documento.
+  ~Devuelve un número entre 0 y 2.
+}
+
+:: Objeto document ::El método document.lastModified() devuelve la última fecha de modificación del documento
+{ 
+  T
+}
+
+
+

@@ -47,10 +47,9 @@ Utiliza los grupos para capturar el número y la letra. La letra puede estar en 
 
     inputDni.addEventListener("blur", validateDni);
     inputDni.addEventListener("focus", () => {
-        errSpan.textContent = "";
-        errSpan.classList.remove("error");
-        errSpan.classList.remove("success");
-
+      errSpan.textContent = "";
+      errSpan.classList.remove("error");
+      errSpan.classList.remove("success");
     });
   }
 
@@ -64,8 +63,10 @@ Utiliza los grupos para capturar el número y la letra. La letra puede estar en 
         showError("Formato incorrecto");
       } else {
         showSuccess("DNI válido");
-        [,numbers,letter] = regexpDNI.exec(inputDni.value);
+        console.log(regexpDNI.exec(inputDni.value));
         
+        [, numbers, letter] = regexpDNI.exec(inputDni.value);
+
         let validLetter = validLetters[parseInt(numbers) % 23].toUpperCase();
 
         if (letter.toUpperCase() !== validLetter) {
