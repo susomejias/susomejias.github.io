@@ -80,15 +80,15 @@
         if (values[2] === undefined) {
           spanError.textContent = "";
           [, apellido1, , rnombre] = values;
-          nombre.textContent = `Nombre:  ${rnombre}`;
-          apellidos.textContent = `Apellido:  ${apellido1}`;
+          nombre.innerHTML = `Nombre:  <b>${rnombre}</b>`;
+          apellidos.innerHTML = `Apellido: <b>${apellido1}</b>`;
           let arg = [rnombre, apellido1];
           validarSetCollection(...arg);
         } else {
           spanError.textContent = "";
           [, apellido1, apellido2, rnombre] = values;
-          nombre.textContent = `Nombre:  ${rnombre}`;
-          apellidos.textContent = `Apellido:  ${apellido1 + ", " + apellido2}`;
+          nombre.innerHTML = `Nombre:  ${rnombre}`;
+          apellidos.innerHTML = `Apellido:  ${apellido1 + ", " + apellido2}`;
           let arg = [rnombre, apellido1, apellido2];
           validarSetCollection(...arg);
         }

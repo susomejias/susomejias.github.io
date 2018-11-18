@@ -1,0 +1,101 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Lato', sans-serif;
+}
+
+body h1 {
+  font-size: 3rem;
+}
+
+body ul ol {
+  font-size: 1.5rem;
+}
+
+body ul ol a {
+  text-decoration: none;
+  color: #FF1744;
+  font-weight: bold;
+}
+
+body h2 {
+  font-size: 2.3rem;
+}
+
+body #containerButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+body p {
+  font-size: 1.3rem;
+}
+
+body p b {
+  color: #FF1744;
+}
+
+body input[type="text"] {
+  min-height: 30px;
+  min-width: 250px;
+  border-width: 0px;
+  border-radius: 3px;
+  background-color: rgba(207, 216, 220, 0.2);
+  font-size: 1.4rem;
+  text-align: center;
+  padding: 5px;
+}
+
+#spanError {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: #FF1744;
+  font-weight: bold;
+}
+
+#msgReset {
+  font-size: 1.6rem;
+  color: #FF1744;
+}
+
+#btnReset {
+  background: #FF1744;
+  color: #FFF;
+  border-width: 0px;
+  font-size: 1.2rem;
+  padding: 8px 10px;
+  border-radius: 3px;
+}
+
+#btnRecargarPagina {
+  background: #FFC400;
+  color: #FFF;
+  border-width: 0px;
+  font-size: 1.2rem;
+  padding: 8px 10px;
+  border-radius: 3px;
+  margin-left: 30px;
+}
+
+#mensaje {
+  font-size: 1.6rem;
+}
+
+#mensaje #msgContador {
+  color: #43A047;
+}
+
+#atras {
+  text-decoration: none;
+  background-color: #43A047;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 3px;
+}
