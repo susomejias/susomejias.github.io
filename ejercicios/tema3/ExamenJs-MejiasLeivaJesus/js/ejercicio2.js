@@ -8,6 +8,7 @@
   let atras;
   let spanError;
   let setValidate;
+  let patron;
 
   function init() {
     msgNombre = document.getElementById("nombre");
@@ -15,6 +16,10 @@
     input = document.getElementById("input");
     atras = document.getElementById("atras");
     spanError = document.getElementById("spanError");
+    patron =
+      "^((?:[a-záéíóúñ]{1,})(?:[ ]{1,}(?:[a-záéíóúñ]{1,}))*)" +
+      "[ ]*,[ ]*" +
+      "([a-záéíóúñ]{1,})$";
     setValidate = new Set();
 
     input.addEventListener("blur", validateNombreApellidos);
@@ -31,11 +36,6 @@
   };
 
   let validateNombreApellidos = function() {
-    let patron =
-      "^((?:[a-záéíóúñ]{1,})(?:[ ]{1,}(?:[a-záéíóúñ]{1,}))*)" +
-      "[ ]*,[ ]*" +
-      "([a-záéíóúñ]{1,})$";
-
     let regex = new RegExp(patron, "i");
 
     let inputValue = input.value;

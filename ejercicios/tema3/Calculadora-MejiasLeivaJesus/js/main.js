@@ -191,28 +191,33 @@
           calculator.cumulative = 0;
           break;
         case "DEL":
-          let cadenaRecortada = calculator.output.value.slice(
-            0,
-            calculator.output.value.length - 1
-          );
+          if (calculator.isNotNumber()) {
+            let cadenaRecortada = calculator.output.value.slice(
+              0,
+              calculator.output.value.length - 1
+            );
+            if (
+              cadenaRecortada == 0 ||
+              (calculator.output.value.includes("-") &&
+                calculator.output.value.length === 2)
+            ) {
+              calculator.output.value = 0;
+            } else {
+              calculator.output.value = cadenaRecortada;
+            }
+          }
 
           //console.log(calculadora.output.value.length);
 
-          if (
-            cadenaRecortada == 0 ||
-            (calculator.output.value.includes("-") &&
-              calculator.output.value.length === 2)
-          ) {
-            calculator.output.value = 0;
-          } else {
-            calculator.output.value = cadenaRecortada;
-          }
-
           break;
         case "percentage":
-          if (calculator.output.value !== "") {
-            calculator.output.value = parseFloat(calculator.output.value) / 100;
+          if (calculator.isNotNumber()) {
+            if (calculator.output.value !== "") {
+              calculator.output.value =
+                parseFloat(calculator.output.value) / 100;
+            }
           }
+
           break;
         case "sum":
         case "subtraction":
@@ -232,25 +237,33 @@
           calculator.decimalControlFlag = true;
           break;
         case "moreLess":
-          if (calculator.output.value != "" && calculator.output.value != "0") {
-            let primerCaracter = calculator.output.value.slice(0, 1);
-            if (primerCaracter == "-") {
-              calculator.output.value = calculator.output.value.replace(
-                "-",
-                ""
-              );
-            } else {
-              calculator.output.value = "-" + calculator.output.value;
+          if (calculator.isNotNumber()) {
+            if (
+              calculator.output.value != "" &&
+              calculator.output.value != "0"
+            ) {
+              let primerCaracter = calculator.output.value.slice(0, 1);
+              if (primerCaracter == "-") {
+                calculator.output.value = calculator.output.value.replace(
+                  "-",
+                  ""
+                );
+              } else {
+                calculator.output.value = "-" + calculator.output.value;
+              }
             }
           }
           break;
         case "coma":
-          if (
-            calculator.output.value != "" &&
-            !calculator.output.value.includes(".")
-          ) {
-            calculator.output.value += ".";
+          if (calculator.isNotNumber()) {
+            if (
+              calculator.output.value != "" &&
+              !calculator.output.value.includes(".")
+            ) {
+              calculator.output.value += ".";
+            }
           }
+
           break;
         case "same":
           if (
@@ -266,14 +279,16 @@
           }
           break;
         default:
-          if (
-            calculator.output.value === "0" ||
-            calculator.decimalControlFlag
-          ) {
-            calculator.output.value = value;
-            calculator.decimalControlFlag = false;
-          } else {
-            calculator.output.value += value;
+          if (calculator.isNotNumber()) {
+            if (
+              calculator.output.value === "0" ||
+              calculator.decimalControlFlag
+            ) {
+              calculator.output.value = value;
+              calculator.decimalControlFlag = false;
+            } else {
+              calculator.output.value += value;
+            }
           }
 
           break;
@@ -286,6 +301,10 @@
       } else {
         calculator.output.value = "No es un número";
       }
+    },
+
+    isNotNumber: function() {
+      return calculator.output.value !== "No es un número";
     }
   };
 
