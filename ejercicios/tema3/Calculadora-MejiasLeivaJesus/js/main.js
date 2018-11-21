@@ -191,7 +191,7 @@
           calculator.cumulative = 0;
           break;
         case "DEL":
-          if (calculator.isNotNumber()) {
+          if (calculator.isValidNumber()) {
             let cadenaRecortada = calculator.output.value.slice(
               0,
               calculator.output.value.length - 1
@@ -211,7 +211,7 @@
 
           break;
         case "percentage":
-          if (calculator.isNotNumber()) {
+          if (calculator.isValidNumber()) {
             if (calculator.output.value !== "") {
               calculator.output.value =
                 parseFloat(calculator.output.value) / 100;
@@ -237,7 +237,7 @@
           calculator.decimalControlFlag = true;
           break;
         case "moreLess":
-          if (calculator.isNotNumber()) {
+          if (calculator.isValidNumber()) {
             if (
               calculator.output.value != "" &&
               calculator.output.value != "0"
@@ -255,7 +255,7 @@
           }
           break;
         case "coma":
-          if (calculator.isNotNumber()) {
+          if (calculator.isValidNumber()) {
             if (
               calculator.output.value != "" &&
               !calculator.output.value.includes(".")
@@ -279,7 +279,7 @@
           }
           break;
         default:
-          if (calculator.isNotNumber()) {
+          if (calculator.isValidNumber()) {
             if (
               calculator.output.value === "0" ||
               calculator.decimalControlFlag
@@ -303,7 +303,7 @@
       }
     },
 
-    isNotNumber: function() {
+    isValidNumber: function() {
       return calculator.output.value !== "No es un número";
     }
   };
