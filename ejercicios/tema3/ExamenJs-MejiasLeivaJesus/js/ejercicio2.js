@@ -2,7 +2,7 @@
  * @author Jesús Mejías Leiva
  */
 {
-  let nombre;
+  let msgNombre;
   let msgApellidos;
   let input;
   let atras;
