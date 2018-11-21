@@ -15,16 +15,11 @@
 
   let calculator = {
     buttons: undefined,
-
     cumulative: 0,
-
     output: 0,
-
     operation: "",
-
     decimalControlFlag: false,
-
-    createLayout: function() {
+    createLayout() {
       let fragment = document.createDocumentFragment();
 
       // crear container
@@ -138,8 +133,7 @@
       calculator.output = document.getElementById("output");
       buttons = document.getElementsByTagName("button");
     },
-
-    createButton: function(parent, classs, text, id) {
+    createButton(parent, classs, text, id) {
       let boton = document.createElement("button");
       boton.className = classs;
       boton.textContent = text;
@@ -150,13 +144,11 @@
 
       return boton;
     },
-
-    addDiv: function(div, parent, classs) {
+    addDiv(div, parent, classs) {
       div.className = classs;
       parent.appendChild(div);
     },
-
-    calculateCumulative: function() {
+    calculateCumulative() {
       switch (calculator.operation) {
         case "sum":
           return (
@@ -180,131 +172,114 @@
           );
       }
     },
-
-    clickButton: function() {
+    clickButton() {
       let value = this.getAttribute("id");
-      //console.log(id);
       switch (value) {
         case "CE":
-          calculator.output.value = "0";
-          calculator.operation = "";
-          calculator.cumulative = 0;
+          calculator.resetAction();
           break;
         case "DEL":
-          if (calculator.isValidNumber()) {
-            let cadenaRecortada = calculator.output.value.slice(
-              0,
-              calculator.output.value.length - 1
-            );
-            if (
-              cadenaRecortada == 0 ||
-              (calculator.output.value.includes("-") &&
-                calculator.output.value.length === 2)
-            ) {
-              calculator.output.value = 0;
-            } else {
-              calculator.output.value = cadenaRecortada;
-            }
-          }
-
-          //console.log(calculadora.output.value.length);
-
+          calculator.isValidNumber() ? calculator.delAction() : null;
           break;
         case "percentage":
-          if (calculator.isValidNumber()) {
-            if (calculator.output.value !== "") {
-              calculator.output.value =
-                parseFloat(calculator.output.value) / 100;
-            }
-          }
-
+          calculator.isValidNumber() ? calculator.percentageAction() : null;
           break;
         case "sum":
         case "subtraction":
         case "multiplication":
         case "division":
-          if (calculator.output.value !== "") {
-            if (calculator.operation !== "") {
-              calculator.cumulative = calculator.calculateCumulative();
-              calculator.operation = value;
-              calculator.isCumulativeFinite();
-            } else {
-              calculator.cumulative = parseFloat(calculator.output.value);
-              calculator.operation = value;
-              calculator.isCumulativeFinite();
-            }
-          }
-          calculator.decimalControlFlag = true;
+          calculator.calculateAction(value);
           break;
         case "moreLess":
-          if (calculator.isValidNumber()) {
-            if (
-              calculator.output.value != "" &&
-              calculator.output.value != "0"
-            ) {
-              let primerCaracter = calculator.output.value.slice(0, 1);
-              if (primerCaracter == "-") {
-                calculator.output.value = calculator.output.value.replace(
-                  "-",
-                  ""
-                );
-              } else {
-                calculator.output.value = "-" + calculator.output.value;
-              }
-            }
-          }
+          calculator.isValidNumber() ? calculator.moreLessAction() : null;
           break;
         case "coma":
-          if (calculator.isValidNumber()) {
-            if (
-              calculator.output.value != "" &&
-              !calculator.output.value.includes(".")
-            ) {
-              calculator.output.value += ".";
-            }
-          }
-
+          calculator.isValidNumber() ? calculator.comaAction() : null;
           break;
         case "same":
-          if (
-            calculator.operation != "" &&
-            calculator.output.value.length > 0
-          ) {
-            calculator.cumulative = calculator.calculateCumulative();
-            calculator.isCumulativeFinite();
-            calculator.operation = "";
-          } else {
-            calculator.operation = "";
-            calculator.isCumulativeFinite();
-          }
+          calculator.isValidNumber() ? calculator.sameAction() : null;
           break;
         default:
-          if (calculator.isValidNumber()) {
-            if (
-              calculator.output.value === "0" ||
-              calculator.decimalControlFlag
-            ) {
-              calculator.output.value = value;
-              calculator.decimalControlFlag = false;
-            } else {
-              calculator.output.value += value;
-            }
-          }
-
+          // botones que son numeros
+          calculator.isValidNumber() ? calculator.numberAction(value) : null;
           break;
       }
     },
+    isCumulativeFinite() {
+      isFinite(calculator.cumulative)
+        ? (calculator.output.value = calculator.cumulative)
+        : (calculator.output.value = "No es un número");
+    },
+    isValidNumber() {
+      return calculator.output.value !== "No es un número" ? true : false;
+    },
+    resetAction() {
+      calculator.output.value = "0";
+      calculator.operation = "";
+      calculator.cumulative = 0;
+    },
+    delAction() {
+      let cadenaRecortada = calculator.output.value.slice(
+        0,
+        calculator.output.value.length - 1
+      );
 
-    isCumulativeFinite: function() {
-      if (isFinite(calculator.cumulative)) {
-        calculator.output.value = calculator.cumulative;
-      } else {
-        calculator.output.value = "No es un número";
+      cadenaRecortada == 0 ||
+      (calculator.output.value.includes("-") &&
+        calculator.output.value.length === 2)
+        ? (calculator.output.value = 0)
+        : (calculator.output.value = cadenaRecortada);
+    },
+    percentageAction() {
+      calculator.output.value !== ""
+        ? (calculator.output.value = parseFloat(calculator.output.value) / 100)
+        : null;
+    },
+    calculateAction(pValue) {
+      if (calculator.output.value !== "") {
+        if (calculator.operation !== "") {
+          calculator.cumulative = calculator.calculateCumulative();
+          calculator.operation = pValue;
+          calculator.isCumulativeFinite();
+        } else {
+          calculator.cumulative = parseFloat(calculator.output.value);
+          calculator.operation = pValue;
+          calculator.isCumulativeFinite();
+        }
+      }
+      calculator.decimalControlFlag = true;
+    },
+    moreLessAction() {
+      if (calculator.output.value != "" && calculator.output.value != "0") {
+        let primerCaracter = calculator.output.value.slice(0, 1);
+
+        primerCaracter == "-"
+          ? (calculator.output.value = calculator.output.value.replace("-", ""))
+          : (calculator.output.value = "-" + calculator.output.value);
       }
     },
-
-    isValidNumber: function() {
-      return calculator.output.value !== "No es un número";
+    comaAction() {
+      calculator.output.value != "" && !calculator.output.value.includes(".")
+        ? (calculator.output.value += ".")
+        : null;
+    },
+    sameAction() {
+      if (calculator.operation != "" && calculator.output.value.length > 0) {
+        calculator.cumulative = calculator.calculateCumulative();
+        calculator.isCumulativeFinite();
+        calculator.operation = "";
+      } else {
+        calculator.operation = "";
+        calculator.isCumulativeFinite();
+      }
+    },
+    numberAction(pValue) {
+      if (calculator.output.value === "0" || calculator.decimalControlFlag) {
+        calculator.output.value = pValue;
+        calculator.decimalControlFlag = false;
+      } else {
+        calculator.output.value += pValue;
+      }
     }
   };
 
