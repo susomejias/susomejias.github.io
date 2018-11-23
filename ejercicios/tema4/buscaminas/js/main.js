@@ -1,49 +1,74 @@
 {
-  let containerTablero;
+  let containerTablero; 
+  let spanError;
   function init() {
     containerTablero = document.getElementById("containerTablero");
+    spanError = document.getElementById("spanError");
+
     buscaminas.generaTablero();
-    buscaminas.generarMinas();
+    buscaminas.generarBombas();
+
   }
 
   let buscaminas = {
-    nivel: "principiante",
-
+    nivel: "intermedio",
     generaTablero() {
-      let tablero;
+        let tabla = document.createElement("table");
 
-      if (buscaminas.nivel === "principiante") {
-        containerTablero.className = "principiante";
-        for (let x = 0; x < 8; x++) {
-          for (let j = 0; j < 8; j++) {
-            let casilla = document.createElement("div");
-            casilla.id = x + "" + j;
-            casilla.textContent = "0";
-            containerTablero.appendChild(casilla);
-            casilla.addEventListener("click", buscaminas.comprobarCasilla);
-          }
-        }
-      }
-    },
-    comprobarCasilla(){
-        if (this.textContent === "1") {
-            console.log("Pulsaste una mina");
-        }
-        //console.log(this.getAttribute("id"));
-    },
-    generarMinas(){
+        if (buscaminas.nivel === "principiante"){
+            for (let i = 0; i < 8; i++) {
 
-        let tableroValues = document.querySelectorAll("#containerTablero div");
-
-        if (buscaminas.nivel === "principiante") {
-            for (var i = 0; i < 8; i++) {
-                let mina = Math.floor(Math.random() * (tableroValues.length - 0)) + 0;
-                if (tableroValues[mina].innerHTML === "0"){
-                    tableroValues[mina].innerHTML = "1"; 
+                let hilera = document.createElement("tr");
+    
+                for (let j = 0; j < 8; j++) {
+                    let celda = document.createElement("td");
+                    celda.id = i + "" + j;
+                    celda.addEventListener("click", buscaminas.comprobarCasilla);
+                    celda.style.background = "#263238";
+                    hilera.appendChild(celda);
                 }
+    
+                tabla.appendChild(hilera);
+    
+            }
+        }else if (buscaminas.nivel === "intermedio"){
+            for (let i = 0; i < 10; i++) {
+
+                let hilera = document.createElement("tr");
+    
+                for (let j = 0; j < 10; j++) {
+                    let celda = document.createElement("td");
+                    celda.id = i + "" + j;
+                    celda.addEventListener("click", buscaminas.comprobarCasilla);
+                    celda.style.background = "#263238";
+                    hilera.appendChild(celda);
+                }
+    
+                tabla.appendChild(hilera);
+    
             }
         }
+        
+        containerTablero.appendChild(tabla);
+        tabla.style.borderCollapse = "colapse"; //setAttribute("border", "1");
 
+    },
+
+    comprobarCasilla(){
+        if (this.textContent === "1") {
+            this.style.background = "#FF8A80";
+            spanError.textContent = "Pulsaste una mina, perdiste";
+        }else {
+            // hacer comprobaciones de minas
+        }
+    },
+
+    generarBombas(){
+        for (let i = 0; i < 8; i++) {
+            let fila = Math.floor(Math.random() * (7 - 0)) + 0;
+            let columna = Math.floor(Math.random() * (7 - 0)) + 0;
+            document.getElementById(fila + "" + columna).textContent = "1";
+        }
     }
   };
 
