@@ -7,6 +7,7 @@
 
     buscaminas.generaTablero();
     buscaminas.generarBombas();
+    console.log(buscaminas.obtenerNumeroDeBombas());
 
   }
 
@@ -64,11 +65,32 @@
     },
 
     generarBombas(){
-        for (let i = 0; i < 8; i++) {
-            let fila = Math.floor(Math.random() * (7 - 0)) + 0;
-            let columna = Math.floor(Math.random() * (7 - 0)) + 0;
-            document.getElementById(fila + "" + columna).textContent = "1";
+        if (buscaminas.nivel === "principiante"){
+            for (let i = 0; i < 8; i++) {
+                let fila = Math.floor(Math.random() * (7 - 0)) + 0;
+                let columna = Math.floor(Math.random() * (7 - 0)) + 0;
+                document.getElementById(fila + "" + columna).textContent = "1";
+            }
+        }else if (buscaminas.nivel === "intermedio"){
+            for (let i = 0; i < 10; i++) {
+                let fila = Math.floor(Math.random() * (9 - 0)) + 0;
+                let columna = Math.floor(Math.random() * (9 - 0)) + 0;
+                document.getElementById(fila + "" + columna).textContent = "1";
+            }
         }
+        
+    },
+    obtenerNumeroDeBombas(){
+        let casillas = document.querySelectorAll("td");
+        let bombas = [];
+        
+        for (casilla of casillas) {
+            if (casilla.textContent === "1"){
+                bombas.push(casilla);
+            }
+        }
+
+        return bombas.length;
     }
   };
 
