@@ -11,7 +11,10 @@
   }
 
   let buscaminas = {
-    nivel: "principiante",
+    nivel: "intermedio",
+    /**
+     * Genera una tabla en html, que nos sirve como el tablero del juego
+     */
     generaTablero() {
       let tabla = document.createElement("table");
 
@@ -50,9 +53,11 @@
       containerTablero.appendChild(tabla);
       tabla.style.borderCollapse = "colapse"; //setAttribute("border", "1");
     },
-
+    /**
+     * Reliza una función u otra al pulsar en una casilla
+     */
     comprobarCasilla() {
-      if (this.textContent === "*") {
+      if (this.textContent === "x") {
         this.style.background = "#FF8A80";
         spanError.textContent = "Pulsaste una mina, perdiste";
       } else {
@@ -60,100 +65,117 @@
         // hacer comprobaciones de minas
       }
     },
-
+    /**
+     * invoca al método funcionalidadGeneraBombas(), y le pasa un número de casillas según el nivel
+     */
     generarBombas() {
       if (buscaminas.nivel === "principiante") {
-        for (let i = 0; i < 8; i++) {
-            let fila = Math.floor(Math.random() * (7 - 0)) + 0;
-            let columna = Math.floor(Math.random() * (7 - 0)) + 0;
-
-            while (buscaminas.obtenerValorCasilla(fila,columna).textContent === "*"){
-                fila = Math.floor(Math.random() * (7 - 0)) + 0;
-                columna = Math.floor(Math.random() * (7 - 0)) + 0;
-            }
-
-            buscaminas.obtenerValorCasilla(fila,columna).textContent = "*"
-        }
-        } else if (buscaminas.nivel === "intermedio") { 
-            for (let i = 0; i < 10; i++) {
-
-                let fila = Math.floor(Math.random() * (9 - 0)) + 0;
-                let columna = Math.floor(Math.random() * (9 - 0)) + 0;
-    
-                while (buscaminas.obtenerValorCasilla(fila,columna).textContent === "*"){
-                    fila = Math.floor(Math.random() * (9 - 0)) + 0;
-                    columna = Math.floor(Math.random() * (9 - 0)) + 0;
-                }
-
-            buscaminas.obtenerValorCasilla(fila,columna).textContent = "*"
-          }
+        buscaminas.funcionalidadGeneraBombas(8);
+      } else if (buscaminas.nivel === "intermedio") {
+        buscaminas.funcionalidadGeneraBombas(10);
       }
     },
+    /**
+     * Devuelve el número de bombas que hay en el tablero
+     */
     obtenerNumeroDeBombas() {
       let casillas = document.querySelectorAll("td");
       let bombas = [];
 
       for (casilla of casillas) {
-        if (casilla.textContent === "*") {
+        if (casilla.textContent === "x") {
           bombas.push(casilla);
         }
       }
 
       return bombas.length;
     },
+    /**
+     * invoca al método funcionalidadCuentaBombas(), y le pasa un número de casillas según el nivel
+     */
     compruebaBombas() {
       //console.log(coordenadaPulsada, casilla);
 
-      for (let i = 0; i < 8; i++) {
-        for (let j = 0; j < 8; j++) {
-          if (buscaminas.obtenerValorCasilla(i,j).textContent === "*") {
-            if(i == 0 && j == 0){
-                buscaminas.cuentaBombas(i, j, i + 1, j + 1);
-            }
-            else if (i == 0 && (j > 0 && j < 7)) {
-                buscaminas.cuentaBombas(i, j - 1, i + 1, j + 1);
-            }
-            else if(i == 0 && j == 7){
-                buscaminas.cuentaBombas(i, j - 1, i + 1, j);
-            }
-            else if(j == 7 && (i > 0 && i < 7)){
-                buscaminas.cuentaBombas(i - 1, j - 1, i + 1, j);
-            }
-            else if(i == 7 && j == 7){
-                buscaminas.cuentaBombas(i - 1, j - 1, i, j);
-            }
-            else if(i == 7 && (j > 0 && j < 7)){
-                buscaminas.cuentaBombas(i - 1, j - 1, i, j + 1);
-            }
-            else if(i == 7 && j == 0){
-                buscaminas.cuentaBombas(i - 1, j, i, j + 1);
-            }
-            else if(j == 0 && (i > 0 && i < 7)){
-                buscaminas.cuentaBombas(i - 1, j, i + 1, j + 1);
-            }else{
-                buscaminas.cuentaBombas(i - 1, j - 1, i + 1, j + 1);
-            }
-          }
-        }
+      if (buscaminas.nivel === "principiante") {
+        buscaminas.funcionalidadCuentaBombas(8);
+      } else if (buscaminas.nivel === "intermedio") {
+        buscaminas.funcionalidadCuentaBombas(10);
       }
 
       //console.log(tablero[0].getAttribute("id"));
     },
-
-    cuentaBombas(ii, ij, fi, fj) {
+    /**
+     * Inserta el número de bombas que hay alrededor de la casilla pulsada
+     */ cuentaBombas(ii, ij, fi, fj) {
       for (let i = ii; i <= fi; i++) {
         for (let j = ij; j <= fj; j++) {
-
-          if (buscaminas.obtenerValorCasilla(i,j).textContent !== "*") {
-            //console.log(i,j);
-            //console.log(buscaminas.obtenerValorCasilla(i,j).textContent);
-            buscaminas.obtenerValorCasilla(i,j).textContent = (parseInt(buscaminas.obtenerValorCasilla(i,j).textContent) + 1);
+          if (buscaminas.obtenerValorCasilla(i, j).textContent !== "x") {
+            buscaminas.obtenerValorCasilla(i, j).textContent =
+              parseInt(buscaminas.obtenerValorCasilla(i, j).textContent) + 1;
           }
         }
       }
     },
-    obtenerValorCasilla(i,j){
-        return document.getElementById(i + "" + j);
+    /**
+     * Devulelve la casilla pulsada
+     * @returns element
+     */
+    obtenerValorCasilla(i, j) {
+      return document.getElementById(i + "" + j);
+    },
+    /**
+     * Cuenta el número de bombas que hay alrededor de la casilla pulsada
+     */
+    funcionalidadCuentaBombas(casillasNivel) {
+      for (let i = 0; i < casillasNivel; i++) {
+        for (let j = 0; j < casillasNivel; j++) {
+          if (buscaminas.obtenerValorCasilla(i, j).textContent === "x") {
+            if (i == 0 && j == 0) {
+              buscaminas.cuentaBombas(i, j, i + 1, j + 1);
+            } else if (i == 0 && (j > 0 && j < casillasNivel - 1)) {
+              buscaminas.cuentaBombas(i, j - 1, i + 1, j + 1);
+            } else if (i == 0 && j == casillasNivel - 1) {
+              buscaminas.cuentaBombas(i, j - 1, i + 1, j);
+            } else if (
+              j == casillasNivel - 1 &&
+              (i > 0 && i < casillasNivel - 1)
+            ) {
+              buscaminas.cuentaBombas(i - 1, j - 1, i + 1, j);
+            } else if (i == casillasNivel - 1 && j == casillasNivel - 1) {
+              buscaminas.cuentaBombas(i - 1, j - 1, i, j);
+            } else if (
+              i == casillasNivel - 1 &&
+              (j > 0 && j < casillasNivel - 1)
+            ) {
+              buscaminas.cuentaBombas(i - 1, j - 1, i, j + 1);
+            } else if (i == casillasNivel - 1 && j == 0) {
+              buscaminas.cuentaBombas(i - 1, j, i, j + 1);
+            } else if (j == 0 && (i > 0 && i < casillasNivel - 1)) {
+              buscaminas.cuentaBombas(i - 1, j, i + 1, j + 1);
+            } else {
+              buscaminas.cuentaBombas(i - 1, j - 1, i + 1, j + 1);
+            }
+          }
+        }
+      }
+    },
+    /**
+     * Genera un numero de bombas en el tablero según el nivel
+     */
+    funcionalidadGeneraBombas(casillasNivel) {
+      for (let i = 0; i < casillasNivel; i++) {
+        let fila = Math.floor(Math.random() * (casillasNivel - 1 - 0)) + 0;
+        let columna = Math.floor(Math.random() * (casillasNivel - 1 - 0)) + 0;
+
+        while (
+          buscaminas.obtenerValorCasilla(fila, columna).textContent === "x"
+        ) {
+          fila = Math.floor(Math.random() * (casillasNivel - 1 - 0)) + 0;
+          columna = Math.floor(Math.random() * (casillasNivel - 1 - 0)) + 0;
+        }
+
+        buscaminas.obtenerValorCasilla(fila, columna).textContent = "x";
+      }
     }
   };
 
