@@ -16,42 +16,11 @@
      * Genera una tabla en html, que nos sirve como el tablero del juego
      */
     generaTablero() {
-      let tabla = document.createElement("table");
-
       if (buscaminas.nivel === "principiante") {
-        for (let i = 0; i < 8; i++) {
-          let hilera = document.createElement("tr");
-
-          for (let j = 0; j < 8; j++) {
-            let celda = document.createElement("td");
-            celda.id = i + "" + j;
-            celda.textContent = "0";
-            celda.addEventListener("click", buscaminas.comprobarCasilla);
-            celda.style.background = "#263238";
-            hilera.appendChild(celda);
-          }
-
-          tabla.appendChild(hilera);
-        }
+        buscaminas.funcionalidadGeneraTablero(tabla, 8);
       } else if (buscaminas.nivel === "intermedio") {
-        for (let i = 0; i < 10; i++) {
-          let hilera = document.createElement("tr");
-
-          for (let j = 0; j < 10; j++) {
-            let celda = document.createElement("td");
-            celda.id = i + "" + j;
-            celda.textContent = "0";
-            celda.addEventListener("click", buscaminas.comprobarCasilla);
-            celda.style.background = "#263238";
-            hilera.appendChild(celda);
-          }
-
-          tabla.appendChild(hilera);
-        }
+        buscaminas.funcionalidadGeneraTablero(tabla, 10);
       }
-
-      containerTablero.appendChild(tabla);
-      tabla.style.borderCollapse = "colapse"; //setAttribute("border", "1");
     },
     /**
      * Reliza una función u otra al pulsar en una casilla
@@ -77,6 +46,7 @@
     },
     /**
      * Devuelve el número de bombas que hay en el tablero
+     * @returns numero de bombas del tablero
      */
     obtenerNumeroDeBombas() {
       let casillas = document.querySelectorAll("td");
@@ -106,7 +76,12 @@
     },
     /**
      * Inserta el número de bombas que hay alrededor de la casilla pulsada
-     */ cuentaBombas(ii, ij, fi, fj) {
+     * @param ii indice de inicio para la fila
+     * @param ij indice de inicio para la columna
+     * @param fi indice de fin para la fila
+     * @param fj indice de fin para la columna
+     */
+    cuentaBombas(ii, ij, fi, fj) {
       for (let i = ii; i <= fi; i++) {
         for (let j = ij; j <= fj; j++) {
           if (buscaminas.obtenerValorCasilla(i, j).textContent !== "x") {
@@ -118,7 +93,9 @@
     },
     /**
      * Devulelve la casilla pulsada
-     * @returns element
+     * @param i indice para la fila
+     * @param j indice para la columna
+     * @returns elemento pulsado
      */
     obtenerValorCasilla(i, j) {
       return document.getElementById(i + "" + j);
@@ -161,6 +138,7 @@
     },
     /**
      * Genera un numero de bombas en el tablero según el nivel
+     * @param casillasNivel numero de casillas según el nivel
      */
     funcionalidadGeneraBombas(casillasNivel) {
       for (let i = 0; i < casillasNivel; i++) {
@@ -176,6 +154,31 @@
 
         buscaminas.obtenerValorCasilla(fila, columna).textContent = "x";
       }
+    },
+    /**
+     * Genera un tablero html, segun el numero de casillas pasadas por parámetro
+     * @param casillasNivel numero de casillas según el nivel
+     */
+    funcionalidadGeneraTablero(casillasNivel) {
+      let tabla = document.createElement("table");
+
+      for (let i = 0; i < casillasNivel; i++) {
+        let hilera = document.createElement("tr");
+
+        for (let j = 0; j < casillasNivel; j++) {
+          let celda = document.createElement("td");
+          celda.id = i + "" + j;
+          celda.textContent = "0";
+          celda.addEventListener("click", buscaminas.comprobarCasilla);
+          celda.style.background = "#263238";
+          hilera.appendChild(celda);
+        }
+
+        tabla.appendChild(hilera);
+      }
+
+      containerTablero.appendChild(tabla);
+      tabla.style.borderCollapse = "colapse";
     }
   };
 
