@@ -17,9 +17,9 @@
      */
     generaTablero() {
       if (buscaminas.nivel === "principiante") {
-        buscaminas.funcionalidadGeneraTablero(tabla, 8);
+        buscaminas.funcionalidadGeneraTablero(8);
       } else if (buscaminas.nivel === "intermedio") {
-        buscaminas.funcionalidadGeneraTablero(tabla, 10);
+        buscaminas.funcionalidadGeneraTablero(10);
       }
     },
     /**
