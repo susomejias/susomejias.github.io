@@ -16,7 +16,7 @@ body main {
 body main #containerTablero {
   width: auto;
   height: auto;
-  padding-bottom: 8px;
+  border: 5px solid #00695C;
 }
 
 body main #containerTablero input {
@@ -24,15 +24,14 @@ body main #containerTablero input {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 2px;
+  margin: 0px;
   width: 50px;
   height: 50px;
-  *color: #263238;
+  color: #00695C;
   text-align: center;
   font-size: 1.7rem;
-  color: #fff;
-  border-width: 0px;
-  border-radius: 2px;
+  *color: #fff;
+  border: 1px solid #fff;
 }
 
 body main h1 {
@@ -45,4 +44,15 @@ body main h1 {
   padding: 15px;
   color: #E53935;
   font-size: 2rem;
+}
+
+#btnVolverJugar {
+  min-height: 30px;
+  min-width: 60px;
+  border-width: 0px;
+  padding: 8px;
+  background: #009688;
+  border-radius: 2px;
+  font-size: 1.3rem;
+  margin-bottom: 30px;
 }

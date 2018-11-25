@@ -11,6 +11,7 @@
 
     buscaminas.generaTablero();
     buscaminas.generarBombas();
+    buscaminas.compruebaBombas();
     console.log(buscaminas.obtenerNumeroDeBombas());
   }
 
@@ -33,8 +34,17 @@
       if (this.value === "x") {
         this.style.background = "#FF8A80";
         spanError.textContent = "Pulsaste una mina, perdiste";
+        let main = document.getElementsByTagName("main")[0];
+        let btnVolverJugar = document.createElement("button");
+        btnVolverJugar.id = "btnVolverJugar";
+        btnVolverJugar.textContent = "Volver a jugar"
+        main.appendChild(btnVolverJugar);
+        btnVolverJugar.addEventListener("click", () => location.reload());
+
       } else {
-        buscaminas.compruebaBombas();
+        let coordenada = this.getAttribute("id");
+        this.style.background = "#fff";
+        buscaminas.abrirCasillas(10, coordenada);
       }
     },
     /**
@@ -88,8 +98,13 @@
       for (let i = ii; i <= fi; i++) {
         for (let j = ij; j <= fj; j++) {
           if (buscaminas.obtenerValorCasilla(i, j).value !== "x") {
-            buscaminas.obtenerValorCasilla(i, j).value =
+            if (buscaminas.obtenerValorCasilla(i, j).value === ""){
+              buscaminas.obtenerValorCasilla(i, j).value = 0 + 1;
+            }else {
+              buscaminas.obtenerValorCasilla(i, j).value =
               parseInt(buscaminas.obtenerValorCasilla(i, j).value) + 1;
+            }
+            
           }
         }
       }
@@ -169,11 +184,77 @@
         for (let j = 0; j < casillasNivel; j++) {
           let celda = document.createElement("input");
           celda.id = i + "" + j;
-          celda.value = "0";
+          celda.value = "";
           celda.readOnly = "readonly";
           celda.addEventListener("click", buscaminas.comprobarCasilla);
-          celda.style.background = "#263238";
+          celda.style.background = "#00695C";
           containerTablero.appendChild(celda);
+        }
+      }
+    },
+    abrirCasillas(casillasNivel, coordenadaPulsada) {
+      // console.log(coordenadaPulsada[0]);
+      // console.log(coordenadaPulsada[1]);
+      if (
+        buscaminas.obtenerValorCasilla(
+          coordenadaPulsada[0],
+          coordenadaPulsada[1]
+        ).value === ""
+      ) {
+        for (let i = parseInt(coordenadaPulsada[0]); i < casillasNivel; i++) {
+          for (let j = parseInt(coordenadaPulsada[1]); j < casillasNivel; j++) {
+            if (i === 0 && j === 0) {
+              if (buscaminas.obtenerValorCasilla(i + 1, j + 1).value !== "x") {
+                buscaminas.obtenerValorCasilla(i + 1, j + 1).style.background =
+                  "#fff";
+              }
+            } else if (i === 0 && (j > 0 && j < casillasNivel - 1)) {
+              if (buscaminas.obtenerValorCasilla(i, j + 1).value !== "x") {
+                buscaminas.obtenerValorCasilla(i, j + 1).style.background =
+                  "#fff";
+              }
+            } else if (
+              (i === 0 && j === casillasNivel - 1) ||
+              (j === casillasNivel - 1 && (i > 0 && i < casillasNivel - 1))
+            ) {
+              if (buscaminas.obtenerValorCasilla(i + 1, j - 1).value !== "x") {
+                buscaminas.obtenerValorCasilla(i + 1, j - 1).style.background =
+                  "#fff";
+              }
+            } else if (i === casillasNivel - 1 && j === casillasNivel - 1) {
+              if (buscaminas.obtenerValorCasilla(i - 1, j - 1).value !== "x") {
+                buscaminas.obtenerValorCasilla(i - 1, j - 1).style.background =
+                  "#fff";
+              }
+            } else if (
+              i === casillasNivel - 1 &&
+              (j > 0 && j < casillasNivel - 1)
+            ) {
+              if (buscaminas.obtenerValorCasilla(i - 1, j + 1).value !== "x") {
+                buscaminas.obtenerValorCasilla(i - 1, j + 1).style.background =
+                  "#fff";
+              }
+            } else if (i === casillasNivel - 1 && j === 0) {
+              if (buscaminas.obtenerValorCasilla(i - 1, j + 1).value !== "x") {
+                buscaminas.obtenerValorCasilla(i - 1, j + 1).style.background =
+                  "#fff";
+              }
+            } else if (j === 0 && (i > 0 && i < casillasNivel - 1)) {
+              // if (buscaminas.obtenerValorCasilla(i + 1, j + 1).value !== "x") {
+              //   buscaminas.obtenerValorCasilla(i + 1, j + 1).style.background =
+              //     "#fff";
+              // }
+              if (buscaminas.obtenerValorCasilla(i + 1, j).value !== "x") {
+                buscaminas.obtenerValorCasilla(i + 1, j).style.background =
+                  "#fff";
+              }
+            } else {
+              if (buscaminas.obtenerValorCasilla(i + 1, j + 1).value !== "x") {
+                buscaminas.obtenerValorCasilla(i + 1, j + 1).style.background =
+                  "#fff";
+              }
+            }
+          }
         }
       }
     }
