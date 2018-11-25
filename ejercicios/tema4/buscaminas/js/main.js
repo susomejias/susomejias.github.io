@@ -26,12 +26,11 @@
      * Reliza una función u otra al pulsar en una casilla
      */
     comprobarCasilla() {
-      if (this.textContent === "x") {
+      if (this.value === "x") {
         this.style.background = "#FF8A80";
         spanError.textContent = "Pulsaste una mina, perdiste";
       } else {
         buscaminas.compruebaBombas();
-        // hacer comprobaciones de minas
       }
     },
     /**
@@ -49,11 +48,11 @@
      * @returns numero de bombas del tablero
      */
     obtenerNumeroDeBombas() {
-      let casillas = document.querySelectorAll("td");
+      let casillas = document.querySelectorAll("input");
       let bombas = [];
 
       for (casilla of casillas) {
-        if (casilla.textContent === "x") {
+        if (casilla.value === "x") {
           bombas.push(casilla);
         }
       }
@@ -84,9 +83,9 @@
     cuentaBombas(ii, ij, fi, fj) {
       for (let i = ii; i <= fi; i++) {
         for (let j = ij; j <= fj; j++) {
-          if (buscaminas.obtenerValorCasilla(i, j).textContent !== "x") {
-            buscaminas.obtenerValorCasilla(i, j).textContent =
-              parseInt(buscaminas.obtenerValorCasilla(i, j).textContent) + 1;
+          if (buscaminas.obtenerValorCasilla(i, j).value !== "x") {
+            buscaminas.obtenerValorCasilla(i, j).value =
+              parseInt(buscaminas.obtenerValorCasilla(i, j).value) + 1;
           }
         }
       }
@@ -106,7 +105,7 @@
     funcionalidadCuentaBombas(casillasNivel) {
       for (let i = 0; i < casillasNivel; i++) {
         for (let j = 0; j < casillasNivel; j++) {
-          if (buscaminas.obtenerValorCasilla(i, j).textContent === "x") {
+          if (buscaminas.obtenerValorCasilla(i, j).value === "x") {
             if (i == 0 && j == 0) {
               buscaminas.cuentaBombas(i, j, i + 1, j + 1);
             } else if (i == 0 && (j > 0 && j < casillasNivel - 1)) {
@@ -145,14 +144,12 @@
         let fila = Math.floor(Math.random() * (casillasNivel - 1 - 0)) + 0;
         let columna = Math.floor(Math.random() * (casillasNivel - 1 - 0)) + 0;
 
-        while (
-          buscaminas.obtenerValorCasilla(fila, columna).textContent === "x"
-        ) {
+        while (buscaminas.obtenerValorCasilla(fila, columna).value === "x") {
           fila = Math.floor(Math.random() * (casillasNivel - 1 - 0)) + 0;
           columna = Math.floor(Math.random() * (casillasNivel - 1 - 0)) + 0;
         }
 
-        buscaminas.obtenerValorCasilla(fila, columna).textContent = "x";
+        buscaminas.obtenerValorCasilla(fila, columna).value = "x";
       }
     },
     /**
@@ -160,25 +157,21 @@
      * @param casillasNivel numero de casillas según el nivel
      */
     funcionalidadGeneraTablero(casillasNivel) {
-      let tabla = document.createElement("table");
+      containerTablero.style.display = "grid";
+      containerTablero.style.gridTemplateColumns =
+        "repeat(" + casillasNivel + ", 1fr)";
 
       for (let i = 0; i < casillasNivel; i++) {
-        let hilera = document.createElement("tr");
-
         for (let j = 0; j < casillasNivel; j++) {
-          let celda = document.createElement("td");
+          let celda = document.createElement("input");
           celda.id = i + "" + j;
-          celda.textContent = "0";
+          celda.value = "0";
+          celda.readOnly = "readonly";
           celda.addEventListener("click", buscaminas.comprobarCasilla);
           celda.style.background = "#263238";
-          hilera.appendChild(celda);
+          containerTablero.appendChild(celda);
         }
-
-        tabla.appendChild(hilera);
       }
-
-      containerTablero.appendChild(tabla);
-      tabla.style.borderCollapse = "colapse";
     }
   };
 
