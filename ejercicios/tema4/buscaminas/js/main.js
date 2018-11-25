@@ -1,3 +1,7 @@
+/**
+ * Juego buscaminas en JS vanilla
+ * @author Jesús Mejías Leiva
+ */
 {
   let containerTablero;
   let spanError;
