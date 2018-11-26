@@ -10,21 +10,35 @@
     spanError = document.getElementById("spanError");
 
     buscaminas.generaTablero();
+    buscaminas.numBombasNivel();
     buscaminas.generarBombas();
     buscaminas.compruebaBombas();
-    console.log(buscaminas.obtenerNumeroDeBombas());
+
+    console.log("Numero de minas : \n" +buscaminas.obtenerNumeroDeBombas());
   }
 
   let buscaminas = {
     nivel: "intermedio",
+    finPartida: false,
+    numBombas: null,
     /**
      * Genera una tabla en html, que nos sirve como el tablero del juego
      */
     generaTablero() {
       if (buscaminas.nivel === "principiante") {
-        buscaminas.funcionalidadGeneraTablero(8);
-      } else if (buscaminas.nivel === "intermedio") {
         buscaminas.funcionalidadGeneraTablero(10);
+      } else if (buscaminas.nivel === "intermedio") {
+        buscaminas.funcionalidadGeneraTablero(16);
+      }
+    },
+    /**
+     * Comprueba el nivel y asigna el numero de bombas
+     */
+    numBombasNivel(){
+      if (buscaminas.nivel === "principiante"){
+        buscaminas.numBombas = 10;
+      }else if (buscaminas.nivel === "intermedio"){
+        buscaminas.numBombas = 40;
       }
     },
     /**
@@ -32,32 +46,75 @@
      */
     comprobarCasilla() {
       if (this.value === "x") {
-        this.style.background = "#FF8A80";
+        if (buscaminas.nivel === "principiante") {
+          buscaminas.descubreMinasTrasPerder(10);
+        }else if (buscaminas.nivel === "intermedio"){
+          buscaminas.descubreMinasTrasPerder(16);
+        }
+        this.style.background = "#FFEB3B";
         spanError.textContent = "Pulsaste una mina, perdiste";
-        let main = document.getElementsByTagName("main")[0];
-        let btnVolverJugar = document.createElement("button");
-        btnVolverJugar.id = "btnVolverJugar";
-        btnVolverJugar.textContent = "Volver a jugar";
-        main.appendChild(btnVolverJugar);
-        btnVolverJugar.addEventListener("click", () => location.reload());
+        buscaminas.finPartida = true;
+        buscaminas.crearBotonJugarDeNuevo();
+        buscaminas.eliminarEventoInput();
       } else {
         let coordenada = this.getAttribute("id");
         this.style.background = "#fff";
-        buscaminas.abrirCasillas(
-          10,
-          parseInt(coordenada[0]),
-          parseInt(coordenada[1])
-        );
+        if (coordenada.length === 2){
+          buscaminas.abrirCasillas(
+            10,
+            parseInt(coordenada[0]),
+            parseInt(coordenada[1])
+          );
+        }else{
+          buscaminas.abrirCasillas(
+            10,
+            parseInt(coordenada[0] + "" + coordenada[1]),
+            parseInt(coordenada[2] + "" + coordenada[3])
+          );
+        }
+        
       }
+    },
+    /**
+     * Descubre las minas del tablero tras perder la partida
+     * @param casillasNivel numero de casillas según el nivel
+     */
+    descubreMinasTrasPerder(casillasNivel){
+      for (let i = 0; i < casillasNivel; i++) {
+        for (let j = 0; j < casillasNivel; j++) {
+          if (buscaminas.obtenerValorCasilla(i,j).value === "x"){
+            buscaminas.obtenerValorCasilla(i,j).style.background = "#FFEB3B"
+          }
+        }
+      }
+    },
+    eliminarEventoInput() {
+      let inputs = document.getElementsByTagName("input");
+      if (buscaminas.finPartida) {
+        Array.from(inputs).forEach(element => {
+          element.removeEventListener("click", buscaminas.comprobarCasilla);
+        });
+      }
+    },
+    /**
+     * Crear el boton de jugar de nuevo cuando pierdes la partida
+     */
+    crearBotonJugarDeNuevo() {
+      let main = document.getElementsByTagName("main")[0];
+      let btnVolverJugar = document.createElement("button");
+      btnVolverJugar.id = "btnVolverJugar";
+      btnVolverJugar.textContent = "Volver a jugar";
+      main.appendChild(btnVolverJugar);
+      btnVolverJugar.addEventListener("click", () => location.reload());
     },
     /**
      * invoca al método funcionalidadGeneraBombas(), y le pasa un número de casillas según el nivel
      */
     generarBombas() {
       if (buscaminas.nivel === "principiante") {
-        buscaminas.funcionalidadGeneraBombas(8);
-      } else if (buscaminas.nivel === "intermedio") {
         buscaminas.funcionalidadGeneraBombas(10);
+      } else if (buscaminas.nivel === "intermedio") {
+        buscaminas.funcionalidadGeneraBombas(16);
       }
     },
     /**
@@ -81,9 +138,9 @@
      */
     compruebaBombas() {
       if (buscaminas.nivel === "principiante") {
-        buscaminas.funcionalidadCuentaBombas(8);
-      } else if (buscaminas.nivel === "intermedio") {
         buscaminas.funcionalidadCuentaBombas(10);
+      } else if (buscaminas.nivel === "intermedio") {
+        buscaminas.funcionalidadCuentaBombas(16);
       }
 
       //console.log(tablero[0].getAttribute("id"));
@@ -160,7 +217,7 @@
      * @param casillasNivel numero de casillas según el nivel
      */
     funcionalidadGeneraBombas(casillasNivel) {
-      for (let i = 0; i < casillasNivel; i++) {
+      for (let i = 0; i < buscaminas.numBombas; i++) {
         let fila = Math.floor(Math.random() * (casillasNivel - 1 - 0)) + 0;
         let columna = Math.floor(Math.random() * (casillasNivel - 1 - 0)) + 0;
 
@@ -170,6 +227,7 @@
         }
 
         buscaminas.obtenerValorCasilla(fila, columna).value = "x";
+
       }
     },
     /**
@@ -187,8 +245,9 @@
           celda.id = i + "" + j;
           celda.value = "0";
           celda.readOnly = "readonly";
+          //celda.selectionStart = "none";
           celda.addEventListener("click", buscaminas.comprobarCasilla);
-          celda.style.background = "#00695C";
+          celda.style.background = "#263238";
           containerTablero.appendChild(celda);
         }
       }

@@ -1,0 +1,3 @@
+Funcionalidad -> https://susomejias.github.io/ejercicios/tema4/buscaminas/
+
+Código-> https://github.com/susomejias/susomejias.github.io/tree/master/ejercicios/tema4/buscaminas

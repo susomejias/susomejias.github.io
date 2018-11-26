@@ -2,6 +2,10 @@ body {
   margin: 0px;
   padding: 0px;
   font-family: 'Lato', sans-serif;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 body main {
@@ -16,7 +20,7 @@ body main {
 body main #containerTablero {
   width: auto;
   height: auto;
-  border: 5px solid #00695C;
+  border: 5px solid #263238;
 }
 
 body main #containerTablero input {
@@ -27,7 +31,7 @@ body main #containerTablero input {
   margin: 0px;
   width: 50px;
   height: 50px;
-  color: #00695C;
+  color: #263238;
   text-align: center;
   font-size: 1.7rem;
   *color: #fff;
@@ -44,15 +48,22 @@ body main h1 {
   padding: 15px;
   color: #E53935;
   font-size: 2rem;
+  font-weight: bold;
 }
 
 #btnVolverJugar {
   min-height: 30px;
   min-width: 60px;
   border-width: 0px;
-  padding: 8px;
-  background: #009688;
+  padding: 10px;
+  background: #FFEB3B;
+  color: #263238;
+  font-weight: bold;
   border-radius: 2px;
   font-size: 1.3rem;
   margin-bottom: 30px;
+}
+
+*::selection {
+  color: #263238;
 }
