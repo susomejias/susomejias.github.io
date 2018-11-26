@@ -37,14 +37,17 @@
         let main = document.getElementsByTagName("main")[0];
         let btnVolverJugar = document.createElement("button");
         btnVolverJugar.id = "btnVolverJugar";
-        btnVolverJugar.textContent = "Volver a jugar"
+        btnVolverJugar.textContent = "Volver a jugar";
         main.appendChild(btnVolverJugar);
         btnVolverJugar.addEventListener("click", () => location.reload());
-
       } else {
         let coordenada = this.getAttribute("id");
         this.style.background = "#fff";
-        buscaminas.abrirCasillas(10, coordenada);
+        buscaminas.abrirCasillas(
+          10,
+          parseInt(coordenada[0]),
+          parseInt(coordenada[1])
+        );
       }
     },
     /**
@@ -98,13 +101,12 @@
       for (let i = ii; i <= fi; i++) {
         for (let j = ij; j <= fj; j++) {
           if (buscaminas.obtenerValorCasilla(i, j).value !== "x") {
-            if (buscaminas.obtenerValorCasilla(i, j).value === ""){
+            if (buscaminas.obtenerValorCasilla(i, j).value === "0") {
               buscaminas.obtenerValorCasilla(i, j).value = 0 + 1;
-            }else {
+            } else {
               buscaminas.obtenerValorCasilla(i, j).value =
-              parseInt(buscaminas.obtenerValorCasilla(i, j).value) + 1;
+                parseInt(buscaminas.obtenerValorCasilla(i, j).value) + 1;
             }
-            
           }
         }
       }
@@ -154,6 +156,7 @@
         }
       }
     },
+
     /**
      * Genera un numero de bombas en el tablero según el nivel
      * @param casillasNivel numero de casillas según el nivel
@@ -184,7 +187,7 @@
         for (let j = 0; j < casillasNivel; j++) {
           let celda = document.createElement("input");
           celda.id = i + "" + j;
-          celda.value = "";
+          celda.value = "0";
           celda.readOnly = "readonly";
           celda.addEventListener("click", buscaminas.comprobarCasilla);
           celda.style.background = "#00695C";
@@ -192,68 +195,21 @@
         }
       }
     },
-    abrirCasillas(casillasNivel, coordenadaPulsada) {
-      // console.log(coordenadaPulsada[0]);
-      // console.log(coordenadaPulsada[1]);
-      if (
-        buscaminas.obtenerValorCasilla(
-          coordenadaPulsada[0],
-          coordenadaPulsada[1]
-        ).value === ""
-      ) {
-        for (let i = parseInt(coordenadaPulsada[0]); i < casillasNivel; i++) {
-          for (let j = parseInt(coordenadaPulsada[1]); j < casillasNivel; j++) {
-            if (i === 0 && j === 0) {
-              if (buscaminas.obtenerValorCasilla(i + 1, j + 1).value !== "x") {
-                buscaminas.obtenerValorCasilla(i + 1, j + 1).style.background =
-                  "#fff";
-              }
-            } else if (i === 0 && (j > 0 && j < casillasNivel - 1)) {
-              if (buscaminas.obtenerValorCasilla(i, j + 1).value !== "x") {
-                buscaminas.obtenerValorCasilla(i, j + 1).style.background =
-                  "#fff";
-              }
-            } else if (
-              (i === 0 && j === casillasNivel - 1) ||
-              (j === casillasNivel - 1 && (i > 0 && i < casillasNivel - 1))
-            ) {
-              if (buscaminas.obtenerValorCasilla(i + 1, j - 1).value !== "x") {
-                buscaminas.obtenerValorCasilla(i + 1, j - 1).style.background =
-                  "#fff";
-              }
-            } else if (i === casillasNivel - 1 && j === casillasNivel - 1) {
-              if (buscaminas.obtenerValorCasilla(i - 1, j - 1).value !== "x") {
-                buscaminas.obtenerValorCasilla(i - 1, j - 1).style.background =
-                  "#fff";
-              }
-            } else if (
-              i === casillasNivel - 1 &&
-              (j > 0 && j < casillasNivel - 1)
-            ) {
-              if (buscaminas.obtenerValorCasilla(i - 1, j + 1).value !== "x") {
-                buscaminas.obtenerValorCasilla(i - 1, j + 1).style.background =
-                  "#fff";
-              }
-            } else if (i === casillasNivel - 1 && j === 0) {
-              if (buscaminas.obtenerValorCasilla(i - 1, j + 1).value !== "x") {
-                buscaminas.obtenerValorCasilla(i - 1, j + 1).style.background =
-                  "#fff";
-              }
-            } else if (j === 0 && (i > 0 && i < casillasNivel - 1)) {
-              // if (buscaminas.obtenerValorCasilla(i + 1, j + 1).value !== "x") {
-              //   buscaminas.obtenerValorCasilla(i + 1, j + 1).style.background =
-              //     "#fff";
-              // }
-              if (buscaminas.obtenerValorCasilla(i + 1, j).value !== "x") {
-                buscaminas.obtenerValorCasilla(i + 1, j).style.background =
-                  "#fff";
-              }
-            } else {
-              if (buscaminas.obtenerValorCasilla(i + 1, j + 1).value !== "x") {
-                buscaminas.obtenerValorCasilla(i + 1, j + 1).style.background =
-                  "#fff";
-              }
-            }
+    abrirCasillas(casillasNivel, x, y) {
+      if (buscaminas.obtenerValorCasilla(x, y).value === "0") {
+        buscaminas.obtenerValorCasilla(x, y).value = "";
+        for (
+          let j = Math.max(x - 1, 0);
+          j <= Math.min(x + 1, casillasNivel - 1);
+          j++
+        ) {
+          for (
+            let k = Math.max(y - 1, 0);
+            k <= Math.min(y + 1, casillasNivel - 1);
+            k++
+          ) {
+            document.getElementById(j + "" + k).style.background = "#fff";
+            buscaminas.abrirCasillas(10, j, k);
           }
         }
       }
