@@ -80,8 +80,6 @@
      * invoca al método funcionalidadCuentaBombas(), y le pasa un número de casillas según el nivel
      */
     compruebaBombas() {
-      //console.log(coordenadaPulsada, casilla);
-
       if (buscaminas.nivel === "principiante") {
         buscaminas.funcionalidadCuentaBombas(8);
       } else if (buscaminas.nivel === "intermedio") {
@@ -195,6 +193,12 @@
         }
       }
     },
+    /**
+     * Función para abrir casillas recursivamente
+     * @param casillasNivel numero de casillas según el nivel
+     * @param x coordenada para la fila
+     * @param y coordenada para la columna
+     */
     abrirCasillas(casillasNivel, x, y) {
       if (buscaminas.obtenerValorCasilla(x, y).value === "0") {
         buscaminas.obtenerValorCasilla(x, y).value = "";
