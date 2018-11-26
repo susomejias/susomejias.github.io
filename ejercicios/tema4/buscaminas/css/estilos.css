@@ -20,7 +20,10 @@ body main {
 body main #containerTablero {
   width: auto;
   height: auto;
-  border: 5px solid #263238;
+  border: 2px solid #263238;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
 }
 
 body main #containerTablero input {

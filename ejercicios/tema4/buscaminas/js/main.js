@@ -18,7 +18,7 @@
   }
 
   let buscaminas = {
-    nivel: "intermedio",
+    nivel: "principiante",
     finPartida: false,
     numBombas: null,
     /**
