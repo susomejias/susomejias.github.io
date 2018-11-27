@@ -20,6 +20,7 @@
   let buscaminas = {
     nivel: "principiante",
     finPartida: false,
+    isGanado: false,
     numBombas: null,
     numCasillas: null,
     /**
@@ -52,20 +53,18 @@
       for (let k = 0; k < casillasNivel; k++) {
         for (let f = 0; f < casillasNivel; f++) {
           //console.log(buscaminas.obtenerValorCasilla(k,f).style.background);
-          
-          if (buscaminas.obtenerValorCasilla(k,f).bgColor === "#9CCC65" || buscaminas.obtenerValorCasilla(k,f).bgColor === "#7CB342"){
+
+          if (buscaminas.obtenerValorCasilla(k,f).style.background === "rgb(124, 179, 66)"){
             numCasillasSinDescubrir++;
           }
         }
       }
-      console.log(numCasillasSinDescubrir);
+      //console.log(numCasillasSinDescubrir);
       //console.log(buscaminas.numBombas);
       
       
       if (numCasillasSinDescubrir === buscaminas.numBombas){
-        return true;
-      }else{
-        return false;
+          buscaminas.isGanado = true;
       }
     },
     eliminarTablero() {
@@ -212,7 +211,8 @@
     },
     /**
      * Cuenta el número de bombas que hay alrededor de la casilla pulsada
-     */ funcionalidadCuentaBombas(casillasNivel) {
+     */ 
+    funcionalidadCuentaBombas(casillasNivel) {
       for (let i = 0; i < casillasNivel; i++) {
         for (let j = 0; j < casillasNivel; j++) {
           if (buscaminas.obtenerValorCasilla(i, j).value === "x") {
