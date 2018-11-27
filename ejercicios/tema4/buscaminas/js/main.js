@@ -5,16 +5,19 @@
 {
   let containerTablero;
   let spanError;
+  let timer;
   function init() {
     containerTablero = document.getElementById("containerTablero");
     spanError = document.getElementById("spanError");
+    timer = document.getElementById("timer");
 
     buscaminas.generaTablero();
     buscaminas.numBombasNivel();
     buscaminas.generarBombas();
     buscaminas.compruebaBombas();
+    buscaminas.mostrarTiempoPartida();
 
-    console.log("Numero de minas : \n" +buscaminas.obtenerNumeroDeBombas());
+    console.log("Numero de minas : \n" + buscaminas.obtenerNumeroDeBombas());
   }
 
   let buscaminas = {
@@ -23,8 +26,7 @@
     numBombas: null,
     /**
      * Genera una tabla en html, que nos sirve como el tablero del juego
-     */
-    generaTablero() {
+     */ generaTablero() {
       if (buscaminas.nivel === "principiante") {
         buscaminas.funcionalidadGeneraTablero(10);
       } else if (buscaminas.nivel === "intermedio") {
@@ -33,22 +35,20 @@
     },
     /**
      * Comprueba el nivel y asigna el numero de bombas
-     */
-    numBombasNivel(){
-      if (buscaminas.nivel === "principiante"){
+     */ numBombasNivel() {
+      if (buscaminas.nivel === "principiante") {
         buscaminas.numBombas = 10;
-      }else if (buscaminas.nivel === "intermedio"){
+      } else if (buscaminas.nivel === "intermedio") {
         buscaminas.numBombas = 40;
       }
     },
     /**
      * Reliza una función u otra al pulsar en una casilla
-     */
-    comprobarCasilla() {
+     */ comprobarCasilla() {
       if (this.value === "x") {
         if (buscaminas.nivel === "principiante") {
           buscaminas.descubreMinasTrasPerder(10);
-        }else if (buscaminas.nivel === "intermedio"){
+        } else if (buscaminas.nivel === "intermedio") {
           buscaminas.descubreMinasTrasPerder(16);
         }
         this.style.background = "#FFEB3B";
@@ -59,31 +59,40 @@
       } else {
         let coordenada = this.getAttribute("id");
         this.style.background = "#fff";
-        if (coordenada.length === 2){
+        if (coordenada.length === 2) {
           buscaminas.abrirCasillas(
             10,
             parseInt(coordenada[0]),
             parseInt(coordenada[1])
           );
-        }else{
+        } else {
           buscaminas.abrirCasillas(
             10,
             parseInt(coordenada[0] + "" + coordenada[1]),
             parseInt(coordenada[2] + "" + coordenada[3])
           );
         }
-        
+      }
+    },
+    mostrarTiempoPartida() {
+      let seconds = 0;
+      if (!buscaminas.finPartida) {
+        setInterval(() => {
+          seconds++;
+          timer.innerHTML = `<img src="images/hourglass.svg" /> <p>${seconds}</p>`;
+        }, 1000);
+      } else {
+        return;
       }
     },
     /**
      * Descubre las minas del tablero tras perder la partida
      * @param casillasNivel numero de casillas según el nivel
-     */
-    descubreMinasTrasPerder(casillasNivel){
+     */ descubreMinasTrasPerder(casillasNivel) {
       for (let i = 0; i < casillasNivel; i++) {
         for (let j = 0; j < casillasNivel; j++) {
-          if (buscaminas.obtenerValorCasilla(i,j).value === "x"){
-            buscaminas.obtenerValorCasilla(i,j).style.background = "#FFEB3B"
+          if (buscaminas.obtenerValorCasilla(i, j).value === "x") {
+            buscaminas.obtenerValorCasilla(i, j).style.background = "#FFEB3B";
           }
         }
       }
@@ -98,8 +107,7 @@
     },
     /**
      * Crear el boton de jugar de nuevo cuando pierdes la partida
-     */
-    crearBotonJugarDeNuevo() {
+     */ crearBotonJugarDeNuevo() {
       let main = document.getElementsByTagName("main")[0];
       let btnVolverJugar = document.createElement("button");
       btnVolverJugar.id = "btnVolverJugar";
@@ -109,8 +117,7 @@
     },
     /**
      * invoca al método funcionalidadGeneraBombas(), y le pasa un número de casillas según el nivel
-     */
-    generarBombas() {
+     */ generarBombas() {
       if (buscaminas.nivel === "principiante") {
         buscaminas.funcionalidadGeneraBombas(10);
       } else if (buscaminas.nivel === "intermedio") {
@@ -120,8 +127,7 @@
     /**
      * Devuelve el número de bombas que hay en el tablero
      * @returns numero de bombas del tablero
-     */
-    obtenerNumeroDeBombas() {
+     */ obtenerNumeroDeBombas() {
       let casillas = document.querySelectorAll("input");
       let bombas = [];
 
@@ -135,8 +141,7 @@
     },
     /**
      * invoca al método funcionalidadCuentaBombas(), y le pasa un número de casillas según el nivel
-     */
-    compruebaBombas() {
+     */ compruebaBombas() {
       if (buscaminas.nivel === "principiante") {
         buscaminas.funcionalidadCuentaBombas(10);
       } else if (buscaminas.nivel === "intermedio") {
@@ -151,8 +156,7 @@
      * @param ij indice de inicio para la columna
      * @param fi indice de fin para la fila
      * @param fj indice de fin para la columna
-     */
-    cuentaBombas(ii, ij, fi, fj) {
+     */ cuentaBombas(ii, ij, fi, fj) {
       for (let i = ii; i <= fi; i++) {
         for (let j = ij; j <= fj; j++) {
           if (buscaminas.obtenerValorCasilla(i, j).value !== "x") {
@@ -171,14 +175,12 @@
      * @param i indice para la fila
      * @param j indice para la columna
      * @returns elemento pulsado
-     */
-    obtenerValorCasilla(i, j) {
+     */ obtenerValorCasilla(i, j) {
       return document.getElementById(i + "" + j);
     },
     /**
      * Cuenta el número de bombas que hay alrededor de la casilla pulsada
-     */
-    funcionalidadCuentaBombas(casillasNivel) {
+     */ funcionalidadCuentaBombas(casillasNivel) {
       for (let i = 0; i < casillasNivel; i++) {
         for (let j = 0; j < casillasNivel; j++) {
           if (buscaminas.obtenerValorCasilla(i, j).value === "x") {
@@ -211,12 +213,10 @@
         }
       }
     },
-
     /**
      * Genera un numero de bombas en el tablero según el nivel
      * @param casillasNivel numero de casillas según el nivel
-     */
-    funcionalidadGeneraBombas(casillasNivel) {
+     */ funcionalidadGeneraBombas(casillasNivel) {
       for (let i = 0; i < buscaminas.numBombas; i++) {
         let fila = Math.floor(Math.random() * (casillasNivel - 1 - 0)) + 0;
         let columna = Math.floor(Math.random() * (casillasNivel - 1 - 0)) + 0;
@@ -227,14 +227,12 @@
         }
 
         buscaminas.obtenerValorCasilla(fila, columna).value = "x";
-
       }
     },
     /**
      * Genera un tablero html, segun el numero de casillas pasadas por parámetro
      * @param casillasNivel numero de casillas según el nivel
-     */
-    funcionalidadGeneraTablero(casillasNivel) {
+     */ funcionalidadGeneraTablero(casillasNivel) {
       containerTablero.style.display = "grid";
       containerTablero.style.gridTemplateColumns =
         "repeat(" + casillasNivel + ", 1fr)";
@@ -245,20 +243,57 @@
           celda.id = i + "" + j;
           celda.value = "0";
           celda.readOnly = "readonly";
-          //celda.selectionStart = "none";
           celda.addEventListener("click", buscaminas.comprobarCasilla);
-          celda.style.background = "#263238";
+          celda.style.background = "#7CB342";
+          celda.style.color = "#7CB342";
           containerTablero.appendChild(celda);
         }
       }
+
+      let inputs = Array.from(document.getElementsByTagName("input"));
+
+      for (var k = 1; k <= casillasNivel; k++) {
+        for (var f = 1; f <= casillasNivel; f++) {
+          console.log(k, f);
+
+          if (k % 2 === 0 && f % 2 === 0) {
+            buscaminas.obtenerValorCasilla(k - 1, f - 1).style.background =
+              "#9CCC65";
+            buscaminas.obtenerValorCasilla(k - 1, f - 1).style.color =
+              "#9CCC65";
+          } else if (k % 2 !== 0 && f % 2 !== 0) {
+            buscaminas.obtenerValorCasilla(k - 1, f - 1).style.background =
+              "#9CCC65";
+            buscaminas.obtenerValorCasilla(k - 1, f - 1).style.color =
+              "#9CCC65";
+          }
+
+          // if (k % 2 === 0 && f % 2 === 0) {
+          //   buscaminas.obtenerValorCasilla(k, f).style.background = "#9CCC65";
+          // } else if (k % 2 !== 0 && f % 2 !== 0) {
+          //   buscaminas.obtenerValorCasilla(k, f).style.background = "  #7CB342";
+          // }
+        }
+      }
+
+      // for (let k = 0; k < inputs.length; k++) {
+      //   k++;
+      //   if (
+      //     inputs[k] !== undefined &&
+      //     parseInt(inputs[k].getAttribute("id")) % 2
+      //   ) {
+      //     console.log(inputs[k]);
+
+      //     inputs[k + 1].style.background = "#9CCC65";
+      //   }
+      // }
     },
     /**
      * Función para abrir casillas recursivamente
      * @param casillasNivel numero de casillas según el nivel
      * @param x coordenada para la fila
      * @param y coordenada para la columna
-     */
-    abrirCasillas(casillasNivel, x, y) {
+     */ abrirCasillas(casillasNivel, x, y) {
       if (buscaminas.obtenerValorCasilla(x, y).value === "0") {
         buscaminas.obtenerValorCasilla(x, y).value = "";
         for (
