@@ -17,6 +17,30 @@ body main {
   align-items: center;
 }
 
+body main div div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #33691E;
+}
+
+body main div div select {
+  height: 30px;
+  font-size: 1.5rem;
+  background-color: #33691E;
+  border-radius: 3px;
+  border-width: 0px;
+  outline: none;
+  color: #fff;
+  text-align-last: center;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 10px;
+  font-weight: bold;
+}
+
 body main div #containerTablero {
   width: auto;
   height: auto;
@@ -56,8 +80,8 @@ body main h1 {
   min-width: 60px;
   border-width: 0px;
   padding: 10px;
-  background: #FFEB3B;
-  color: #263238;
+  background: #33691E;
+  color: #FFF;
   font-weight: bold;
   border-radius: 2px;
   font-size: 1.3rem;
@@ -71,7 +95,6 @@ body main h1 {
   align-items: center;
   padding-top: 7px;
   padding-bottom: 7px;
-  background-color: #33691E;
 }
 
 #timer p {

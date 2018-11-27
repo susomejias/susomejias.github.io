@@ -6,24 +6,22 @@
   let containerTablero;
   let spanError;
   let timer;
+  let elegirNivel;
   function init() {
     containerTablero = document.getElementById("containerTablero");
     spanError = document.getElementById("spanError");
     timer = document.getElementById("timer");
+    elegirNivel = document.getElementById("elegirNivel");
 
-    buscaminas.generaTablero();
-    buscaminas.numBombasNivel();
-    buscaminas.generarBombas();
-    buscaminas.compruebaBombas();
-    buscaminas.mostrarTiempoPartida();
+    elegirNivel.addEventListener("change", buscaminas.actualizaNivel);
 
-    console.log("Numero de minas : \n" + buscaminas.obtenerNumeroDeBombas());
   }
 
   let buscaminas = {
     nivel: "principiante",
     finPartida: false,
     numBombas: null,
+    numCasillas: null,
     /**
      * Genera una tabla en html, que nos sirve como el tablero del juego
      */ generaTablero() {
@@ -33,13 +31,60 @@
         buscaminas.funcionalidadGeneraTablero(16);
       }
     },
+    actualizaNivel() {
+      buscaminas.mostrarTiempoPartida();
+      buscaminas.nivel = this[this.selectedIndex].value;
+      if (containerTablero.childElementCount === 0) {
+        buscaminas.generaTablero();
+        buscaminas.numBombasNivel();
+        buscaminas.generarBombas();
+        buscaminas.compruebaBombas();
+      } else {
+        buscaminas.eliminarTablero();
+        buscaminas.generaTablero();
+        buscaminas.numBombasNivel();
+        buscaminas.generarBombas();
+        buscaminas.compruebaBombas();
+      }
+    },
+    isGanado(casillasNivel){
+      let numCasillasSinDescubrir = 0;
+      for (let k = 0; k < casillasNivel; k++) {
+        for (let f = 0; f < casillasNivel; f++) {
+          //console.log(buscaminas.obtenerValorCasilla(k,f).style.background);
+          
+          if (buscaminas.obtenerValorCasilla(k,f).bgColor === "#9CCC65" || buscaminas.obtenerValorCasilla(k,f).bgColor === "#7CB342"){
+            numCasillasSinDescubrir++;
+          }
+        }
+      }
+      console.log(numCasillasSinDescubrir);
+      //console.log(buscaminas.numBombas);
+      
+      
+      if (numCasillasSinDescubrir === buscaminas.numBombas){
+        return true;
+      }else{
+        return false;
+      }
+    },
+    eliminarTablero() {
+      let inputs = Array.from(document.getElementsByTagName("input"));
+
+      for (var i = 0; i < inputs.length; i++) {
+        inputs[i].remove();
+      }
+    },
     /**
      * Comprueba el nivel y asigna el numero de bombas
      */ numBombasNivel() {
       if (buscaminas.nivel === "principiante") {
         buscaminas.numBombas = 10;
+        buscaminas.numCasillas = 10 * 10;
+
       } else if (buscaminas.nivel === "intermedio") {
         buscaminas.numBombas = 40;
+        buscaminas.numCasillas = 16 * 16;
       }
     },
     /**
@@ -59,7 +104,9 @@
       } else {
         let coordenada = this.getAttribute("id");
         this.style.background = "#fff";
+        
         if (coordenada.length === 2) {
+          console.log(buscaminas.isGanado(10));
           buscaminas.abrirCasillas(
             10,
             parseInt(coordenada[0]),
@@ -123,21 +170,6 @@
       } else if (buscaminas.nivel === "intermedio") {
         buscaminas.funcionalidadGeneraBombas(16);
       }
-    },
-    /**
-     * Devuelve el número de bombas que hay en el tablero
-     * @returns numero de bombas del tablero
-     */ obtenerNumeroDeBombas() {
-      let casillas = document.querySelectorAll("input");
-      let bombas = [];
-
-      for (casilla of casillas) {
-        if (casilla.value === "x") {
-          bombas.push(casilla);
-        }
-      }
-
-      return bombas.length;
     },
     /**
      * invoca al método funcionalidadCuentaBombas(), y le pasa un número de casillas según el nivel
@@ -242,10 +274,11 @@
           let celda = document.createElement("input");
           celda.id = i + "" + j;
           celda.value = "0";
-          celda.readOnly = "readonly";
+          celda.readOnly = "true";
           celda.addEventListener("click", buscaminas.comprobarCasilla);
+          //celda.style.background = "#7CB342";
           celda.style.background = "#7CB342";
-          celda.style.color = "#7CB342";
+          celda.style.color = "#fff";
           containerTablero.appendChild(celda);
         }
       }
@@ -254,39 +287,19 @@
 
       for (var k = 1; k <= casillasNivel; k++) {
         for (var f = 1; f <= casillasNivel; f++) {
-          console.log(k, f);
-
           if (k % 2 === 0 && f % 2 === 0) {
-            buscaminas.obtenerValorCasilla(k - 1, f - 1).style.background =
-              "#9CCC65";
+            // buscaminas.obtenerValorCasilla(k - 1, f - 1).style.background =
+            //   "#9CCC65";
             buscaminas.obtenerValorCasilla(k - 1, f - 1).style.color =
               "#9CCC65";
           } else if (k % 2 !== 0 && f % 2 !== 0) {
-            buscaminas.obtenerValorCasilla(k - 1, f - 1).style.background =
-              "#9CCC65";
+            // buscaminas.obtenerValorCasilla(k - 1, f - 1).style.background =
+            //   "#9CCC65";
             buscaminas.obtenerValorCasilla(k - 1, f - 1).style.color =
               "#9CCC65";
           }
-
-          // if (k % 2 === 0 && f % 2 === 0) {
-          //   buscaminas.obtenerValorCasilla(k, f).style.background = "#9CCC65";
-          // } else if (k % 2 !== 0 && f % 2 !== 0) {
-          //   buscaminas.obtenerValorCasilla(k, f).style.background = "  #7CB342";
-          // }
         }
       }
-
-      // for (let k = 0; k < inputs.length; k++) {
-      //   k++;
-      //   if (
-      //     inputs[k] !== undefined &&
-      //     parseInt(inputs[k].getAttribute("id")) % 2
-      //   ) {
-      //     console.log(inputs[k]);
-
-      //     inputs[k + 1].style.background = "#9CCC65";
-      //   }
-      // }
     },
     /**
      * Función para abrir casillas recursivamente
@@ -306,7 +319,8 @@
             k <= Math.min(y + 1, casillasNivel - 1);
             k++
           ) {
-            document.getElementById(j + "" + k).style.background = "#fff";
+              document.getElementById(j + "" + k).style.background = "#fff";
+              
             buscaminas.abrirCasillas(10, j, k);
           }
         }
