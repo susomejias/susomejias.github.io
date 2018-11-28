@@ -116,7 +116,7 @@
   let mostrarSpan = function(msj) {
     spanError.textContent = msj;
     spanError.style.display = "block";
-    spanError.style.background = "red";
+    spanError.style.background = "rgba(255, 82, 82, 0.7)";
   };
 
 
