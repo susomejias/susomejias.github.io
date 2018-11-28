@@ -119,17 +119,5 @@
     spanError.style.background = "rgba(255, 82, 82, 0.7)";
   };
 
-
-  let quitarEventos = function (gato){
-    let btns = Array.from(document.getElementsByTagName("button"));
-
-    console.log(btns);
-    btns.forEach(element => {
-      //console.log(element.getAttribute("id"));
-        element.removeEventListener("click", ev => ev.preventDefault());
-      
-    });
-  }
-
   window.addEventListener("load", init);
 }
