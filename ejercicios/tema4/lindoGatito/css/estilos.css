@@ -50,6 +50,7 @@ body main .container span {
 
 body main .container .regla {
   color: rgba(255, 82, 82, 0.7);
+  margin: 8px;
 }
 
 body main .container #encabezadoRegla {
