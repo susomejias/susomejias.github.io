@@ -34,7 +34,7 @@
 
   let actualizarCampos = function(gato) {
     nombre.innerHTML = `<b>Nombre:</b> ${gato.nombre}`;
-    fNacimiento.innerHTML = `<b>Fecha nacimiento:</b> ${gato.fechaNacimiento}`;
+    fNacimiento.innerHTML = `<b>Fecha nacimiento:</b> ${gato.fechaNacimiento} (edad:${gato.obtenerEdad()} años)`;
     raza.innerHTML = `<b>Raza:</b> ${gato.raza}`;
     peso.innerHTML = `<b>Peso:</b> ${gato.peso} kg`;
   };
