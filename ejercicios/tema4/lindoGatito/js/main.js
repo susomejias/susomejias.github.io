@@ -9,8 +9,8 @@
   let crearGato = function() {
     let ventana = window.open(
       "./accionesGato.html",
-      "",
-      "width=420,height=230"
+      "_self",
+      ""
     );
   };
 

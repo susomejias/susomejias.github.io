@@ -12,6 +12,7 @@ body main {
 }
 
 body main .container {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -20,6 +21,13 @@ body main .container {
   padding: 50px;
   border-radius: 3px;
   color: #7A95DE;
+}
+
+body main .container #atras {
+  height: 60px;
+  position: absolute;
+  top: 3%;
+  left: 3%;
 }
 
 body main .container p {

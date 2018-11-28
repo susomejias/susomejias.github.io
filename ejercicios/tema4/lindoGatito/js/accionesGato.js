@@ -8,6 +8,7 @@
   let peso;
   let accion;
   let spanError;
+  let atras;
   function init() {
     btnComer = document.getElementById("btnComer");
     btnJugar = document.getElementById("btnJugar");
@@ -18,6 +19,7 @@
     peso = document.getElementById("peso");
     accion = document.getElementById("accion");
     spanError = document.getElementById("spanError");
+    atras = document.getElementById("atras");
 
     let gato = crearGato();
 
@@ -26,6 +28,8 @@
     btnJugar.addEventListener("click", jugar.bind(gato));
 
     btnDormir.addEventListener("click", dormir.bind(gato));
+
+    atras.addEventListener("click", () => history.back(-1));
   }
 
   let actualizarCampos = function(gato) {
@@ -72,10 +76,11 @@
     if (this.peso <= 1) {
       accion.innerHTML = `<img src="./images/muerto.svg">`;
       this.peso = 0;
+      this.isMuerto = true;
       actualizarCampos(this);
       mostrarSpan("Has matado a " + this.nombre);
-    } else {
-      ocultarSpan();
+      //quitarEventos(this);
+    } else if (!this.isMuerto){
       this.jugar();
       accion.innerHTML = `<img src="./images/jugando.svg">`;
       actualizarCampos(this);
@@ -86,10 +91,10 @@
     if (this.peso >= 15) {
       accion.innerHTML = `<img src="./images/muerto.svg">`;
       this.peso = 16;
+      this.isMuerto = true;
       actualizarCampos(this);
       mostrarSpan("Has matado a " + this.nombre);
-    } else {
-      ocultarSpan();
+    } else if (!this.isMuerto){
       this.comer();
       actualizarCampos(this);
       accion.innerHTML = `<img src="./images/comiendo.svg">`;
@@ -97,8 +102,10 @@
   };
 
   let dormir = function() {
-    ocultarSpan();
-    accion.innerHTML = `<img src="./images/durmiendo.svg">`;
+    if (!this.isMuerto){
+      ocultarSpan();
+      accion.innerHTML = `<img src="./images/durmiendo.svg">`;
+    }
   };
 
   let ocultarSpan = function() {
@@ -111,6 +118,18 @@
     spanError.style.display = "block";
     spanError.style.background = "red";
   };
+
+
+  let quitarEventos = function (gato){
+    let btns = Array.from(document.getElementsByTagName("button"));
+
+    console.log(btns);
+    btns.forEach(element => {
+      //console.log(element.getAttribute("id"));
+        element.removeEventListener("click", ev => ev.preventDefault());
+      
+    });
+  }
 
   window.addEventListener("load", init);
 }
