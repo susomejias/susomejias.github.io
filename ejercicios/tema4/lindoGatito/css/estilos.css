@@ -86,3 +86,15 @@ body main .container img {
 #separador {
   width: 20px;
 }
+
+.pink {
+  background: #FF91AB !important;
+}
+
+.grey {
+  background: #495059 !important;
+}
+
+.pastel {
+  background: #EDA751 !important;
+}
