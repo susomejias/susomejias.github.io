@@ -46,6 +46,7 @@ body main .container span {
   font-weight: bold;
   padding: 15px 30px;
   margin-top: 20px;
+  border-radius: 3px;
 }
 
 body main .container .regla {
