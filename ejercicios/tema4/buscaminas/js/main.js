@@ -149,6 +149,7 @@
           spanError.textContent = "Has ganado";
           buscaMinas.eliminarEventoInput();
           buscaMinas.mostrarMinas();
+          buscaMinas.crearBotonJugarDeNuevo();
         }
 
         if (coordenada.length === 2) {
