@@ -44,6 +44,7 @@ body main div div select {
 body main div #containerTablero {
   width: auto;
   height: auto;
+  border: 2px solid #33691E;
 }
 
 body main div #containerTablero input {
@@ -59,7 +60,7 @@ body main div #containerTablero input {
   font-size: 1.7rem;
   border-width: 0px;
   *color: #fff;
-  *border: 1px solid #fff;
+  border: 1px solid #fff;
 }
 
 body main h1 {

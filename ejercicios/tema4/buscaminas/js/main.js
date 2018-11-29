@@ -35,11 +35,25 @@
       let div = document.createElement("div");
       div.id = "record";
       timer.innerHTML = `<div id="record"></div>`;
-      if (localStorage.getItem("record") !== null) {
-        div.textContent = `Record: ${localStorage.getItem("record")}`;
-      } else {
-        div.textContent = `Record: 0`;
+
+      if (buscaMinas.nivel === "principiante") {
+        if (localStorage.getItem("recordPrincipiante") !== null) {
+          div.textContent = `Record: ${localStorage.getItem(
+            "recordPrincipiante"
+          )}`;
+        } else {
+          div.textContent = `Record: 0`;
+        }
+      } else if (buscaMinas.nivel === "intermedio") {
+        if (localStorage.getItem("recordIntermedio") !== null) {
+          div.textContent = `Record: ${localStorage.getItem(
+            "recordIntermedio"
+          )}`;
+        } else {
+          div.textContent = `Record: 0`;
+        }
       }
+
       container.appendChild(div);
     },
     /**
@@ -332,11 +346,13 @@
       //console.log(this.style.background);
       if (ev.button === 2 && this.style.background === "rgb(124, 179, 66)") {
         this.style.background = "#F44336";
+        this.style.color = "#F44336";
       } else if (
         ev.button === 2 &&
         this.style.background === "rgb(244, 67, 54)"
       ) {
         this.style.background = "#7CB342";
+        this.style.color = "#7CB342";
       }
     },
     /**
@@ -356,25 +372,29 @@
           input.readOnly = "true";
           input.addEventListener("click", buscaMinas.comprobarCasilla);
           input.addEventListener("mousedown", buscaMinas.colocarBandera);
-          //input.style.background = "#7CB342";
+          //input.style.background = "#9CCC65";
           input.style.background = "#7CB342";
-          input.style.color = "#9CCC65";
+          input.style.color = "#7CB342";
           containerTablero.appendChild(input);
         }
       }
 
+      //buscaMinas.colorearCasillasAlternativamente();
+    },
+    colorearCasillasAlternativamente() {
+      // pinta las casilla alternativamente
       for (var k = 1; k <= buscaMinas.numCasillasNivel; k++) {
         for (var f = 1; f <= buscaMinas.numCasillasNivel; f++) {
           if (k % 2 === 0 && f % 2 === 0) {
-            // buscaMinas.obtenerValorCasilla(k - 1, f - 1).style.background =
-            //    "#9CCC65";
-            // buscaMinas.obtenerValorCasilla(k - 1, f - 1).style.color =
-            //   "#9CCC65";
+            buscaMinas.obtenerValorCasilla(k - 1, f - 1).style.background =
+              "#9CCC65";
+            buscaMinas.obtenerValorCasilla(k - 1, f - 1).style.color =
+              "#9CCC65";
           } else if (k % 2 !== 0 && f % 2 !== 0) {
-            //  buscaMinas.obtenerValorCasilla(k - 1, f - 1).style.background =
-            //    "#9CCC65";
-            // buscaMinas.obtenerValorCasilla(k - 1, f - 1).style.color =
-            //   "#9CCC65";
+            buscaMinas.obtenerValorCasilla(k - 1, f - 1).style.background =
+              "#9CCC65";
+            buscaMinas.obtenerValorCasilla(k - 1, f - 1).style.color =
+              "#9CCC65";
           }
         }
       }
@@ -382,15 +402,29 @@
     comprobarRecord() {
       let tiempo = parseInt(document.querySelector("#timer p").textContent);
 
-      if (localStorage.getItem("record") === null) {
-        localStorage.setItem("record", tiempo);
-      } else {
-        //console.log(tiempo);
-        if (
-          localStorage.getItem("record") === 0 ||
-          localStorage.getItem("record") > tiempo
-        ) {
-          localStorage.setItem("record", tiempo);
+      if (buscaMinas.nivel === "principiante") {
+        if (localStorage.getItem("recordPrincipiante") === null) {
+          localStorage.setItem("recordPrincipiante", tiempo);
+        } else {
+          //console.log(tiempo);
+          if (
+            localStorage.getItem("recordPrincipiante") === 0 ||
+            localStorage.getItem("recordPrincipiante") > tiempo
+          ) {
+            localStorage.setItem("recordPrincipiante", tiempo);
+          }
+        }
+      } else if (buscaMinas.nivel === "intermedio") {
+        if (localStorage.getItem("recordIntermedio") === null) {
+          localStorage.setItem("recordIntermedio", tiempo);
+        } else {
+          //console.log(tiempo);
+          if (
+            localStorage.getItem("recordIntermedio") === 0 ||
+            localStorage.getItem("recordIntermedio") > tiempo
+          ) {
+            localStorage.setItem("recordIntermedio", tiempo);
+          }
         }
       }
     },
