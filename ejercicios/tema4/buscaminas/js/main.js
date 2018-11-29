@@ -7,6 +7,8 @@
   let spanError;
   let timer;
   let elegirNivel;
+  let silenciarAudio;
+  let audio;
 
   let buscaMinas = {
     nivel: "principiante",
@@ -461,8 +463,21 @@
     spanError = document.getElementById("spanError");
     timer = document.getElementById("timer");
     elegirNivel = document.getElementById("elegirNivel");
+    silenciarAudio = document.getElementById("silenciarAudio");
+    audio = document.getElementById("audio");
 
     elegirNivel.addEventListener("change", buscaMinas.actualizaNivel);
+    silenciarAudio.addEventListener("click", ()=>{
+      audio.muted = !audio.muted;
+        if (audio.muted){
+          silenciarAudio.src = "./images/volumenOff.svg";
+          // silenciar audio activar volumen
+        }else{
+          silenciarAudio.src = "./images/volumenOn.svg";
+          // silenciar audio desactivar volumen
+        }
+
+    });
   }
 
   window.addEventListener("load", init);
