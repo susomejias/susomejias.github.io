@@ -14,6 +14,7 @@
     flagGanado: false,
     numMinas: 0,
     numCasillasNivel: 0,
+    cambioNivel: false,
 
     /**
      * Actualiza el numero de casillas en función del nivel
@@ -27,9 +28,13 @@
     },
 
     crearDivRecord() {
+      if (document.getElementById("record")) {
+        document.getElementById("record").remove();
+      }
       let container = document.getElementById("container");
       let div = document.createElement("div");
       div.id = "record";
+      timer.innerHTML = `<div id="record"></div>`;
       if (localStorage.getItem("record") !== null) {
         div.textContent = `Record: ${localStorage.getItem("record")}`;
       } else {
@@ -41,7 +46,9 @@
      * Inicia el juego según el nivel seleccionado en el select
      */
     actualizaNivel() {
-      buscaMinas.mostrarTiempoPartida();
+      if (!buscaMinas.cambioNivel) {
+        buscaMinas.mostrarTiempoPartida();
+      }
       buscaMinas.nivel = this[this.selectedIndex].value;
       if (containerTablero.childElementCount === 0) {
         buscaMinas.iniciarJuego();
@@ -60,6 +67,8 @@
       buscaMinas.generarMinas();
       buscaMinas.compruebaMinas();
       buscaMinas.crearDivRecord();
+      buscaMinas.crearDivTimer();
+      //buscaMinas.mostrarTiempoPartida();
     },
     /**
      * Comprueba si has ganado la partida
@@ -81,7 +90,8 @@
 
       if (numCasillasSinDescubrir - 1 === buscaMinas.numMinas) {
         buscaMinas.flagGanado = true;
-        buscaMinas.comprobarRecord();
+        //buscaMinas.pararContadorTiempo();
+        //buscaMinas.comprobarRecord();
       }
     },
     /**
@@ -106,6 +116,10 @@
         buscaMinas.numMinas = 40;
         buscaMinas.numCasillas = 16 * 16;
       }
+    },
+    crearDivTimer() {
+      timer.innerHTML = `<img src="images/hourglass.svg" /><p id="time"></p>`;
+      let time = document.getElementById("time");
     },
     /**
      * Acciones que realizaremos tras pulsar una mina
@@ -157,14 +171,17 @@
      */
     mostrarTiempoPartida() {
       let seconds = 0;
-      if (!buscaMinas.finPartida) {
-        setInterval(() => {
+      let interv = setInterval(() => {
+        if (!buscaMinas.finPartida && !buscaMinas.flagGanado) {
           seconds++;
-          timer.innerHTML = `<img src="images/hourglass.svg" /> <p>${seconds}</p>`;
-        }, 1000);
-      } else {
-        return;
-      }
+          time.textContent = seconds;
+        } else {
+          clearInterval(interv);
+          if (buscaMinas.flagGanado) {
+            buscaMinas.comprobarRecord();
+          }
+        }
+      }, 1000);
     },
     /**
      * Descubre las Minas del tablero
