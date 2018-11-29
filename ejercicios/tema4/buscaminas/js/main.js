@@ -17,6 +17,8 @@
     numMinas: 0,
     numCasillasNivel: 0,
     cambioNivel: false,
+    numCambiosNivel: 0,
+    resetTime: false,
 
     /**
      * Actualiza el numero de casillas en función del nivel
@@ -62,8 +64,11 @@
      * Inicia el juego según el nivel seleccionado en el select
      */
     actualizaNivel() {
-      if (!buscaMinas.cambioNivel) {
-        buscaMinas.mostrarTiempoPartida();
+      
+      buscaMinas.numCambiosNivel++;
+
+      if (buscaMinas.numCambiosNivel > 1){
+        buscaMinas.resetTime = true;
       }
       buscaMinas.nivel = this[this.selectedIndex].value;
       if (containerTablero.childElementCount === 0) {
@@ -72,6 +77,8 @@
         buscaMinas.eliminarTablero();
         buscaMinas.iniciarJuego();
       }
+
+      buscaMinas.cambioNivel = true;
     },
     /**
      * Inicia la jugabilidad
@@ -84,6 +91,8 @@
       buscaMinas.compruebaMinas();
       buscaMinas.crearDivRecord();
       buscaMinas.crearDivTimer();
+      buscaMinas.mostrarTiempoPartida();
+    
       //buscaMinas.mostrarTiempoPartida();
     },
     /**
@@ -188,12 +197,14 @@
      */
     mostrarTiempoPartida() {
       let seconds = 0;
+
       let interv = setInterval(() => {
-        if (!buscaMinas.finPartida && !buscaMinas.flagGanado) {
+        if (!buscaMinas.finPartida && !buscaMinas.flagGanado && !buscaMinas.resetTime) {
           seconds++;
           time.textContent = seconds;
         } else {
-          clearInterval(interv);
+            buscaMinas.resetTime = false;
+            clearInterval(interv);
           if (buscaMinas.flagGanado) {
             buscaMinas.comprobarRecord();
           }
