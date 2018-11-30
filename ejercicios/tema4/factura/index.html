@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Ejercicio-JesúsMejiasLeiva</title>
+    <script type="text/javascript" src="js/linea.js"></script>
+    <script type="text/javascript" src="js/emisor.js"></script>
+    <script type="text/javascript" src="js/cliente.js"></script>
+    <script type="text/javascript" src="js/factura.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <link rel="stylesheet" href="css/estilos.min.css" />
+  </head>
+  <body>
+    <noscript>
+      Por favor, comprueba que tu navegador es compatible con javascript, o bien
+      comprueba si lo tienes activado
+    </noscript>
+    <main>
+      <div class="container">
+        <div id="cabecera">
+          <label for="">Fecha:</label>
+          <input type="date" name="fecha" value="" id="fecha" />
+          <label for="">Moneda:</label>
+          <input type="text" name="moneda" id="moneda" value="Euros" />
+        </div>
+        <div id="containerDatos">
+          <div id="datosEmisor">
+            <h3>Datos emisor</h3>
+            <label for="">Nombre:</label>
+            <input type="text" name="nombreEmisor" id="nombreEmisor" />
+            <label for="">CIF:</label>
+            <input type="text" name="cifEmisor" id="cifEmisor" />
+            <label for="">Dirección:</label>
+            <input type="text" name="direccionEmisor" id="direccionEmisor" />
+            <label for="">Email:</label>
+            <input type="email" name="emailEmisor" id="emailEmisor" />
+            <label for="">Telefono:</label>
+            <input type="tel" name="telefonoEmisor" id="telefonoEmisor" />
+            <label for="">Logo:</label>
+            <input type="text" name="logoEmisor" id="logoEmisor" />
+            <div class="containerButtons">
+              <button id="guardarEmisor">Guardar</button>
+              <button id="limpiarEmisor">Limpiar datos</button>
+            </div>
+          </div>
+
+          <div id="datosCliente">
+            <h3>Datos cliente</h3>
+            <label for="">Nombre:</label>
+            <input type="text" name="nombreCliente" id="nombreCliente" />
+            <label for="">CIF:</label>
+            <input type="text" name="cifCliente" id="cifCliente" />
+            <label for="">Dirección:</label>
+            <input type="text" name="direccionCliente" id="direccionCliente" />
+            <label for="">Email:</label>
+            <input type="email" name="emailCliente" id="emailCliente" />
+            <label for="">Telefono:</label>
+            <input type="tel" name="telefonoCliente" id="telefonoCliente" />
+            <div class="containerButtons">
+              <button id="guardarCliente">Guardar</button>
+              <button id="limpiarCliente">Limpiar datos</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="containerLineas">
+          <h3>Lineas</h3>
+          <div class="linea">
+            <div class="centerLinea">
+              <label for="">Producto:</label>
+              <input type="producto" name="producto" class="producto" />
+            </div>
+            <div class="centerLinea">
+              <label for="">Uds:</label>
+              <input type="number" name="unidades" class="unidades" />
+            </div>
+            <div class="centerLinea">
+              <label for="">Dto:</label>
+              <input type="text" name="descuento" class="descuento" />
+            </div>
+            <div class="centerLinea">
+              <label for="">Precio:</label>
+              <input type="text" name="precio" class="precio" />
+            </div>
+            <div class="centerLinea">
+              <label for="">Iva:</label>
+              <input type="text" name="iva" class="iva" />
+            </div>
+            <div class="centerLinea">
+              <label for="">Importe:</label>
+              <input type="text" name="importe" class="importe" />
+            </div>
+          </div>
+        </div>
+        <button id="nuevaLinea">Guardar / nueva linea</button>
+
+        <div id="otrosDatos">
+          <div id="observaciones">
+            <h3>Observaciones:</h3>
+            <textarea name="" id="" cols="30" rows="10"></textarea>
+          </div>
+          <div id="retenciones">
+            <h3>Retenciones:</h3>
+            <label for="" >I.R.P.F</label> <input id="irpf" type="text" />
+            <label for="" >R.E</label> <input id="re" type="text" />
+            <p id="muestraTotal">Total (EUROS)</p>
+          </div>
+        </div>
+
+        <button id="crearFactura">Crear factura</button>
+      </div>
+    </main>
+  </body>
+</html>
