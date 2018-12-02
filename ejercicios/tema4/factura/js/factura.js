@@ -1,5 +1,14 @@
 {
-  function Factura(fecha, moneda, emisor, cliente, lineas, irpf, re, observaciones) {
+  function Factura(
+    fecha,
+    moneda,
+    emisor,
+    cliente,
+    lineas,
+    irpf,
+    re,
+    observaciones
+  ) {
     this.fecha = fecha;
     this.moneda = moneda;
     this.emisor = emisor;
@@ -25,6 +34,8 @@
       total += parseFloat(element.importe);
     });
 
-    return total;
+    total += total * parseFloat(this.irpf / 100);
+    total += total * parseFloat(this.re / 100);
+    return total.toFixed(2);
   };
 }

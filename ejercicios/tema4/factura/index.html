@@ -21,47 +21,115 @@
       <div class="container">
         <div id="cabecera">
           <label for="">Fecha:</label>
-          <input type="date" name="fecha" value="" id="fecha" />
+          <input type="date" name="fecha" value="" id="fecha" required />
           <label for="">Moneda:</label>
-          <input type="text" name="moneda" id="moneda" value="Euros" />
+          <input type="text" name="moneda" id="moneda" value="Euros" required />
         </div>
         <div id="containerDatos">
           <div id="datosEmisor">
             <h3>Datos emisor</h3>
             <label for="">Nombre:</label>
-            <input type="text" name="nombreEmisor" id="nombreEmisor" />
+            <input
+              type="text"
+              name="nombreEmisor"
+              id="nombreEmisor"
+              value="emisor1"
+              required
+            />
             <label for="">CIF:</label>
-            <input type="text" name="cifEmisor" id="cifEmisor" />
+            <input
+              type="text"
+              name="cifEmisor"
+              id="cifEmisor"
+              required
+              value="20228967"
+            />
             <label for="">Dirección:</label>
-            <input type="text" name="direccionEmisor" id="direccionEmisor" />
+            <input
+              type="text"
+              name="direccionEmisor"
+              id="direccionEmisor"
+              value="c/ancha"
+              required
+            />
             <label for="">Email:</label>
-            <input type="email" name="emailEmisor" id="emailEmisor" />
+            <input
+              type="email"
+              name="emailEmisor"
+              id="emailEmisor"
+              value="gmail@gmail.com"
+              required
+            />
             <label for="">Telefono:</label>
-            <input type="tel" name="telefonoEmisor" id="telefonoEmisor" />
+            <input
+              type="tel"
+              name="telefonoEmisor"
+              id="telefonoEmisor"
+              value="600000000"
+              required
+            />
             <label for="">Logo:</label>
-            <input type="text" name="logoEmisor" id="logoEmisor" />
+            <input
+              type="text"
+              name="logoEmisor"
+              id="logoEmisor"
+              required
+              value="url"
+            />
             <div class="containerButtons">
               <button id="guardarEmisor">Guardar</button>
               <button id="limpiarEmisor">Limpiar datos</button>
             </div>
+            <span id="spanDatosEmisor"></span>
           </div>
 
           <div id="datosCliente">
             <h3>Datos cliente</h3>
             <label for="">Nombre:</label>
-            <input type="text" name="nombreCliente" id="nombreCliente" />
+            <input
+              type="text"
+              name="nombreCliente"
+              id="nombreCliente"
+              value="cliente1"
+              required
+            />
             <label for="">CIF:</label>
-            <input type="text" name="cifCliente" id="cifCliente" />
+            <input
+              type="text"
+              name="cifCliente"
+              id="cifCliente"
+              required
+              value="3434535456"
+            />
             <label for="">Dirección:</label>
-            <input type="text" name="direccionCliente" id="direccionCliente" />
+            <input
+              type="text"
+              name="direccionCliente"
+              id="direccionCliente"
+              value="c/luis leon"
+              required
+            />
             <label for="">Email:</label>
-            <input type="email" name="emailCliente" id="emailCliente" />
+            <input
+              type="email"
+              name="emailCliente"
+              id="emailCliente"
+              value="gmail@gmail.com"
+              required
+            />
             <label for="">Telefono:</label>
-            <input type="tel" name="telefonoCliente" id="telefonoCliente" />
+            <input
+              type="tel"
+              name="telefonoCliente"
+              id="telefonoCliente"
+              value="600000000"
+              required
+            />
             <div class="containerButtons">
               <button id="guardarCliente">Guardar</button>
               <button id="limpiarCliente">Limpiar datos</button>
             </div>
+            <span id="spanDatosCliente"></span>
           </div>
         </div>
 
@@ -70,29 +138,45 @@
           <div class="linea">
             <div class="centerLinea">
               <label for="">Producto:</label>
-              <input type="producto" name="producto" class="producto" />
+              <input
+                type="producto"
+                name="producto"
+                class="producto"
+                required
+              />
             </div>
             <div class="centerLinea">
               <label for="">Uds:</label>
-              <input type="number" name="unidades" class="unidades" />
+              <input type="number" name="unidades" class="unidades" required />
             </div>
             <div class="centerLinea">
               <label for="">Dto:</label>
-              <input type="text" name="descuento" class="descuento" />
+              <input type="text" name="descuento" class="descuento" required />
             </div>
             <div class="centerLinea">
               <label for="">Precio:</label>
-              <input type="text" name="precio" class="precio" />
+              <input type="text" name="precio" class="precio" required />
             </div>
             <div class="centerLinea">
               <label for="">Iva:</label>
-              <input type="text" name="iva" class="iva" />
+              <input type="text" name="iva" class="iva" required />
             </div>
             <div class="centerLinea">
               <label for="">Importe:</label>
-              <input type="text" name="importe" class="importe" />
+              <input
+                type="text"
+                name="importe"
+                class="importe"
+                required
+                readonly
+              />
             </div>
           </div>
+          <span id="spanErrorLinea"></span>
+
+        </div>
+        <div id="muestraLineas">
+          
         </div>
         <button id="nuevaLinea">Guardar / nueva linea</button>
 
@@ -103,8 +187,10 @@
           </div>
           <div id="retenciones">
             <h3>Retenciones:</h3>
-            <label for="" >I.R.P.F</label> <input id="irpf" type="text" />
-            <label for="" >R.E</label> <input id="re" type="text" />
+            <label for="">I.R.P.F</label>
+            <input id="irpf" type="text" required value="3" />
+            <label for="">R.E</label>
+            <input id="re" type="text" required value="2" />
             <p id="muestraTotal">Total (EUROS)</p>
           </div>
         </div>

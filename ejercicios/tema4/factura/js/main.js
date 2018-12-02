@@ -12,6 +12,12 @@
   let re;
   let fecha;
   let moneda;
+  let spanDatosEmisor;
+  let spanDatosCliente;
+  let spanErrorLinea;
+  let muestraTotal;
+  let muestraLineas;
+
   function init() {
     arrayLineas = [];
 
@@ -27,6 +33,11 @@
     re = document.getElementById("re");
     fecha = document.getElementById("fecha");
     moneda = document.getElementById("moneda");
+    spanDatosEmisor = document.getElementById("spanDatosEmisor");
+    spanDatosCliente = document.getElementById("spanDatosCliente");
+    spanErrorLinea = document.getElementById("spanErrorLinea");
+    muestraTotal = document.getElementById("muestraTotal");
+    muestraLineas = document.getElementById("muestraLineas");
 
     btnGuardarEmisor.addEventListener("click", crearEmisor);
     btnLimpiarEmisor.addEventListener("click", limpiarInputsEmisor);
@@ -34,6 +45,29 @@
     btnLimpiarCliente.addEventListener("click", limpiarInputsCliente);
     nuevaLinea.addEventListener("click", obtenerLineas);
     btnCrearFactura.addEventListener("click", crearFactura);
+
+    crearCabecera();
+  }
+
+  let crearCabecera = function(){
+    let div = document.createElement("div");
+    div.innerHTML = `Producto`;
+    muestraLineas.appendChild(div);
+    let div2 = document.createElement("div");
+    div2.innerHTML = `Unidades`;
+    muestraLineas.appendChild(div2);
+    let div3 = document.createElement("div");
+    div3.innerHTML = `Descuento`;
+    muestraLineas.appendChild(div3);
+    let div4 = document.createElement("div");
+    div4.innerHTML = `Precio`;
+    muestraLineas.appendChild(div4);
+    let div5 = document.createElement("div");
+    div5.innerHTML = `Iva`;
+    muestraLineas.appendChild(div5);
+    let div6 = document.createElement("div");
+    div6.innerHTML = `Importe`;
+    muestraLineas.appendChild(div6);
   }
 
   let obtenerLineas = function() {
@@ -44,20 +78,64 @@
     let iva = document.querySelectorAll(".iva");
     let importe = document.querySelectorAll(".importe");
 
-    arrayLineas.push(
-      new Linea(
-        productos[productos.length - 1].value,
-        unidades[unidades.length - 1].value,
-        descuento[descuento.length - 1].value,
-        precio[precio.length - 1].value,
-        iva[iva.length - 1].value,
-        importe[importe.length - 1].value
-      )
-    );
+    if (
+      productos[productos.length - 1].value !== "" &&
+      unidades[unidades.length - 1].value !== "" &&
+      descuento[descuento.length - 1].value !== "" &&
+      precio[precio.length - 1].value !== "" &&
+      iva[iva.length - 1].value !== ""
+    ) {
+      // calcular iva del precio
+      // let importe = 0;
+      // importe +=
+      //   parseFloat(precio[precio.length - 1].value) *
+      //   (parseFloat(iva[iva.length - 1].value) / 100);
 
-    console.log(arrayLineas);
+      // importe -=
+      //   parseFloat(precio[precio.length - 1].value) *
+      //   (parseFloat(descuento[descuento.length - 1].value) / 100);
 
-    containerLineas.innerHTML += `<div class="linea">
+      // importe = impo
+      // calcular descuento del precio
+
+      let productosPrecio =
+        parseFloat(precio[precio.length - 1].value) *
+        parseInt(unidades[unidades.length - 1].value);
+      let productosPrecioDescuento =
+        productosPrecio -
+        (productosPrecio *
+          (parseInt(descuento[descuento.length - 1].value) / 100));
+      let productosPrecioDescuentoIva =
+        productosPrecioDescuento +
+        productosPrecioDescuento * (parseInt(iva[iva.length - 1].value) / 100);
+      
+        arrayLineas.push(
+        new Linea(
+          productos[productos.length - 1].value,
+          unidades[unidades.length - 1].value,
+          descuento[descuento.length - 1].value,
+          precio[precio.length - 1].value,
+          iva[iva.length - 1].value,
+          productosPrecioDescuentoIva.toFixed(2)
+        )
+      );
+
+      muestraLineas.innerHTML = "";
+      crearCabecera();
+      arrayLineas.forEach(element => {
+        for (const key in element) {
+          if (element.hasOwnProperty(key)) {
+            let div = document.createElement("div");
+
+            div.innerHTML = `${element[key]}`;
+
+            muestraLineas.appendChild(div);
+
+          }
+        }
+      });
+
+      containerLineas.innerHTML = `<div class="linea">
       <div class="centerLinea">
         <label for="">Producto:</label>
         <input type="producto" name="producto" class="producto" />
@@ -68,7 +146,7 @@
       </div>
       <div class="centerLinea">
         <label for="">Dto:</label>
-        <input type="text" name="emailCliente" class="direccionCliente" />
+        <input type="text" name="descuento" class="descuento" />
       </div>
       <div class="centerLinea">
         <label for="">Precio:</label>
@@ -80,11 +158,26 @@
       </div>
       <div class="centerLinea">
         <label for="">Importe:</label>
-        <input type="text" name="importe" class="importe" />
+        <input type="text" name="importe" class="importe" readOnly/>
       </div>
     </div>`;
+      spanErrorLinea.textContent = "";
 
-    //containerLineas.innerHTML = `hola`;
+
+      //muestraLineas.innerHTML = "hola";
+
+      //  arrayLineas.forEach((element, index) => {
+      //    muestraLineas.textContent += element[index];
+      //  });
+    
+
+
+      
+      console.log(arrayLineas);
+      
+    } else {
+      spanErrorLinea.textContent = "La linea no puede estar vacía";
+    }
   };
 
   let crearEmisor = function() {
@@ -95,14 +188,27 @@
     let email = document.getElementById("emailEmisor").value;
     let logo = document.getElementById("logoEmisor").value;
 
-    return new Emisor(
-      nombreEmisor,
-      cifEmisor,
-      direccion,
-      telefono,
-      email,
-      logo
-    );
+    if (
+      nombreEmisor !== "" &&
+      cifEmisor !== "" &&
+      direccion !== "" &&
+      telefono !== "" &&
+      email !== "" &&
+      logo !== ""
+    ) {
+      spanDatosEmisor.textContent = "";
+
+      return new Emisor(
+        nombreEmisor,
+        cifEmisor,
+        direccion,
+        telefono,
+        email,
+        logo
+      );
+    } else {
+      spanDatosEmisor.textContent = "No puede haber campos vacíos";
+    }
   };
 
   let limpiarInputsEmisor = function(idContenedor) {
@@ -132,22 +238,44 @@
     let telefonoCliente = document.getElementById("telefonoEmisor").value;
     let emailCliente = document.getElementById("emailCliente").value;
 
-    return new Cliente(
-      nombreCliente,
-      cifCliente,
-      direccionCliente,
-      telefonoCliente,
-      emailCliente
-    );
+    if (
+      nombreCliente !== "" &&
+      cifCliente !== "" &&
+      direccionCliente !== "" &&
+      telefonoCliente !== "" &&
+      emailCliente !== ""
+    ) {
+      spanDatosCliente.textContent = "";
+
+      return new Cliente(
+        nombreCliente,
+        cifCliente,
+        direccionCliente,
+        telefonoCliente,
+        emailCliente
+      );
+    } else {
+      spanDatosCliente.textContent = "No puede haber campos vacíos";
+    }
   };
 
-  let crearFactura = function(){
-
-    let factura = new Factura(fecha.value,moneda.value,crearEmisor(),crearCliente(),arrayLineas,irpf.value,re.value,observaciones.value);
+  let crearFactura = function() {
+    let factura = new Factura(
+      fecha.value,
+      moneda.value,
+      crearEmisor(),
+      crearCliente(),
+      arrayLineas,
+      irpf.value,
+      re.value,
+      observaciones.value
+    );
 
     console.log(factura);
-    
-  }
+
+    muestraTotal.innerHTML = `Total (EUROS) ${factura.total}`;
+    console.log(factura.total);
+  };
 
   window.addEventListener("load", init);
 }
