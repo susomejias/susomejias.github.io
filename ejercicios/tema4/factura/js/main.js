@@ -16,7 +16,7 @@
   let spanDatosCliente;
   let spanErrorLinea;
   let muestraTotal;
-  let muestraLineas;
+  let contLineas;
 
   function init() {
     arrayLineas = [];
@@ -37,7 +37,7 @@
     spanDatosCliente = document.getElementById("spanDatosCliente");
     spanErrorLinea = document.getElementById("spanErrorLinea");
     muestraTotal = document.getElementById("muestraTotal");
-    muestraLineas = document.getElementById("muestraLineas");
+    contLineas = document.getElementById("contLineas");
 
     btnGuardarEmisor.addEventListener("click", crearEmisor);
     btnLimpiarEmisor.addEventListener("click", limpiarInputsEmisor);
@@ -51,23 +51,23 @@
 
   let crearCabecera = function(){
     let div = document.createElement("div");
-    div.innerHTML = `Producto`;
-    muestraLineas.appendChild(div);
+    div.innerHTML = `<b>Producto</b>`;
+    contLineas.appendChild(div);
     let div2 = document.createElement("div");
-    div2.innerHTML = `Unidades`;
-    muestraLineas.appendChild(div2);
+    div2.innerHTML = `<b>Unidades</b>`;
+    contLineas.appendChild(div2);
     let div3 = document.createElement("div");
-    div3.innerHTML = `Descuento`;
-    muestraLineas.appendChild(div3);
+    div3.innerHTML = `<b>Descuento</b>`;
+    contLineas.appendChild(div3);
     let div4 = document.createElement("div");
-    div4.innerHTML = `Precio`;
-    muestraLineas.appendChild(div4);
+    div4.innerHTML = `<b>Precio</b>`;
+    contLineas.appendChild(div4);
     let div5 = document.createElement("div");
-    div5.innerHTML = `Iva`;
-    muestraLineas.appendChild(div5);
+    div5.innerHTML = `<b>Iva</b>`;
+    contLineas.appendChild(div5);
     let div6 = document.createElement("div");
-    div6.innerHTML = `Importe`;
-    muestraLineas.appendChild(div6);
+    div6.innerHTML = `<b>Importe</b>`;
+    contLineas.appendChild(div6);
   }
 
   let obtenerLineas = function() {
@@ -120,7 +120,7 @@
         )
       );
 
-      muestraLineas.innerHTML = "";
+      contLineas.innerHTML = "";
       crearCabecera();
       arrayLineas.forEach(element => {
         for (const key in element) {
@@ -129,45 +129,57 @@
 
             div.innerHTML = `${element[key]}`;
 
-            muestraLineas.appendChild(div);
+            contLineas.appendChild(div);
 
           }
         }
       });
 
-      containerLineas.innerHTML = `<div class="linea">
-      <div class="centerLinea">
-        <label for="">Producto:</label>
-        <input type="producto" name="producto" class="producto" />
-      </div>
-      <div class="centerLinea">
-        <label for="">Uds:</label>
-        <input type="number" name="unidades" class="unidades" />
-      </div>
-      <div class="centerLinea">
-        <label for="">Dto:</label>
-        <input type="text" name="descuento" class="descuento" />
-      </div>
-      <div class="centerLinea">
-        <label for="">Precio:</label>
-        <input type="text" name="precio" class="precio" />
-      </div>
-      <div class="centerLinea">
-        <label for="">Iva:</label>
-        <input type="text" name="iva" class="iva" />
-      </div>
-      <div class="centerLinea">
-        <label for="">Importe:</label>
-        <input type="text" name="importe" class="importe" readOnly/>
-      </div>
-    </div>`;
+      containerLineas.innerHTML = `<h3>Crear línea</h3>
+      <div class="linea">
+        <div class="centerLinea">
+          <label for="">Producto:</label>
+          <input
+            type="producto"
+            name="producto"
+            class="producto"
+            required
+          />
+        </div>
+        <div class="centerLinea">
+          <label for="">Uds:</label>
+          <input type="number" name="unidades" class="unidades" required />
+        </div>
+        <div class="centerLinea">
+          <label for="">Dto:</label>
+          <input type="text" name="descuento" class="descuento" required />
+        </div>
+        <div class="centerLinea">
+          <label for="">Precio:</label>
+          <input type="text" name="precio" class="precio" required />
+        </div>
+        <div class="centerLinea">
+          <label for="">Iva:</label>
+          <input type="text" name="iva" class="iva" required />
+        </div>
+        <div class="centerLinea">
+          <label for="">Importe:</label>
+          <input
+            type="text"
+            name="importe"
+            class="importe"
+            required
+            readonly
+          />
+        </div>
+      </div>`;
       spanErrorLinea.textContent = "";
 
 
-      //muestraLineas.innerHTML = "hola";
+      //contLineas.innerHTML = "hola";
 
       //  arrayLineas.forEach((element, index) => {
-      //    muestraLineas.textContent += element[index];
+      //    contLineas.textContent += element[index];
       //  });
     
 

@@ -10,6 +10,10 @@
     <script type="text/javascript" src="js/cliente.js"></script>
     <script type="text/javascript" src="js/factura.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
+    <link
+    href="https://fonts.googleapis.com/css?family=Lato"
+    rel="stylesheet"
+  />
     <link rel="stylesheet" href="css/estilos.min.css" />
   </head>
   <body>
@@ -27,8 +31,8 @@
         </div>
         <div id="containerDatos">
           <div id="datosEmisor">
-            <h3>Datos emisor</h3>
-            <label for="">Nombre:</label>
+            <h3>Empresa</h3>
+            <label for="">Nombre</label>
             <input
               type="text"
               name="nombreEmisor"
@@ -36,7 +40,7 @@
               value="emisor1"
               required
             />
-            <label for="">CIF:</label>
+            <label for="">CIF</label>
             <input
               type="text"
               name="cifEmisor"
@@ -44,7 +48,7 @@
               required
               value="20228967"
             />
-            <label for="">Dirección:</label>
+            <label for="">Dirección</label>
             <input
               type="text"
               name="direccionEmisor"
@@ -52,7 +56,7 @@
               value="c/ancha"
               required
             />
-            <label for="">Email:</label>
+            <label for="">Email</label>
             <input
               type="email"
               name="emailEmisor"
@@ -60,7 +64,7 @@
               value="gmail@gmail.com"
               required
             />
-            <label for="">Telefono:</label>
+            <label for="">Telefono</label>
             <input
               type="tel"
               name="telefonoEmisor"
@@ -68,7 +72,7 @@
               value="600000000"
               required
             />
-            <label for="">Logo:</label>
+            <label for="">Logo</label>
             <input
               type="text"
               name="logoEmisor"
@@ -84,8 +88,8 @@
           </div>
 
           <div id="datosCliente">
-            <h3>Datos cliente</h3>
-            <label for="">Nombre:</label>
+            <h3>Cliente</h3>
+            <label for="">Nombre</label>
             <input
               type="text"
               name="nombreCliente"
@@ -93,7 +97,7 @@
               value="cliente1"
               required
             />
-            <label for="">CIF:</label>
+            <label for="">CIF</label>
             <input
               type="text"
               name="cifCliente"
@@ -101,7 +105,7 @@
               required
               value="3434535456"
             />
-            <label for="">Dirección:</label>
+            <label for="">Dirección</label>
             <input
               type="text"
               name="direccionCliente"
@@ -109,7 +113,7 @@
               value="c/luis leon"
               required
             />
-            <label for="">Email:</label>
+            <label for="">Email</label>
             <input
               type="email"
               name="emailCliente"
@@ -117,7 +121,7 @@
               value="gmail@gmail.com"
               required
             />
-            <label for="">Telefono:</label>
+            <label for="">Telefono</label>
             <input
               type="tel"
               name="telefonoCliente"
@@ -134,10 +138,10 @@
         </div>
 
         <div id="containerLineas">
-          <h3>Lineas</h3>
+          <h3>Crear línea</h3>
           <div class="linea">
             <div class="centerLinea">
-              <label for="">Producto:</label>
+              <label for="">Producto</label>
               <input
                 type="producto"
                 name="producto"
@@ -146,23 +150,23 @@
               />
             </div>
             <div class="centerLinea">
-              <label for="">Uds:</label>
+              <label for="">Uds</label>
               <input type="number" name="unidades" class="unidades" required />
             </div>
             <div class="centerLinea">
-              <label for="">Dto:</label>
+              <label for="">Dto</label>
               <input type="text" name="descuento" class="descuento" required />
             </div>
             <div class="centerLinea">
-              <label for="">Precio:</label>
+              <label for="">Precio</label>
               <input type="text" name="precio" class="precio" required />
             </div>
             <div class="centerLinea">
-              <label for="">Iva:</label>
+              <label for="">Iva</label>
               <input type="text" name="iva" class="iva" required />
             </div>
             <div class="centerLinea">
-              <label for="">Importe:</label>
+              <label for="">Importe</label>
               <input
                 type="text"
                 name="importe"
@@ -175,10 +179,14 @@
           <span id="spanErrorLinea"></span>
 
         </div>
-        <div id="muestraLineas">
-          
-        </div>
         <button id="nuevaLinea">Guardar / nueva linea</button>
+        <div id="muestraLineas">
+          <h3>Líneas</h3>
+          <div id="contLineas">
+
+          </div>
+        </div>
+        
 
         <div id="otrosDatos">
           <div id="observaciones">
