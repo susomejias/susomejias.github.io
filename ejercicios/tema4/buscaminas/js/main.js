@@ -161,36 +161,50 @@
      */
 
     comprobarCasilla() {
-      if (this.value === "x" && !buscaMinas.flagGanado) {
-        buscaMinas.accionTrasPerder(this);
-      } else {
-        let coordenada = this.getAttribute("id");
-
-        let flag = true;
-        if ((!buscaMinas.flagGanado && flag) || flag)
-          this.style.background = "#fff";
-
-        if (buscaMinas.flagGanado) {
-          spanError.textContent = "Has ganado";
-          buscaMinas.eliminarEventoInput();
-          buscaMinas.mostrarMinas();
-          buscaMinas.crearBotonJugarDeNuevo();
-        }
-
-        if (coordenada.length === 2) {
-          buscaMinas.comprobarGanar();
-          buscaMinas.abrirCeros(
-            parseInt(coordenada[0]),
-            parseInt(coordenada[1])
-          );
+      // cuando el fondo sea diferente de rojo
+      buscaMinas.deshabilitarContextMenu(this);
+      if (this.style.background !== "rgb(244, 67, 54)"){
+        this.classList.add('selectionGreen');
+        this.classList.remove('selectionRed');
+        if (this.value === "x" && !buscaMinas.flagGanado) {
+          buscaMinas.accionTrasPerder(this);
         } else {
-          buscaMinas.comprobarGanar();
-          buscaMinas.abrirCeros(
-            parseInt(coordenada[0] + "" + coordenada[1]),
-            parseInt(coordenada[2] + "" + coordenada[3])
-          );
+          let coordenada = this.getAttribute("id");
+  
+          let flag = true;
+          if ((!buscaMinas.flagGanado && flag) || flag)
+            this.style.background = "#fff";
+  
+          if (buscaMinas.flagGanado) {
+            spanError.textContent = "Has ganado";
+            buscaMinas.eliminarEventoInput();
+            buscaMinas.mostrarMinas();
+            buscaMinas.crearBotonJugarDeNuevo();
+          }
+  
+          if (coordenada.length === 2) {
+            buscaMinas.comprobarGanar();
+            buscaMinas.abrirCeros(
+              parseInt(coordenada[0]),
+              parseInt(coordenada[1])
+            );
+          } else {
+            buscaMinas.comprobarGanar();
+            buscaMinas.abrirCeros(
+              parseInt(coordenada[0] + "" + coordenada[1]),
+              parseInt(coordenada[2] + "" + coordenada[3])
+            );
+          }
         }
       }
+
+      
+    },
+    deshabilitarContextMenu(element){
+      //element.addEventListener("contextmenu", ()=> false)
+         element.oncontextmenu = function() {
+          return false;
+    }
     },
     /**
      * Muestra los segundos que llevas jugados en la partida
@@ -356,7 +370,8 @@
      * Cambia el color de fondo a rojo para indicar una bandera
      */
     colocarBandera(ev) {
-      //console.log(this.style.background);
+      ev.preventDefault();// quitar color selection
+
       if (ev.button === 2 && this.style.background === "rgb(124, 179, 66)") {
         this.style.background = "#F44336";
         this.style.color = "#F44336";
@@ -385,6 +400,7 @@
           input.readOnly = "true";
           input.addEventListener("click", buscaMinas.comprobarCasilla);
           input.addEventListener("mousedown", buscaMinas.colocarBandera);
+          //buscaMinas.deshabilitarContextMenu();
           //input.style.background = "#9CCC65";
           input.style.background = "#7CB342";
           input.style.color = "#7CB342";
