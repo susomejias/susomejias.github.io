@@ -49,7 +49,7 @@
     crearCabecera();
   }
 
-  let crearCabecera = function(){
+  let crearCabecera = function() {
     let div = document.createElement("div");
     div.innerHTML = `<b>Producto</b>`;
     contLineas.appendChild(div);
@@ -68,7 +68,7 @@
     let div6 = document.createElement("div");
     div6.innerHTML = `<b>Importe</b>`;
     contLineas.appendChild(div6);
-  }
+  };
 
   let obtenerLineas = function() {
     let productos = document.querySelectorAll(".producto");
@@ -85,31 +85,18 @@
       precio[precio.length - 1].value !== "" &&
       iva[iva.length - 1].value !== ""
     ) {
-      // calcular iva del precio
-      // let importe = 0;
-      // importe +=
-      //   parseFloat(precio[precio.length - 1].value) *
-      //   (parseFloat(iva[iva.length - 1].value) / 100);
-
-      // importe -=
-      //   parseFloat(precio[precio.length - 1].value) *
-      //   (parseFloat(descuento[descuento.length - 1].value) / 100);
-
-      // importe = impo
-      // calcular descuento del precio
-
       let productosPrecio =
         parseFloat(precio[precio.length - 1].value) *
         parseInt(unidades[unidades.length - 1].value);
       let productosPrecioDescuento =
         productosPrecio -
-        (productosPrecio *
-          (parseInt(descuento[descuento.length - 1].value) / 100));
+        productosPrecio *
+          (parseInt(descuento[descuento.length - 1].value) / 100);
       let productosPrecioDescuentoIva =
         productosPrecioDescuento +
         productosPrecioDescuento * (parseInt(iva[iva.length - 1].value) / 100);
-      
-        arrayLineas.push(
+
+      arrayLineas.push(
         new Linea(
           productos[productos.length - 1].value,
           unidades[unidades.length - 1].value,
@@ -130,7 +117,6 @@
             div.innerHTML = `${element[key]}`;
 
             contLineas.appendChild(div);
-
           }
         }
       });
@@ -175,18 +161,13 @@
       </div>`;
       spanErrorLinea.textContent = "";
 
-
       //contLineas.innerHTML = "hola";
 
       //  arrayLineas.forEach((element, index) => {
       //    contLineas.textContent += element[index];
       //  });
-    
 
-
-      
       console.log(arrayLineas);
-      
     } else {
       spanErrorLinea.textContent = "La linea no puede estar vacía";
     }

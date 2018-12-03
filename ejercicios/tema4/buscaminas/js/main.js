@@ -503,7 +503,6 @@
           silenciarAudio.src = "./images/volumenOn.svg";
           // silenciar audio desactivar volumen
         }
-
     });
   }
 
