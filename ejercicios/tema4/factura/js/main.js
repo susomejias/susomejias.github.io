@@ -7,7 +7,7 @@
   let containerLineas;
   let nuevaLinea;
   let btnCrearFactura;
-  let observaciones;
+  let textObservaciones;
   let irpf;
   let re;
   let fecha;
@@ -28,7 +28,7 @@
     containerLineas = document.getElementById("containerLineas");
     nuevaLinea = document.getElementById("nuevaLinea");
     btnCrearFactura = document.getElementById("crearFactura");
-    observaciones = document.getElementById("observaciones");
+    textObservaciones = document.getElementById("textObservaciones");
     irpf = document.getElementById("irpf");
     re = document.getElementById("re");
     fecha = document.getElementById("fecha");
@@ -280,13 +280,12 @@
       arrayLineas,
       irpf.value,
       re.value,
-      observaciones.value
+      textObservaciones.value
     );
 
     console.log(factura);
 
     muestraTotal.innerHTML = `Total (EUROS) ${factura.total}`;
-    console.log(factura.total);
   };
 
   window.addEventListener("load", init);
