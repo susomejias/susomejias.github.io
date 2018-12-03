@@ -9,7 +9,7 @@
   let crearGato = function() {
     let ventana = window.open(
       "./accionesGato.html",
-      "_self",
+      "",
       ""
     );
   };

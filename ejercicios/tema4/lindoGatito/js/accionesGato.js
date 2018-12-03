@@ -29,7 +29,7 @@
 
     btnDormir.addEventListener("click", dormir.bind(gato));
 
-    atras.addEventListener("click", () => history.back(-1));
+    atras.addEventListener("click", () => window.close());
   }
 
   let actualizarCampos = function(gato) {
