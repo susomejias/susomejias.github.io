@@ -161,12 +161,6 @@
       </div>`;
       spanErrorLinea.textContent = "";
 
-      //contLineas.innerHTML = "hola";
-
-      //  arrayLineas.forEach((element, index) => {
-      //    contLineas.textContent += element[index];
-      //  });
-
       console.log(arrayLineas);
     } else {
       spanErrorLinea.textContent = "La linea no puede estar vacía";
@@ -204,7 +198,7 @@
     }
   };
 
-  let limpiarInputsEmisor = function(idContenedor) {
+  let limpiarInputsEmisor = function() {
     let inputsEmisor = Array.from(
       document.querySelectorAll("#datosEmisor input")
     );
@@ -214,7 +208,7 @@
     });
   };
 
-  let limpiarInputsCliente = function(idContenedor) {
+  let limpiarInputsCliente = function() {
     let inputsEmisor = Array.from(
       document.querySelectorAll("#datosCliente input")
     );
