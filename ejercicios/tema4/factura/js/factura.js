@@ -18,13 +18,13 @@
     this.re = re;
     this.observaciones = observaciones;
     this.total = this.calculaTotal();
-    this.incrementaId();
+    this.id = this.incrementaId();
   }
 
   Factura.prototype.id = 0;
 
   Factura.prototype.incrementaId = function() {
-    this.id++;
+    return this.id++;
   };
 
   Factura.prototype.calculaTotal = function() {

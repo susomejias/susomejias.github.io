@@ -11,7 +11,7 @@
         canvas.forEach(element => { 
             element.addEventListener(element.getAttribute("id"), ev =>{
                 let aleatorio = Math.floor(Math.random() * (arrayColores.length - 0)) + 0;
-                pintaCanvas(element,aleatorio,ev.screenX,ev.screenY, ev.button, ev.buttons);
+                pintaCanvas(element,aleatorio,ev.offsetX,ev.offsetY, ev.button, ev.buttons);
             });
             pintaCanvas(element);
         });
