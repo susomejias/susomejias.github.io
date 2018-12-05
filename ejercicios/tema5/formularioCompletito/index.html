@@ -1,0 +1,77 @@
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="css/estilos.min.css" />
+    <script type="text/javascript" src="js/main.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato"
+      rel="stylesheet"
+    />
+    <title>Validación formulario javascript</title>
+  </head>
+
+  <body>
+    <main>
+      <form id="formulario" action="" method="POST">
+        <h1>Validación formulario Javascript</h1>
+        <div class="dosColumnasInput">
+          <div>
+            <input type="text" id="inputNombre" placeholder="Nombre"  />
+            <span id="lbNombre"></span>
+          </div>
+
+          <div>
+            <input type="text" id="inputDni" placeholder="DNI" />
+            <span id="lbDni"></span>
+          </div>
+        </div>
+
+        <div class="unaColumnaInput">
+          <div>
+            <input type="email" id="inputCorreo" placeholder="Correo" />
+            <span id="lbCorreo"></span>
+          </div>
+        </div>
+
+        <div class="dosColumnasInput">
+          <div>
+            <input type="date" id="inputFecha" placeholder="Fecha nacimiento" />
+            <span id="lbFechaNacimiento"></span>
+          </div>
+
+          <div>
+            <input type="number" id="inputTelefono" placeholder="Teléfono" />
+            <span id="lbTelefono"></span>
+          </div>
+        </div>
+
+        <div class="unaColumnaInput">
+          <div>
+            <input
+              type="number"
+              id="inputCuenta"
+              placeholder="Cuenta corriente"
+            />
+            <span id="lbCuenta"></span>
+          </div>
+        </div>
+
+        <div class="unaColumnaInput">
+          <div>
+            <input type="url" id="inputUrl" placeholder="Dirección web" />
+            <span id="lbUrl"></span>
+          </div>
+        </div>
+
+        <input
+          id="enviaFormulario"
+          type="submit"
+          name="enviar"
+          value="Enviar"
+        />
+      </form>
+    </main>
+  </body>
+</html>
