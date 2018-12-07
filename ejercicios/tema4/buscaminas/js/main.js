@@ -155,11 +155,11 @@
      * Acciones que realizaremos tras pulsar una mina
      */
     accionTrasPerder(that) {
+      buscaMinas.crearBotonJugarDeNuevo();
       buscaMinas.mostrarMinas();
+      buscaMinas.eliminarEventoInput();
       that.style.background = "#FFEB3B";
       spanError.textContent = "Pulsaste una mina, perdiste";
-      buscaMinas.finPartida = true;
-      buscaMinas.crearBotonJugarDeNuevo();
     },
     /**
      * Reliza una función u otra al pulsar en una casilla
@@ -174,21 +174,15 @@
       ) {
         this.classList.add("selectionGreen");
         this.classList.remove("selectionRed");
-        if (this.value === "x" && !buscaMinas.flagGanado) {
+        if (this.value === "x") {
           buscaMinas.accionTrasPerder(this);
+          buscaMinas.finPartida = true;
         } else {
           let coordenada = this.getAttribute("id");
 
           let flag = true;
           if ((!buscaMinas.flagGanado && flag) || flag)
             this.style.background = "#fff";
-
-          if (buscaMinas.flagGanado) {
-            spanError.textContent = "Has ganado";
-            buscaMinas.eliminarEventoInput();
-            buscaMinas.mostrarMinas();
-            buscaMinas.crearBotonJugarDeNuevo();
-          }
 
           if (coordenada.length === 2) {
             buscaMinas.comprobarGanar();
@@ -244,11 +238,6 @@
         for (let j = 0; j < buscaMinas.numCasillasNivel; j++) {
           if (buscaMinas.obtenerValorCasilla(i, j).value === "x") {
             buscaMinas.obtenerValorCasilla(i, j).style.background = "#FFEB3B";
-          } else {
-            buscaMinas.obtenerValorCasilla(i, j).style.background = "#FFFF";
-            if (buscaMinas.obtenerValorCasilla(i, j).value === "0") {
-              buscaMinas.obtenerValorCasilla(i, j).value = "";
-            }
           }
         }
       }
@@ -258,23 +247,23 @@
      */
     eliminarEventoInput() {
       let inputs = document.getElementsByTagName("input");
-      if (buscaMinas.finPartida || buscaMinas.flagGanado) {
-        Array.from(inputs).forEach(element => {
-          element.removeEventListener("click", buscaMinas.comprobarCasilla);
-        });
-      }
+      Array.from(inputs).forEach(element => {
+        element.removeEventListener("click", buscaMinas.comprobarCasilla);
+      });
     },
     /**
      * Crear el boton de jugar de nuevo cuando pierdes la partida
      */
 
     crearBotonJugarDeNuevo() {
-      let main = document.getElementsByTagName("main")[0];
-      let btnVolverJugar = document.createElement("button");
-      btnVolverJugar.id = "btnVolverJugar";
-      btnVolverJugar.textContent = "Volver a jugar";
-      main.appendChild(btnVolverJugar);
-      btnVolverJugar.addEventListener("click", () => location.reload());
+      if (!buscaMinas.finPartida) {
+        let main = document.getElementsByTagName("main")[0];
+        let btnVolverJugar = document.createElement("button");
+        btnVolverJugar.id = "btnVolverJugar";
+        btnVolverJugar.textContent = "Volver a jugar";
+        main.appendChild(btnVolverJugar);
+        btnVolverJugar.addEventListener("click", () => location.reload());
+      }
     },
     /**
      * Inserta el número de Minas que hay alrededor de la casilla pulsada
@@ -424,24 +413,6 @@
       }
 
       //buscaMinas.colorearCasillasAlternativamente();
-    },
-    colorearCasillasAlternativamente() {
-      // pinta las casilla alternativamente
-      for (var k = 1; k <= buscaMinas.numCasillasNivel; k++) {
-        for (var f = 1; f <= buscaMinas.numCasillasNivel; f++) {
-          if (k % 2 === 0 && f % 2 === 0) {
-            buscaMinas.obtenerValorCasilla(k - 1, f - 1).style.background =
-              "#9CCC65";
-            buscaMinas.obtenerValorCasilla(k - 1, f - 1).style.color =
-              "#9CCC65";
-          } else if (k % 2 !== 0 && f % 2 !== 0) {
-            buscaMinas.obtenerValorCasilla(k - 1, f - 1).style.background =
-              "#9CCC65";
-            buscaMinas.obtenerValorCasilla(k - 1, f - 1).style.color =
-              "#9CCC65";
-          }
-        }
-      }
     },
     comprobarRecord() {
       let tiempo = parseInt(document.querySelector("#timer p").textContent);
