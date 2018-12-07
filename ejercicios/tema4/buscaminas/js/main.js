@@ -64,10 +64,9 @@
      * Inicia el juego según el nivel seleccionado en el select
      */
     actualizaNivel() {
-      
       buscaMinas.numCambiosNivel++;
 
-      if (buscaMinas.numCambiosNivel > 1){
+      if (buscaMinas.numCambiosNivel > 1) {
         buscaMinas.resetTime = true;
       }
       buscaMinas.nivel = this[this.selectedIndex].value;
@@ -92,7 +91,7 @@
       buscaMinas.crearDivRecord();
       buscaMinas.crearDivTimer();
       buscaMinas.mostrarTiempoPartida();
-    
+
       //buscaMinas.mostrarTiempoPartida();
     },
     /**
@@ -163,25 +162,25 @@
     comprobarCasilla() {
       // cuando el fondo sea diferente de rojo
       buscaMinas.deshabilitarContextMenu(this);
-      if (this.style.background !== "rgb(244, 67, 54)"){
-        this.classList.add('selectionGreen');
-        this.classList.remove('selectionRed');
+      if (this.style.background !== "rgb(244, 67, 54)") {
+        this.classList.add("selectionGreen");
+        this.classList.remove("selectionRed");
         if (this.value === "x" && !buscaMinas.flagGanado) {
           buscaMinas.accionTrasPerder(this);
         } else {
           let coordenada = this.getAttribute("id");
-  
+
           let flag = true;
           if ((!buscaMinas.flagGanado && flag) || flag)
             this.style.background = "#fff";
-  
+
           if (buscaMinas.flagGanado) {
             spanError.textContent = "Has ganado";
             buscaMinas.eliminarEventoInput();
             buscaMinas.mostrarMinas();
             buscaMinas.crearBotonJugarDeNuevo();
           }
-  
+
           if (coordenada.length === 2) {
             buscaMinas.comprobarGanar();
             buscaMinas.abrirCeros(
@@ -197,14 +196,12 @@
           }
         }
       }
-
-      
     },
-    deshabilitarContextMenu(element){
+    deshabilitarContextMenu(element) {
       //element.addEventListener("contextmenu", ()=> false)
-         element.oncontextmenu = function() {
-          return false;
-    }
+      element.oncontextmenu = function() {
+        return false;
+      };
     },
     /**
      * Muestra los segundos que llevas jugados en la partida
@@ -213,12 +210,16 @@
       let seconds = 0;
 
       let interv = setInterval(() => {
-        if (!buscaMinas.finPartida && !buscaMinas.flagGanado && !buscaMinas.resetTime) {
+        if (
+          !buscaMinas.finPartida &&
+          !buscaMinas.flagGanado &&
+          !buscaMinas.resetTime
+        ) {
           seconds++;
           time.textContent = seconds;
         } else {
-            buscaMinas.resetTime = false;
-            clearInterval(interv);
+          buscaMinas.resetTime = false;
+          clearInterval(interv);
           if (buscaMinas.flagGanado) {
             buscaMinas.comprobarRecord();
           }
@@ -370,7 +371,7 @@
      * Cambia el color de fondo a rojo para indicar una bandera
      */
     colocarBandera(ev) {
-      ev.preventDefault();// quitar color selection
+      ev.preventDefault(); // quitar color selection
 
       if (ev.button === 2 && this.style.background === "rgb(124, 179, 66)") {
         this.style.background = "#F44336";
@@ -391,7 +392,9 @@
       containerTablero.style.display = "grid";
       containerTablero.style.gridTemplateColumns =
         "repeat(" + buscaMinas.numCasillasNivel + ", 1fr)";
-
+      window.oncontextmenu = function() {
+        return false;
+      };
       for (let i = 0; i < buscaMinas.numCasillasNivel; i++) {
         for (let j = 0; j < buscaMinas.numCasillasNivel; j++) {
           let input = document.createElement("input");
@@ -399,9 +402,9 @@
           input.value = "0";
           input.readOnly = "true";
           input.addEventListener("click", buscaMinas.comprobarCasilla);
+          input.addEventListener("contextmenu", false);
           input.addEventListener("mousedown", buscaMinas.colocarBandera);
-          //buscaMinas.deshabilitarContextMenu();
-          //input.style.background = "#9CCC65";
+
           input.style.background = "#7CB342";
           input.style.color = "#7CB342";
           containerTablero.appendChild(input);
@@ -494,15 +497,15 @@
     audio = document.getElementById("audio");
 
     elegirNivel.addEventListener("change", buscaMinas.actualizaNivel);
-    silenciarAudio.addEventListener("click", ()=>{
+    silenciarAudio.addEventListener("click", () => {
       audio.muted = !audio.muted;
-        if (audio.muted){
-          silenciarAudio.src = "./images/volumenOff.svg";
-          // silenciar audio activar volumen
-        }else{
-          silenciarAudio.src = "./images/volumenOn.svg";
-          // silenciar audio desactivar volumen
-        }
+      if (audio.muted) {
+        silenciarAudio.src = "./images/volumenOff.svg";
+        // silenciar audio activar volumen
+      } else {
+        silenciarAudio.src = "./images/volumenOn.svg";
+        // silenciar audio desactivar volumen
+      }
     });
   }
 
