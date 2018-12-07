@@ -95,8 +95,6 @@
       buscaMinas.crearDivRecord();
       buscaMinas.crearDivTimer();
       buscaMinas.mostrarTiempoPartida();
-
-      //buscaMinas.mostrarTiempoPartida();
     },
     /**
      * Comprueba si has ganado la partida
@@ -105,8 +103,6 @@
       let numCasillasSinDescubrir = 0;
       for (let k = 0; k < buscaMinas.numCasillasNivel; k++) {
         for (let f = 0; f < buscaMinas.numCasillasNivel; f++) {
-          //console.log(buscaMinas.obtenerValorCasilla(k,f).style.background);
-
           if (
             buscaMinas.obtenerValorCasilla(k, f).style.background ===
               buscaMinas.verdeChrome ||
@@ -120,8 +116,6 @@
 
       if (numCasillasSinDescubrir - 1 === buscaMinas.numMinas) {
         buscaMinas.flagGanado = true;
-        //buscaMinas.pararContadorTiempo();
-        //buscaMinas.comprobarRecord();
       }
     },
     /**
@@ -167,7 +161,6 @@
 
     comprobarCasilla() {
       // cuando el fondo sea diferente de rojo
-      //buscaMinas.deshabilitarContextMenu(this);
       if (
         this.style.background !== buscaMinas.rojoChrome &&
         this.style.background !== buscaMinas.rojoFirefox
@@ -200,9 +193,8 @@
         }
       }
     },
-    deshabilitarContextMenu(element) {
-      //element.addEventListener("contextmenu", ()=> false)
-      element.oncontextmenu = function() {
+    deshabilitarContextMenu() {
+      window.oncontextmenu = function() {
         return false;
       };
     },
@@ -393,9 +385,7 @@
       containerTablero.style.display = "grid";
       containerTablero.style.gridTemplateColumns =
         "repeat(" + buscaMinas.numCasillasNivel + ", 1fr)";
-      window.oncontextmenu = function() {
-        return false;
-      };
+
       for (let i = 0; i < buscaMinas.numCasillasNivel; i++) {
         for (let j = 0; j < buscaMinas.numCasillasNivel; j++) {
           let input = document.createElement("input");
@@ -403,7 +393,7 @@
           input.value = "0";
           input.readOnly = "true";
           input.addEventListener("click", buscaMinas.comprobarCasilla);
-          //input.addEventListener("contextmenu", () => false);
+          input.addEventListener("contextmenu", () => false);
           input.addEventListener("mousedown", buscaMinas.colocarBandera);
 
           input.style.background = "rgb(124, 179, 66)";
@@ -472,6 +462,10 @@
   };
 
   function init() {
+    // desactivar contextmenu, solo funciona en firefox
+    window.oncontextmenu = function() {
+      return false;
+    };
     containerTablero = document.getElementById("containerTablero");
     spanError = document.getElementById("spanError");
     timer = document.getElementById("timer");
