@@ -19,6 +19,10 @@
     cambioNivel: false,
     numCambiosNivel: 0,
     resetTime: false,
+    verdeFirefox: "rgb(124, 179, 66) none repeat scroll 0% 0%",
+    verdeChrome: "rgb(124, 179, 66)",
+    rojoFirefox: "rgb(244, 67, 54) none repeat scroll 0% 0%",
+    rojoChrome: "rgb(244, 67, 54)",
 
     /**
      * Actualiza el numero de casillas en función del nivel
@@ -105,7 +109,9 @@
 
           if (
             buscaMinas.obtenerValorCasilla(k, f).style.background ===
-            "rgb(124, 179, 66)"
+              buscaMinas.verdeChrome ||
+            buscaMinas.obtenerValorCasilla(k, f).style.background ===
+              buscaMinas.verdeFirefox
           ) {
             numCasillasSinDescubrir++;
           }
@@ -161,8 +167,11 @@
 
     comprobarCasilla() {
       // cuando el fondo sea diferente de rojo
-      buscaMinas.deshabilitarContextMenu(this);
-      if (this.style.background !== "rgb(244, 67, 54)") {
+      //buscaMinas.deshabilitarContextMenu(this);
+      if (
+        this.style.background !== buscaMinas.rojoChrome &&
+        this.style.background !== buscaMinas.rojoFirefox
+      ) {
         this.classList.add("selectionGreen");
         this.classList.remove("selectionRed");
         if (this.value === "x" && !buscaMinas.flagGanado) {
@@ -371,17 +380,20 @@
      * Cambia el color de fondo a rojo para indicar una bandera
      */
     colocarBandera(ev) {
-      ev.preventDefault(); // quitar color selection
+      //ev.preventDefault(); // quitar color selection
 
-      if (ev.button === 2 && this.style.background === "rgb(124, 179, 66)") {
-        this.style.background = "#F44336";
-        this.style.color = "#F44336";
-      } else if (
-        ev.button === 2 &&
-        this.style.background === "rgb(244, 67, 54)"
+      if (
+        (ev.button === 2 && this.style.background === buscaMinas.verdeChrome) ||
+        (ev.button === 2 && this.style.background === buscaMinas.verdeFirefox)
       ) {
-        this.style.background = "#7CB342";
-        this.style.color = "#7CB342";
+        this.style.background = "rgb(244, 67, 54)";
+        this.style.color = "rgb(244, 67, 54)";
+      } else if (
+        (ev.button === 2 && this.style.background === buscaMinas.rojoChrome) ||
+        (ev.button === 2 && this.style.background === buscaMinas.rojoFirefox)
+      ) {
+        this.style.background = "rgb(124, 179, 66)";
+        this.style.color = "rgb(124, 179, 66)";
       }
     },
     /**
@@ -405,8 +417,8 @@
           //input.addEventListener("contextmenu", () => false);
           input.addEventListener("mousedown", buscaMinas.colocarBandera);
 
-          input.style.background = "#7CB342";
-          input.style.color = "#7CB342";
+          input.style.background = "rgb(124, 179, 66)";
+          input.style.color = "rgb(124, 179, 66)";
           containerTablero.appendChild(input);
         }
       }
