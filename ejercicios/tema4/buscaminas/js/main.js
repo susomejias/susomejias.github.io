@@ -402,7 +402,7 @@
           input.value = "0";
           input.readOnly = "true";
           input.addEventListener("click", buscaMinas.comprobarCasilla);
-          input.addEventListener("contextmenu", false);
+          input.addEventListener("contextmenu", () => false);
           input.addEventListener("mousedown", buscaMinas.colocarBandera);
 
           input.style.background = "#7CB342";
