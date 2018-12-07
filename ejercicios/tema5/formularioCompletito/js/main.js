@@ -33,6 +33,8 @@
   let formulario;
   let enviaFormulario;
 
+  let spanError;
+
   let collectionNoValidos;
 
   let init = function() {
@@ -63,6 +65,8 @@
     lbUrl = document.getElementById("lbUrl");
 
     enviaFormulario = document.getElementById("enviaFormulario");
+
+    spanError = document.getElementById("spanError");
 
     // Asignamos que al perder el foco haga una función.
 
@@ -121,6 +125,7 @@
         collectionNoValidos.delete("nombre");
       }
       lbNombre.textContent = "";
+      spanError.textContent = "";
     }
     console.log(collectionNoValidos);
   };
@@ -183,6 +188,7 @@
       }
     } else {
       lbDni.textContent = "";
+      spanError.textContent = "";
       if (collectionNoValidos.has("dni")) {
         collectionNoValidos.delete("dni");
       }
@@ -204,6 +210,7 @@
         collectionNoValidos.delete("correo");
       }
       lbCorreo.textContent = "";
+      spanError.textContent = "";
     }
     console.log(collectionNoValidos);
   };
@@ -233,6 +240,7 @@
       collectionNoValidos.set("fecha", fechaNacimiento);
     } else {
       lbFecha.innerHTML = "";
+      spanError.textContent = "";
       if (collectionNoValidos.has("Fecha")) {
         collectionNoValidos.delete("fecha");
       }
@@ -304,15 +312,31 @@
    */
   let validar = function() {
     try {
-      if (collectionNoValidos.size === 0) {
-        alert("se enviaría el formulario");
-      } else {
+      if (
+        nombre.value === "" ||
+        dni.value === "" ||
+        correo.value === "" ||
+        cuentaCorriente.value === "" ||
+        fechaNacimiento.value === "" ||
+        telefono.value === "" ||
+        direccionWeb.value === ""
+      ) {
+        spanError.textContent = "Rellene los campos";
         collectionNoValidos.forEach(element => {
-          console.log(element);
-
           element.focus();
           throw false;
         });
+      } else {
+        if (collectionNoValidos.size === 0) {
+          spanError.textContent = "";
+          alert("se enviaría el formulario");
+        } else {
+          spanError.textContent = "";
+          collectionNoValidos.forEach(element => {
+            element.focus();
+            throw false;
+          });
+        }
       }
     } catch (e) {}
   };
