@@ -361,7 +361,7 @@
      * Cambia el color de fondo a rojo para indicar una bandera
      */
     colocarBandera(ev) {
-      //ev.preventDefault(); // quitar color selection
+      ev.preventDefault(); // quitar color selection
 
       if (
         (ev.button === 2 && this.style.background === buscaMinas.verdeChrome) ||
