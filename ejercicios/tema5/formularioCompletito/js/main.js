@@ -241,7 +241,7 @@
     } else {
       lbFecha.innerHTML = "";
       spanError.textContent = "";
-      if (collectionNoValidos.has("Fecha")) {
+      if (collectionNoValidos.has("fecha")) {
         collectionNoValidos.delete("fecha");
       }
     }
