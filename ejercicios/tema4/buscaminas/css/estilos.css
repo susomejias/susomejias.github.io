@@ -129,3 +129,22 @@ body main h1 {
   color: #7CB342;
   background: #7CB342;
 }
+
+.rojo {
+  background: #f44336;
+  color: #f44336;
+}
+
+.verde {
+  background: rgba(124, 179, 66, 0.1);
+  color: #7cb342;
+}
+
+.hidden {
+  color: transparent;
+}
+
+.blanco {
+  background: #fff;
+  color: #7cb342;
+}
