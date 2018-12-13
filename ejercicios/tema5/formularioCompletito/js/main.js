@@ -91,10 +91,11 @@
   let patrones = {
     nombre: [
       /^([A-Za-zÁÉÍÓÚñáéíóúÑ]{0}?[A-Za-zÁÉÍÓÚñáéíóúÑ]+[/\s])+([A-Za-zÁÉÍÓÚñáéíóúÑ]{0}?[A-Za-zÁÉÍÓÚñáéíóúÑ])+[/\s]?([A-Za-zÁÉÍÓÚñáéíóúÑ]{0}?[A-Za-zÁÉÍÓÚñáéíóúÑ])?$/g,
-      "Comienza por mayúsculas, con un mínimo de tres caractéres por nombre, al menos nombre y apellido"
+      "Mínimo de tres caractéres por nombre, al menos nombre y apellido"
     ],
+    telefono: [/[0-9]{9,}/, "El formato de teléfono introducido es incorrecto"],
     dni: [
-      /^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$/i,
+      /(\d{8})\s?-?([TRWAGMYFPDXBNJZSQVHLCKE])$/i,
       "Formato válido 12345678z",
       "La letra introducida no es válida"
     ],
@@ -112,109 +113,78 @@
     ]
   };
 
+  let validador = {
+
+    test(patron,campo,elementoMostrarMensaje, mapKey){
+      let regex = new RegExp(patron[0]);
+      if (!regex.test(campo.value)) {
+        collectionNoValidos.set(mapKey, campo);
+        elementoMostrarMensaje.textContent = patron[1];
+      } else {
+        if (collectionNoValidos.has(mapKey)) {
+          collectionNoValidos.delete(mapKey);
+        }
+        elementoMostrarMensaje.textContent = "";
+        spanError.textContent = "";
+      }
+    },
+    testDni(patron,campo, elementoMostrarMensaje){
+        let regex = new RegExp(patron[0]);
+        if (!regex.test(campo.value)) {
+          elementoMostrarMensaje.textContent = "Formato incorrecto";
+          collectionNoValidos.set(campo, campo);
+        } else {
+          elementoMostrarMensaje.textContent = "DNI válido";
+          if (collectionNoValidos.has(mapKey)) {
+            collectionNoValidos.delete(mapKey);
+          }
+          elementoMostrarMensaje.textContent = "";
+          spanError.textContent = "";
+
+          [, numbers, letter] = regex.exec(campo.value);
+  
+          let validLetter = validLetters[parseInt(numbers) % 23].toUpperCase();
+  
+          if (letter.toUpperCase() !== validLetter) {
+            elementoMostrarMensaje.textContent = "Letra incorrecta";
+            collectionNoValidos.set(campo, campo);
+          }
+        }
+    },
+
+
+
+
+  };
+
   /**
    * Validará un nombre.
    */
+
+
   let validarNombre = function() {
-    let regexNombre = new RegExp(patrones.nombre[0]);
-    if (!regexNombre.test(nombre.value)) {
-      collectionNoValidos.set("nombre", nombre);
-      lbNombre.textContent = patrones.nombre[1];
-    } else {
-      if (collectionNoValidos.has("nombre")) {
-        collectionNoValidos.delete("nombre");
-      }
-      lbNombre.textContent = "";
-      spanError.textContent = "";
-    }
-    console.log(collectionNoValidos);
-  };
+    validador.test(patrones.nombre,nombre,lbNombre, "inputNombre");
+  }
 
-  /**
-   * Validará un dni,
-   * acepta los siguientes formatos (12345678A, 12345678a, 12345678 A, 12345678 a, 12345678-a, 12345678-A).
-   */
-  let validarDni = function() {
-    let letrasValidas = [
-      "T",
-      "R",
-      "W",
-      "A",
-      "G",
-      "M",
-      "Y",
-      "F",
-      "P",
-      "D",
-      "X",
-      "B",
-      "N",
-      "J",
-      "Z",
-      "S",
-      "Q",
-      "V",
-      "H",
-      "L",
-      "C",
-      "K",
-      "E"
-    ];
-    let regexCorreo = new RegExp(patrones.dni[0]);
-    let valorFinalDni = dni.value.replace(/-|\s/, "");
+  let validarCuenta = function() {
+    validador.test(patrones.cuentaCorriente,cuentaCorriente,lbCuenta,"inputCuenta");
+  }
 
-    //letra introducia por el usuario.
-    let letraUsuario;
+  let validarUrl = function() {
+    validador.test(patrones.direccionWeb,direccionWeb,lbUrl, "inputUrl");
+  }
 
-    // letra valida para el dni introducido.
-    let letraValida;
-
-    if (!regexCorreo.test(valorFinalDni)) {
-      lbDni.textContent = patrones.dni[1];
-      collectionNoValidos.set("dni", dni);
-    } else if (regexCorreo.test(valorFinalDni) && valorFinalDni.length === 9) {
-      letraUsuario = valorFinalDni[8];
-      let numerosDniUsuario = parseInt(valorFinalDni.substr(0, 8));
-      letraValida = letrasValidas[numerosDniUsuario % 23];
-
-      if (letraUsuario.toUpperCase() != letraValida.toUpperCase()) {
-        lbDni.textContent = patrones.dni[2];
-        collectionNoValidos.set("dni", dni);
-      } else {
-        lbDni.textContent = "";
-        if (collectionNoValidos.has("dni")) {
-          collectionNoValidos.delete("dni");
-        }
-      }
-    } else {
-      lbDni.textContent = "";
-      spanError.textContent = "";
-      if (collectionNoValidos.has("dni")) {
-        collectionNoValidos.delete("dni");
-      }
-    }
-
-    console.log(collectionNoValidos);
-  };
-
-  /**
-   * Validará una dirección de correo electrónico.
-   */
   let validarCorreo = function() {
-    let regexCorreo = new RegExp(patrones.correo[0]);
-    if (!regexCorreo.test(correo.value)) {
-      collectionNoValidos.set("correo", correo);
-      lbCorreo.textContent = patrones.correo[1];
-    } else {
-      if (collectionNoValidos.has("correo")) {
-        collectionNoValidos.delete("correo");
-      }
-      lbCorreo.textContent = "";
-      spanError.textContent = "";
-    }
-    console.log(collectionNoValidos);
-  };
+    validador.test(patrones.correo,correo,lbCorreo, "inputCorreo");
+  }
 
+  let validarTelefono = function() {
+    validador.test(patrones.telefono,telefono,lbTelefono, "inputTelefono");
+  }
+
+  let validarDni = function (){
+    validador.test(patrones.dni,dni,lbDni, "inputDni");
+  }
   /**
    * Validará una fecha de nacimiento.
    */
@@ -246,66 +216,6 @@
       }
     }
   };
-
-  /**
-   * Validará un número telefónico.
-   */
-  let validarTelefono = function() {
-    let valorTelefono = telefono.value;
-
-    if (valorTelefono === "") {
-      lbTelefono.innerHTML = "El teléfono no puede estar vacío";
-      collectionNoValidos.set("telefono", telefono);
-    } else if (valorTelefono.length < 9) {
-      lbTelefono.innerHTML = "El teléfono introducido es muy corto";
-      collectionNoValidos.set("telefono", telefono);
-    } else if (!parseInt(valorTelefono)) {
-      lbTelefono.innerHTML = "El formato de teléfono introducido es incorrecto";
-      collectionNoValidos.set("telefono", telefono);
-    } else {
-      lbTelefono.innerHTML = "";
-      if (collectionNoValidos.has("telefono")) {
-        collectionNoValidos.delete("telefono");
-      }
-    }
-  };
-
-  /**
-   * Validará una cuenta corriente, solo el número de cuenta sin IBAN,
-   * por tanto validaría los 20 dígitos de la cuenta.
-   */
-  let validarCuenta = function() {
-    let regexCuenta = new RegExp(patrones.cuentaCorriente[0]);
-
-    if (!regexCuenta.test(cuentaCorriente.value)) {
-      collectionNoValidos.set("cuenta", cuentaCorriente);
-      lbCuenta.textContent = patrones.cuentaCorriente[1];
-    } else {
-      if (collectionNoValidos.has("cuenta")) {
-        collectionNoValidos.delete("cuenta");
-      }
-      lbCuenta.textContent = "";
-    }
-    console.log(collectionNoValidos);
-  };
-
-  /**
-   * Validará una dirección web.
-   */
-  let validarUrl = function() {
-    let regexUrl = new RegExp(patrones.direccionWeb[0]);
-    if (!regexUrl.test(direccionWeb.value)) {
-      collectionNoValidos.set("url", direccionWeb);
-      lbUrl.textContent = patrones.direccionWeb[1];
-    } else {
-      if (collectionNoValidos.has("url")) {
-        collectionNoValidos.delete("url");
-      }
-      lbUrl.textContent = "";
-    }
-    console.log(collectionNoValidos);
-  };
-
   /**
    * Realizará la validación de todos los campos y apuntará el foco sobre el primer
    * campo que contenga errores.
