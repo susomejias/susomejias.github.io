@@ -105,3 +105,9 @@ main form .unaColumnaInput div {
 main form .unaColumnaInput div input {
   width: 600px;
 }
+
+#spanError {
+  color: #FF1744;
+  font-size: 1.2rem;
+  font-weight: bold;
+}

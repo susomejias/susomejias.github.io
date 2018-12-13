@@ -7,29 +7,20 @@
  **/
 
 {
-  // Declaramos las variable.
-
   let nombre;
   let lbNombre;
-
   let correo;
   let lbCorreo;
-
   let dni;
   let lbDni;
-
   let fechaNacimiento;
   let lbFecha;
-
   let telefono;
   let lbTelefono;
-
   let cuentaCorriente;
   let lbCuenta;
-
   let direccionWeb;
   let lbUrl;
-
   let formulario;
   let enviaFormulario;
 
@@ -38,8 +29,6 @@
   let collectionNoValidos;
 
   let init = function() {
-    // Almacenando los elementos, en sus respectivas variables.
-
     collectionNoValidos = new Map();
     formulario = document.getElementById("formulario");
 
@@ -114,8 +103,14 @@
   };
 
   let validador = {
-
-    test(patron,campo,elementoMostrarMensaje, mapKey){
+    /**
+     * Valida un input
+     * @param patron patron de busqueda para el regex
+     * @param campo input a validar
+     * @param elementoMostrarMensaje elemento del DOM, donde se mostrarán los mensaje pertinentes
+     * @param mapKey key que se usará en la collection map para añadir y eliminar elementos
+     */
+    test(patron, campo, elementoMostrarMensaje, mapKey) {
       let regex = new RegExp(patron[0]);
       if (!regex.test(campo.value)) {
         collectionNoValidos.set(mapKey, campo);
@@ -128,93 +123,113 @@
         spanError.textContent = "";
       }
     },
-    testDni(patron,campo, elementoMostrarMensaje){
-        let regex = new RegExp(patron[0]);
-        if (!regex.test(campo.value)) {
-          elementoMostrarMensaje.textContent = "Formato incorrecto";
-          collectionNoValidos.set(campo, campo);
-        } else {
-          elementoMostrarMensaje.textContent = "DNI válido";
-          if (collectionNoValidos.has(mapKey)) {
-            collectionNoValidos.delete(mapKey);
-          }
-          elementoMostrarMensaje.textContent = "";
-          spanError.textContent = "";
-
-          [, numbers, letter] = regex.exec(campo.value);
-  
-          let validLetter = validLetters[parseInt(numbers) % 23].toUpperCase();
-  
-          if (letter.toUpperCase() !== validLetter) {
-            elementoMostrarMensaje.textContent = "Letra incorrecta";
-            collectionNoValidos.set(campo, campo);
-          }
+    /**
+     * Valida un input dni
+     * @param patron patron de busqueda para el regex
+     * @param campo input a validar
+     * @param elementoMostrarMensaje elemento del DOM, donde se mostrarán los mensaje pertinentes
+     * @param mapKey key que se usará en la collection map para añadir y eliminar elementos
+     */
+    testDni(patron, campo, elementoMostrarMensaje, mapKey) {
+      let regex = new RegExp(patron[0]);
+      if (!regex.test(campo.value)) {
+        elementoMostrarMensaje.textContent = "Formato incorrecto";
+        collectionNoValidos.set(mapKey, campo);
+      } else {
+        elementoMostrarMensaje.textContent = "DNI válido";
+        if (collectionNoValidos.has(mapKey)) {
+          collectionNoValidos.delete(mapKey);
         }
+        elementoMostrarMensaje.textContent = "";
+        spanError.textContent = "";
+
+        [, numbers, letter] = regex.exec(campo.value);
+
+        let validLetter = validLetters[parseInt(numbers) % 23].toUpperCase();
+
+        if (letter.toUpperCase() !== validLetter) {
+          elementoMostrarMensaje.textContent = "Letra incorrecta";
+          collectionNoValidos.set(campo, campo);
+        }
+      }
     },
+    /**
+     * Valida un input fechaNacimiento
+     * @param campo input a validar
+     * @param elementoMostrarMensaje elemento del DOM, donde se mostrarán los mensaje pertinentes
+     * @param mapKey key que se usará en la collection map para añadir y eliminar elementos
+     */
+    testFecha(campo, elementoMostrarMensaje, mapKey) {
+      let valorFecha = Date.parse(campo.value);
+      let annoIntroducido;
+      let annoActual;
 
+      if (!isNaN(valorFecha)) {
+        let fechaIntroducida = new Date(valorFecha);
+        let fechaActual = new Date();
 
+        annoIntroducido = fechaIntroducida.getFullYear();
+        mesIntroducido = fechaIntroducida.getMonth() + 1;
+        diaIntroducido = fechaIntroducida.getDay();
 
+        annoActual = fechaActual.getFullYear();
+        mesActual = fechaActual.getMonth() + 1;
+        diaActual = fechaActual.getDay();
+      }
 
-  };
-
-  /**
-   * Validará un nombre.
-   */
-
-
-  let validarNombre = function() {
-    validador.test(patrones.nombre,nombre,lbNombre, "inputNombre");
-  }
-
-  let validarCuenta = function() {
-    validador.test(patrones.cuentaCorriente,cuentaCorriente,lbCuenta,"inputCuenta");
-  }
-
-  let validarUrl = function() {
-    validador.test(patrones.direccionWeb,direccionWeb,lbUrl, "inputUrl");
-  }
-
-  let validarCorreo = function() {
-    validador.test(patrones.correo,correo,lbCorreo, "inputCorreo");
-  }
-
-  let validarTelefono = function() {
-    validador.test(patrones.telefono,telefono,lbTelefono, "inputTelefono");
-  }
-
-  let validarDni = function (){
-    validador.test(patrones.dni,dni,lbDni, "inputDni");
-  }
-  /**
-   * Validará una fecha de nacimiento.
-   */
-  let validarFechaNacimiento = function() {
-    let valorFecha = Date.parse(fechaNacimiento.value);
-    let annoIntroducido;
-    let annoActual;
-
-    if (!isNaN(valorFecha)) {
-      let fechaIntroducida = new Date(valorFecha);
-      let fechaActual = new Date();
-
-      annoIntroducido = fechaIntroducida.getFullYear();
-      annoActual = fechaActual.getFullYear();
-    }
-
-    if (isNaN(valorFecha)) {
-      lbFecha.innerHTML = "La fecha nacimiento no puede estar vacía";
-      collectionNoValidos.set("fecha", fechaNacimiento);
-    } else if (annoIntroducido > annoActual) {
-      lbFecha.innerHTML =
-        "La fecha nacimiento no puede ser superior a la fecha actual";
-      collectionNoValidos.set("fecha", fechaNacimiento);
-    } else {
-      lbFecha.innerHTML = "";
-      spanError.textContent = "";
-      if (collectionNoValidos.has("fecha")) {
-        collectionNoValidos.delete("fecha");
+      if (isNaN(valorFecha)) {
+        elementoMostrarMensaje.textContent =
+          "La fecha nacimiento no puede estar vacía";
+        collectionNoValidos.set(mapKey, campo);
+      } else if (
+        annoIntroducido > annoActual ||
+        ((annoIntroducido === annoActual) && (mesIntroducido > mesActual) ||
+        ((annoIntroducido === annoActual) && (mesIntroducido === mesActual) && (diaIntroducido > diaActual)))
+      ) {
+        elementoMostrarMensaje.textContent =
+          "La fecha nacimiento no puede ser superior a la fecha actual";
+        collectionNoValidos.set(mapKey, campo);
+      } else {
+        elementoMostrarMensaje.textContent = "";
+        spanError.textContent = "";
+        if (collectionNoValidos.has(mapKey)) {
+          collectionNoValidos.delete(mapKey);
+        }
       }
     }
+  };
+
+  let validarNombre = function() {
+    validador.test(patrones.nombre, nombre, lbNombre, "inputNombre");
+  };
+
+  let validarCuenta = function() {
+    validador.test(
+      patrones.cuentaCorriente,
+      cuentaCorriente,
+      lbCuenta,
+      "inputCuenta"
+    );
+  };
+
+  let validarUrl = function() {
+    validador.test(patrones.direccionWeb, direccionWeb, lbUrl, "inputUrl");
+  };
+
+  let validarCorreo = function() {
+    validador.test(patrones.correo, correo, lbCorreo, "inputCorreo");
+  };
+
+  let validarTelefono = function() {
+    validador.test(patrones.telefono, telefono, lbTelefono, "inputTelefono");
+  };
+
+  let validarDni = function() {
+    validador.test(patrones.dni, dni, lbDni, "inputDni");
+  };
+
+  let validarFechaNacimiento = function() {
+    validador.testFecha(fechaNacimiento, lbFecha, "inputFecha");
   };
   /**
    * Realizará la validación de todos los campos y apuntará el foco sobre el primer
