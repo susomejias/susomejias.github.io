@@ -23,6 +23,9 @@
   let lbUrl;
   let formulario;
   let enviaFormulario;
+  let radioSexoMujer;
+  let radioSexoHombre;
+  let checkboxTerminos;
 
   let spanError;
 
@@ -55,6 +58,11 @@
 
     enviaFormulario = document.getElementById("enviaFormulario");
 
+    radioSexoMujer = document.getElementById("radioMujer");
+    radioSexoHombre = document.getElementById("radioHombre");
+    checkboxTerminos = document.getElementById("checkboxTerminos");
+  
+
     spanError = document.getElementById("spanError");
 
     // Asignamos que al perder el foco haga una función.
@@ -75,6 +83,8 @@
       event.preventDefault();
       validar();
     });
+
+    //cargarDatosPruebas();
   };
 
   let patrones = {
@@ -122,6 +132,7 @@
         elementoMostrarMensaje.textContent = "";
         spanError.textContent = "";
       }
+      //console.log(collectionNoValidos);
     },
     /**
      * Valida un input dni
@@ -152,6 +163,7 @@
           collectionNoValidos.set(campo, campo);
         }
       }
+      //console.log(collectionNoValidos);
     },
     /**
      * Valida un input fechaNacimiento
@@ -196,6 +208,29 @@
           collectionNoValidos.delete(mapKey);
         }
       }
+      //console.log(collectionNoValidos);
+    },
+    testRadio(){
+      if (!radioSexoHombre.checked && !radioSexoMujer.checked){
+        collectionNoValidos.set("radioMujer", radioSexoMujer);
+      }else{
+        spanError.textContent = "";
+        if (collectionNoValidos.has("radioMujer")) {
+          collectionNoValidos.delete("radioMujer");
+        }
+      }
+      //console.log(collectionNoValidos);
+    },
+    testCheckbox(){
+      if (!checkboxTerminos.checked){
+        collectionNoValidos.set("checkBoxTerminos", checkboxTerminos);
+      }else{
+        spanError.textContent = "";
+        if (collectionNoValidos.has("checkBoxTerminos")) {
+          collectionNoValidos.delete("checkBoxTerminos");
+        }
+      }
+      console.log(collectionNoValidos);
     }
   };
 
@@ -231,12 +266,31 @@
   let validarFechaNacimiento = function() {
     validador.testFecha(fechaNacimiento, lbFecha, "inputFecha");
   };
+
+
+  let cargarDatosPruebas = function(){
+
+    nombre.value = "jesus mejias leiva";
+    dni = "20227031a";
+    radioSexoHombre.checked = true;
+    correo.value = "jesusmejias.jm@gmail.com";
+    cuentaCorriente.value = 12345678901234567890;
+    telefono.value = 671795216;
+    direccionWeb.value = "https://es.stackoverflow.com/questions/35874/validar-en-dos-grupos-diferentes-de-radio-buttons";
+
+  }
+
   /**
    * Realizará la validación de todos los campos y apuntará el foco sobre el primer
    * campo que contenga errores.
    */
   let validar = function() {
     try {
+      // valida radio button
+      validador.testRadio();
+      // valida checkbox
+      validador.testCheckbox();
+
       if (
         nombre.value === "" ||
         dni.value === "" ||
