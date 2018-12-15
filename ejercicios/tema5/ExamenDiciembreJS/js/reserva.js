@@ -32,6 +32,8 @@ Reserva.prototype.mostrar = function() {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="css/estilos.min.css" />
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"> 
         <title>Ejercicio-JesúsMejiasLeiva</title>
     </head>
     <body>
@@ -39,19 +41,26 @@ Reserva.prototype.mostrar = function() {
             Por favor, comprueba que tu navegador es compatible con javascript, o bien
             comprueba si lo tienes activado
         </noscript>
+        <main>
         <h1>Jesús Mejías Leiva</h1>
-        <p id="idReserva">id reserva: ${this.id}</p>
-        <p id="nombreCompleto">Nombre completo: ${this.nombreCompleto}</p>
-        <p id="correo">Correo electrónico: ${this.correo}</p>
-        <p id="fechaLlegada">Fecha llegada: ${this.formatoFecha()}</p>
-        <p id="horaLlegada">Hora llegada: ${this.horaLlegada}</p>
-        <p id="numeroCoches">Numero noches: ${this.numeroNoches}</p>
-        <p id="numeroPersonas">Numero persona: ${this.numeroPersonas}</p>
-        <p id="servicioRestaurante">Servicio restaurante: ${
-          this.servicioRestaurante
-        }</p>
-        <p id="edadCliente"> Edad cliente: ${this.edadCliente}</p>
-        <p id="diasReserva"> Días para la reserva: ${this.calcularDias()} dias</p>
+          <div class="card">
+            <p id="idReserva"><b>id reserva: </b>${this.id}</p>
+            <p id="nombreCompleto"><b>Nombre completo:</b> ${this.nombreCompleto}</p>
+            <p id="correo"><b>Correo electrónico:</b> ${this.correo}</p>
+            <p id="fechaLlegada"><b>Fecha llegada:</b> ${this.formatoFecha()}</p>
+            <p id="horaLlegada"><b>Hora llegada:</b> ${this.horaLlegada}</p>
+            <p id="numeroCoches"><b>Numero noches:</b> ${this.numeroNoches} noche/s</p>
+            <p id="numeroPersonas"><b>Numero personas:</b> ${
+              this.numeroPersonas
+            } persona/s</p>
+            <p id="servicioRestaurante"><b>Servicio restaurante:</b> ${
+              this.servicioRestaurante
+            }</p>
+            <p id="edadCliente"><b>Edad cliente:</b>  ${this.edadCliente} años.</p>
+            <p id="diasReserva"><b>Días para la reserva:</b> ${this.calcularDias()}  dia/s.</p>
+          </div>
+          </main>
+        
     </body>
     </html>`;
 
@@ -82,9 +91,13 @@ Reserva.prototype.calcularDias = function() {
   let fechaActualEnMs = Date.now();
   let fechaLlegada = Date.parse(this.fechaLlegada);
   let fechaRestante = fechaLlegada - fechaActualEnMs;
+  let diasSinTruncar = fechaRestante / 1000 / 60 / 60 / 24;
   let dias = Math.trunc(fechaRestante / 1000 / 60 / 60 / 24);
   if (dias < 0) {
     throw new Error("Dias negativos");
+  }
+  if (diasSinTruncar > 0 && diasSinTruncar < 1){
+    return 1;
   }
   return dias;
 };

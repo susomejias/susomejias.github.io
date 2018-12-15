@@ -59,7 +59,7 @@
   let patrones = {
     nombre: [
       /^([A-Za-zÁÉÍÓÚñáéíóúÑ]{0}?[A-Za-zÁÉÍÓÚñáéíóúÑ]+[/\s])+([A-Za-zÁÉÍÓÚñáéíóúÑ]{0}?[A-Za-zÁÉÍÓÚñáéíóúÑ])+[/\s]?([A-Za-zÁÉÍÓÚñáéíóúÑ]{0}?[A-Za-zÁÉÍÓÚñáéíóúÑ])?$/g,
-      "Mínimo de tres caractéres por nombre, al menos nombre y apellido"
+      "Al menos nombre y apellido"
     ],
     hora: [
       /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/g,
@@ -73,9 +73,14 @@
 
   let validador = {
     testNumber(campo, elementoMostrarMensaje, mapKey) {
-      if (campo.value < 0) {
+      if (campo.value < 0 || campo.value === "") {
         collectionNoValidos.set(mapKey, campo);
-        elementoMostrarMensaje.textContent = "No puede ser un valor negativo";
+        if (campo.value < 0){
+          elementoMostrarMensaje.textContent = "No puede ser un valor negativo";
+        }else{
+          elementoMostrarMensaje.textContent = "Rellene este campo";
+        }
+        
       } else {
         if (collectionNoValidos.has(mapKey)) {
           collectionNoValidos.delete(mapKey);

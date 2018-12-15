@@ -1,34 +1,103 @@
-main
-    display: flex
-    flex-direction: column
-    justify-content: center
-    align-items: center
-    form
+$font-color: #fff
+$bgColor: #26A69A
+$primaryColor: #00796B
+$secondaryColor: #009688
+
+body
+    font-family: 'Lato', sans-serif
+    color: $font-color
+    width: 100%
+    margin: 0px
+    main
         display: flex
         flex-direction: column
         justify-content: center
         align-items: center
-        p
-            margin: 0px
-            margin-top: 20px
-        .campo
+        padding-top: 30px
+        padding-bottom: 30px
+        min-height: 100vh
+        width: 100%
+        margin: 0px
+        background: $bgColor
+        h1
+            padding-bottom: 10px
+            font-size: 2.7rem
+            color: #fff
+        .card
             display: flex
-            flex-direction: row
+            flex-direction: column
             justify-content: center
             align-items: center
-            label
-                margin-right: 5px
-        .containerRadioCheck 
-            margin: 10px
-            padding: 10px
-            border: 1px solid black 
-            min-width: 200px      
-            .campoRadioCheck
+            padding: 20px
+            background: #009688
+            width: 35%
+            border-radius: 4px
+            box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.45)
+            p
+                color: #00796B
+                font-weight: bold
+                font-size: 1.2rem
+                b
+                    font-size: 1.3rem
+                    color: #fff
+            .campo
                 display: flex
-                flex-direction: row
+                flex-direction: column
+                justify-content: center
                 align-items: center
+                padding: 10px
+                label
+                    padding: 7px
+                    margin-right: 5px
+                    font-weight: lighter
+                    font-size: 1.3rem
+                input
+                    border-width: 0px
+                    border-radius: 2px
+                    outline: none
+                    padding: 5px
+                    min-height: 30px
+                    background-color: $primaryColor
+                    font-size: 1.1rem
+                    text-align: center
+                    color: #fff
+                    min-width: 200px
+            .containerRadioCheck 
+                margin: 10px
+                padding: 10px
+                border-radius: 3px
+                background: $primaryColor
+                min-width: 200px 
+                .campoRadioCheck
+                    display: flex
+                    flex-direction: row
+                    align-items: center
+                    padding: 3px
+                    label
+                        margin-left: 5px
+                        color: #fff 
 
-span
-    color: red
+p
+    padding: 10px
+    font-size: 1.2rem
+    color: #fff
+
+input[type=submit]
+    background-color: #fff
+    color: $primaryColor
+    min-height: 42px
+    min-width: 100px
     font-weight: bold
+    border-width: 0px
+    border-radius: 3px
+    font-size: 1rem
     padding: 5px
+    padding-left: 10px
+    padding-right: 10px
+span
+    color: #FFEE58
+    font-weight: bold
+    margin-top: 5px
+    text-align: center
+    max-width: 200px
+    min-height: 35px
