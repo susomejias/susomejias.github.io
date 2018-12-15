@@ -75,7 +75,7 @@
     testNumber(campo, elementoMostrarMensaje, mapKey) {
       if (campo.value < 0) {
         collectionNoValidos.set(mapKey, campo);
-        elementoMostrarMensaje.textContent = patron[1];
+        elementoMostrarMensaje.textContent = "No puede ser un valor negativo";
       } else {
         if (collectionNoValidos.has(mapKey)) {
           collectionNoValidos.delete(mapKey);
