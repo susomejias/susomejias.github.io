@@ -18,27 +18,33 @@
       <h1>Jesús Mejias Leiva</h1>
       <form method="POST">
         <div class="campo">
-          <label for="">Nombre completo</label> <input type="text" id="inputNombreCompleto"/>
+          <label for="">Nombre completo</label>
+          <input type="text" id="inputNombreCompleto" />
           <span id="spanNombre"></span>
         </div>
         <div class="campo">
-          <label for="">Correo electrónico</label> <input type="email" id="inputCorreoElectrónico" />
+          <label for="">Correo electrónico</label>
+          <input type="email" id="inputCorreoElectrónico" />
           <span id="spanCorreo"></span>
         </div>
         <div class="campo">
-          <label for="">Fecha llegada</label> <input type="date" id="inputFechaLlegada" />
+          <label for="">Fecha llegada</label>
+          <input type="date" id="inputFechaLlegada" />
           <span id="spanFllegada"></span>
         </div>
         <div class="campo">
-          <label for="">Hora llegada</label> <input type="time" id="inputHoraLlegada"/>
+          <label for="">Hora llegada</label>
+          <input type="time" id="inputHoraLlegada" />
           <span id="spanHoraLlegada"></span>
         </div>
         <div class="campo">
-          <label for="">Número de noches</label> <input type="number" id="inputNumeroNoches"/>
+          <label for="">Número de noches</label>
+          <input type="number" id="inputNumeroNoches" />
           <span id="spanNumNoches"></span>
         </div>
         <div class="campo">
-          <label for="">Número de personas</label> <input type="number" id="inputNumeroPersonas"/>
+          <label for="">Número de personas</label>
+          <input type="number" id="inputNumeroPersonas" />
           <span id="spanNumPersonas"></span>
         </div>
 
@@ -76,7 +82,13 @@
         <p>Edad del cliente</p>
         <div class="containerRadioCheck">
           <div class="campoRadioCheck">
-            <input type="radio" name="edad" id="menosDe20" value="Menos de 20" />
+            <input
+              type="radio"
+              name="edad"
+              id="menosDe20"
+              value="Menos de 20"
+              checked
+            />
             <label for="">Menos de 20</label>
           </div>
           <div class="campoRadioCheck">
@@ -94,7 +106,12 @@
           </div>
         </div>
         <span id="spanError"></span>
-        <input type="submit" name="enviarReserva" value="Enviar reserva" id="enviarReserva">
+        <input
+          type="submit"
+          name="enviarReserva"
+          value="Enviar reserva"
+          id="enviarReserva"
+        />
       </form>
     </main>
   </body>

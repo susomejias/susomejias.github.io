@@ -5,9 +5,9 @@
   let horaLlegada;
   let numNoches;
   let numPersonas;
-  let radioDesayuno;
-  let radioAlmuerzo;
-  let radioCena;
+  let radioMenos20;
+  let radio20y40;
+  let radioMasDe40;
   let checkDesayuno;
   let checkAlmuerzo;
   let checkCena;
@@ -18,7 +18,6 @@
   let spanNumNoches;
   let spanNumPersonas;
   let spanError;
-  let btnEnviar;
   let collectionNoValidos;
 
   function init() {
@@ -43,7 +42,6 @@
     spanNumNoches = document.getElementById("spanNumNoches");
     spanNumPersonas = document.getElementById("spanNumPersonas");
     spanError = document.getElementById("spanError");
-    btnEnviar = document.getElementById("enviarReserva");
 
     form.addEventListener("submit", ev => {
       ev.preventDefault();
@@ -63,7 +61,10 @@
       /^([A-Za-zÁÉÍÓÚñáéíóúÑ]{0}?[A-Za-zÁÉÍÓÚñáéíóúÑ]+[/\s])+([A-Za-zÁÉÍÓÚñáéíóúÑ]{0}?[A-Za-zÁÉÍÓÚñáéíóúÑ])+[/\s]?([A-Za-zÁÉÍÓÚñáéíóúÑ]{0}?[A-Za-zÁÉÍÓÚñáéíóúÑ])?$/g,
       "Mínimo de tres caractéres por nombre, al menos nombre y apellido"
     ],
-    hora: [/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/g, "hh:mm"],
+    hora: [
+      /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/g,
+      "formato válido hh:mm"
+    ],
     correo: [
       /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
       "Formato de correo no válido"
@@ -116,7 +117,7 @@
 
       if (isNaN(valorFecha)) {
         elementoMostrarMensaje.textContent =
-          "La fecha nacimiento no puede estar vacía";
+          "La fecha de llegada no puede estar vacía";
         collectionNoValidos.set(mapKey, campo);
       } else if (
         annoIntroducido > annoActual ||
@@ -126,7 +127,7 @@
             diaIntroducido > diaActual))
       ) {
         elementoMostrarMensaje.textContent =
-          "La fecha nacimiento no puede ser superior a la fecha actual";
+          "La fecha de llegada no puede ser superior a la fecha actual";
         collectionNoValidos.set(mapKey, campo);
       } else {
         elementoMostrarMensaje.textContent = "";
@@ -135,7 +136,6 @@
           collectionNoValidos.delete(mapKey);
         }
       }
-      //console.log(collectionNoValidos);
     }
   };
 
@@ -192,11 +192,6 @@
 
   let validar = function() {
     try {
-      // valida radio button
-      //validador.testRadio();
-      // valida checkbox
-      //validador.testCheckbox();
-
       if (
         inputNombreCompleto.value === "" &&
         inputCorreoElectronico.value === "" &&
