@@ -1,0 +1,48 @@
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+main form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+main form p {
+  margin: 0px;
+  margin-top: 20px;
+}
+
+main form .campo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+main form .campo label {
+  margin-right: 5px;
+}
+
+main form .containerRadioCheck {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid black;
+  min-width: 200px;
+}
+
+main form .containerRadioCheck .campoRadioCheck {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+span {
+  color: red;
+  font-weight: bold;
+  padding: 5px;
+}

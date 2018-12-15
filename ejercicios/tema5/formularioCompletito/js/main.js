@@ -61,7 +61,6 @@
     radioSexoMujer = document.getElementById("radioMujer");
     radioSexoHombre = document.getElementById("radioHombre");
     checkboxTerminos = document.getElementById("checkboxTerminos");
-  
 
     spanError = document.getElementById("spanError");
 
@@ -195,8 +194,10 @@
         collectionNoValidos.set(mapKey, campo);
       } else if (
         annoIntroducido > annoActual ||
-        ((annoIntroducido === annoActual) && (mesIntroducido > mesActual) ||
-        ((annoIntroducido === annoActual) && (mesIntroducido === mesActual) && (diaIntroducido > diaActual)))
+        ((annoIntroducido === annoActual && mesIntroducido > mesActual) ||
+          (annoIntroducido === annoActual &&
+            mesIntroducido === mesActual &&
+            diaIntroducido > diaActual))
       ) {
         elementoMostrarMensaje.textContent =
           "La fecha nacimiento no puede ser superior a la fecha actual";
@@ -210,10 +211,10 @@
       }
       //console.log(collectionNoValidos);
     },
-    testRadio(){
-      if (!radioSexoHombre.checked && !radioSexoMujer.checked){
+    testRadio() {
+      if (!radioSexoHombre.checked && !radioSexoMujer.checked) {
         collectionNoValidos.set("radioMujer", radioSexoMujer);
-      }else{
+      } else {
         spanError.textContent = "";
         if (collectionNoValidos.has("radioMujer")) {
           collectionNoValidos.delete("radioMujer");
@@ -221,10 +222,10 @@
       }
       //console.log(collectionNoValidos);
     },
-    testCheckbox(){
-      if (!checkboxTerminos.checked){
+    testCheckbox() {
+      if (!checkboxTerminos.checked) {
         collectionNoValidos.set("checkBoxTerminos", checkboxTerminos);
-      }else{
+      } else {
         spanError.textContent = "";
         if (collectionNoValidos.has("checkBoxTerminos")) {
           collectionNoValidos.delete("checkBoxTerminos");
@@ -267,18 +268,16 @@
     validador.testFecha(fechaNacimiento, lbFecha, "inputFecha");
   };
 
-
-  let cargarDatosPruebas = function(){
-
+  let cargarDatosPruebas = function() {
     nombre.value = "jesus mejias leiva";
     dni = "20227031a";
     radioSexoHombre.checked = true;
     correo.value = "jesusmejias.jm@gmail.com";
     cuentaCorriente.value = 12345678901234567890;
     telefono.value = 671795216;
-    direccionWeb.value = "https://es.stackoverflow.com/questions/35874/validar-en-dos-grupos-diferentes-de-radio-buttons";
-
-  }
+    direccionWeb.value =
+      "https://es.stackoverflow.com/questions/35874/validar-en-dos-grupos-diferentes-de-radio-buttons";
+  };
 
   /**
    * Realizará la validación de todos los campos y apuntará el foco sobre el primer

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Ejercicio-JesúsMejiasLeiva</title>
+    <link rel="stylesheet" href="css/estilos.min.css" />
+    <script type="text/javascript" src="js/reserva.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="js/main.js" charset="UTF-8"></script>
+  </head>
+  <body>
+    <noscript>
+      Por favor, comprueba que tu navegador es compatible con javascript, o bien
+      comprueba si lo tienes activado
+    </noscript>
+    <main>
+      <h1>Jesús Mejias Leiva</h1>
+      <form method="POST">
+        <div class="campo">
+          <label for="">Nombre completo</label> <input type="text" id="inputNombreCompleto"/>
+          <span id="spanNombre"></span>
+        </div>
+        <div class="campo">
+          <label for="">Correo electrónico</label> <input type="email" id="inputCorreoElectrónico" />
+          <span id="spanCorreo"></span>
+        </div>
+        <div class="campo">
+          <label for="">Fecha llegada</label> <input type="date" id="inputFechaLlegada" />
+          <span id="spanFllegada"></span>
+        </div>
+        <div class="campo">
+          <label for="">Hora llegada</label> <input type="time" id="inputHoraLlegada"/>
+          <span id="spanHoraLlegada"></span>
+        </div>
+        <div class="campo">
+          <label for="">Número de noches</label> <input type="number" id="inputNumeroNoches"/>
+          <span id="spanNumNoches"></span>
+        </div>
+        <div class="campo">
+          <label for="">Número de personas</label> <input type="number" id="inputNumeroPersonas"/>
+          <span id="spanNumPersonas"></span>
+        </div>
+
+        <p>Servicio de restaurante</p>
+        <div class="containerRadioCheck">
+          <div class="campoRadioCheck">
+            <input
+              type="checkbox"
+              name="servicioRestaurante"
+              id="desayuno"
+              value="desayuno"
+            />
+            <label for="">Desayuno</label>
+          </div>
+          <div class="campoRadioCheck">
+            <input
+              type="checkbox"
+              name="servicioRestaurante"
+              id="almuerzo"
+              value="almuerzo"
+            />
+            <label for="">Almuerzo</label>
+          </div>
+          <div class="campoRadioCheck">
+            <input
+              type="checkbox"
+              name="servicioRestaurante"
+              id="cena"
+              value="cena"
+            />
+            <label for="">Cena</label>
+          </div>
+        </div>
+
+        <p>Edad del cliente</p>
+        <div class="containerRadioCheck">
+          <div class="campoRadioCheck">
+            <input type="radio" name="edad" id="menosDe20" value="Menos de 20" />
+            <label for="">Menos de 20</label>
+          </div>
+          <div class="campoRadioCheck">
+            <input
+              type="radio"
+              name="edad"
+              id="entre20y40"
+              value="entre 20 y 40"
+            />
+            <label for="">Entre 20 y 40</label>
+          </div>
+          <div class="campoRadioCheck">
+            <input type="radio" name="edad" id="masDe40" value="Mas de 40" />
+            <label for="">Más de 40</label>
+          </div>
+        </div>
+        <span id="spanError"></span>
+        <input type="submit" name="enviarReserva" value="Enviar reserva" id="enviarReserva">
+      </form>
+    </main>
+  </body>
+</html>
