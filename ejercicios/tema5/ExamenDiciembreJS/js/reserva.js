@@ -94,7 +94,7 @@ Reserva.prototype.calcularDias = function() {
   let diasSinTruncar = fechaRestante / 1000 / 60 / 60 / 24;
   let dias = Math.trunc(fechaRestante / 1000 / 60 / 60 / 24);
   if (dias < 0) {
-    throw new Error("Dias negativos");
+    throw new Error("La fecha introducida es anterior a la fecha actual");
   }
   if (diasSinTruncar > 0 && diasSinTruncar < 1){
     return 1;
