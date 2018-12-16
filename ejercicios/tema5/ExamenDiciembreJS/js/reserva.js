@@ -16,7 +16,7 @@ function Reserva(
   this.numeroPersonas = numeroPersonas;
   this.servicioRestaurante = servicioRestaurante;
   this.edadCliente = edadCliente;
-  this.autoIncrementableId();
+  Reserva.prototype.autoIncrementableId();
 }
 
 Reserva.prototype.id = 0;

@@ -124,22 +124,6 @@
         elementoMostrarMensaje.textContent =
           "La fecha de llegada no puede estar vacía";
         collectionNoValidos.set(mapKey, campo);
-      } else if (
-        annoIntroducido > annoActual ||
-        ((annoIntroducido === annoActual && mesIntroducido > mesActual) ||
-          (annoIntroducido === annoActual &&
-            mesIntroducido === mesActual &&
-            diaIntroducido > diaActual))
-      ) {
-        elementoMostrarMensaje.textContent =
-          "La fecha de llegada no puede ser superior a la fecha actual";
-        collectionNoValidos.set(mapKey, campo);
-      } else {
-        elementoMostrarMensaje.textContent = "";
-        spanError.textContent = "";
-        if (collectionNoValidos.has(mapKey)) {
-          collectionNoValidos.delete(mapKey);
-        }
       }
     }
   };
