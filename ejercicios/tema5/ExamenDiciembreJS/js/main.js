@@ -73,10 +73,10 @@
 
   let validador = {
     testNumber(campo, elementoMostrarMensaje, mapKey) {
-      if (campo.value < 0 || campo.value === "") {
+      if (campo.value <= 0 || campo.value === "") {
         collectionNoValidos.set(mapKey, campo);
-        if (campo.value < 0){
-          elementoMostrarMensaje.textContent = "No puede ser un valor negativo";
+        if (campo.value <= 0){
+          elementoMostrarMensaje.textContent = "Valor no válido";
         }else{
           elementoMostrarMensaje.textContent = "Rellene este campo";
         }
@@ -222,38 +222,5 @@
       }
     } catch (e) {}
   };
-
-  //   let validar = function() {
-  //     // no me ha dado tiempo
-
-  //     // if (validarNombre() && validarCorreo()  && validarFecha() && validarHoraLlegada() !== "" && numNoches.value !== "" && numPersonas.value !== "" && numPersonas.value !== "" )
-
-  //     if (
-  //       inputNombreCompleto.value !== "" &&
-  //       inputCorreoElectronico.value !== "" &&
-  //       fechaLlegada.value !== "" &&
-  //       horaLlegada.value !== "" &&
-  //       numNoches.value !== "" &&
-  //       numPersonas.value !== "" &&
-  //       numPersonas.value !== ""
-  //     ) {
-  //       try {
-  //         let reserva = new Reserva(
-  //           inputNombreCompleto.value,
-  //           inputCorreoElectronico.value,
-  //           new Date(fechaLlegada.value),
-  //           horaLlegada.value,
-  //           numNoches.value,
-  //           numPersonas.value,
-  //           "",
-  //           radioPulsado.value
-  //         );
-  //         reserva.mostrar();
-  //       } catch (e) {
-  //         spanError.textContent = e.message;
-  //       }
-  //     }
-  //   };
-
   window.addEventListener("load", init);
 }

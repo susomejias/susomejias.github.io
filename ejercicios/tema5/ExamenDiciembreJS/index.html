@@ -18,33 +18,33 @@
       <h1>Jesús Mejias Leiva</h1>
       <form method="POST" class="card">
         <div class="campo">
-          <label for="">Nombre completo</label>
+          <label for="inputNombreCompleto">Nombre completo</label>
           <input type="text" id="inputNombreCompleto"/>
           <span id="spanNombre"></span>
         </div>
         <div class="campo">
-          <label for="">Correo electrónico</label>
+          <label for="inputCorreoElectrónico">Correo electrónico</label>
           <input type="email" id="inputCorreoElectrónico" />
           <span id="spanCorreo"></span>
         </div>
         <div class="campo">
-          <label for="">Fecha llegada</label>
+          <label for="inputFechaLlegada">Fecha llegada</label>
           <input type="date" id="inputFechaLlegada" />
           <span id="spanFllegada"></span>
         </div>
         <div class="campo">
-          <label for="">Hora llegada</label>
+          <label for="inputHoraLlegada">Hora llegada</label>
           <input type="time" id="inputHoraLlegada" />
           <span id="spanHoraLlegada"></span>
         </div>
         <div class="campo">
-          <label for="">Número de noches</label>
-          <input type="number" id="inputNumeroNoches" />
+          <label for="inputNumeroNoches">Número de noches</label>
+          <input type="number" min="1" id="inputNumeroNoches" />
           <span id="spanNumNoches"></span>
         </div>
         <div class="campo">
-          <label for="">Número de personas</label>
-          <input type="number" id="inputNumeroPersonas" />
+          <label for="inputNumeroPersonas">Número de personas</label>
+          <input type="number" min="1" id="inputNumeroPersonas" />
           <span id="spanNumPersonas"></span>
         </div>
 
@@ -57,7 +57,7 @@
               id="desayuno"
               value="Desayuno"
             />
-            <label for="">Desayuno</label>
+            <label for="desayuno">Desayuno</label>
           </div>
           <div class="campoRadioCheck">
             <input
@@ -66,7 +66,7 @@
               id="almuerzo"
               value="Almuerzo"
             />
-            <label for="">Almuerzo</label>
+            <label for="almuerzo">Almuerzo</label>
           </div>
           <div class="campoRadioCheck">
             <input
@@ -75,7 +75,7 @@
               id="cena"
               value="Cena"
             />
-            <label for="">Cena</label>
+            <label for="cena">Cena</label>
           </div>
         </div>
 
@@ -89,7 +89,7 @@
               value="Menos de 20"
               checked
             />
-            <label for="">Menos de 20</label>
+            <label for="menosDe20">Menos de 20</label>
           </div>
           <div class="campoRadioCheck">
             <input
@@ -98,11 +98,11 @@
               id="entre20y40"
               value="entre 20 y 40"
             />
-            <label for="">Entre 20 y 40</label>
+            <label for="entre20y40">Entre 20 y 40</label>
           </div>
           <div class="campoRadioCheck">
             <input type="radio" name="edad" id="masDe40" value="Mas de 40" />
-            <label for="">Más de 40</label>
+            <label for="masDe40" >Más de 40</label>
           </div>
         </div>
         <span id="spanError"></span>
