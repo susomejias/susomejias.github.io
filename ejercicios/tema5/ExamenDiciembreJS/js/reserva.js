@@ -29,8 +29,10 @@ Reserva.prototype.incrementarId = (function() {
 Reserva.prototype.setServicioRestaurante = function(servicioRestaurante) {
   if (servicioRestaurante.length > 1) {
     let salida = "";
-    servicioRestaurante.forEach(element => {
-      salida += "| " + element + " |";
+    servicioRestaurante.forEach((element, index) => {
+      index === servicioRestaurante.length - 1
+        ? (salida += element)
+        : (salida += element + ", ");
     });
     return salida;
   } else if (servicioRestaurante.length === 1) {
