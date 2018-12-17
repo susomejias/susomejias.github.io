@@ -8,9 +8,6 @@
   let radioMenos20;
   let radio20y40;
   let radioMasDe40;
-  let checkDesayuno;
-  let checkAlmuerzo;
-  let checkCena;
   let spanNombre;
   let spanCorreo;
   let spanFllegada;
@@ -29,9 +26,6 @@
     horaLlegada = document.getElementById("inputHoraLlegada");
     numNoches = document.getElementById("inputNumeroNoches");
     numPersonas = document.getElementById("inputNumeroPersonas");
-    checkDesayuno = document.getElementById("desayuno");
-    checkAlmuerzo = document.getElementById("almuerzo");
-    checkCena = document.getElementById("cena");
     radioMenos20 = document.getElementById("menosDe20");
     radio20y40 = document.getElementById("entre20y40");
     radioMasDe40 = document.getElementById("masDe40");
@@ -75,17 +69,18 @@
     testNumber(campo, elementoMostrarMensaje, mapKey) {
       if (campo.value <= 0 || campo.value === "") {
         collectionNoValidos.set(mapKey, campo);
-        if (campo.value <= 0) {
-          elementoMostrarMensaje.textContent = "Valor no válido";
-        } else {
-          elementoMostrarMensaje.textContent = "Rellene este campo";
+        switch (campo.value) {
+          case campo.value <= 0:
+            elementoMostrarMensaje.textContent = "Valor no válido";
+            break;
+          case "":
+            elementoMostrarMensaje.textContent = "Rellene este campo";
+            break;
+          default:
+            break;
         }
       } else {
-        if (collectionNoValidos.has(mapKey)) {
-          collectionNoValidos.delete(mapKey);
-        }
-        elementoMostrarMensaje.textContent = "";
-        spanError.textContent = "";
+        limpiar(mapKey, elementoMostrarMensaje, spanError);
       }
     },
     test(patron, campo, elementoMostrarMensaje, mapKey) {
@@ -94,30 +89,11 @@
         collectionNoValidos.set(mapKey, campo);
         elementoMostrarMensaje.textContent = patron[1];
       } else {
-        if (collectionNoValidos.has(mapKey)) {
-          collectionNoValidos.delete(mapKey);
-        }
-        elementoMostrarMensaje.textContent = "";
-        spanError.textContent = "";
+        limpiar(mapKey, elementoMostrarMensaje, spanError);
       }
     },
     testFecha(campo, elementoMostrarMensaje, mapKey) {
       let valorFecha = Date.parse(campo.value);
-      let annoIntroducido;
-      let annoActual;
-
-      if (!isNaN(valorFecha)) {
-        let fechaIntroducida = new Date(valorFecha);
-        let fechaActual = new Date();
-
-        annoIntroducido = fechaIntroducida.getFullYear();
-        mesIntroducido = fechaIntroducida.getMonth() + 1;
-        diaIntroducido = fechaIntroducida.getDay();
-
-        annoActual = fechaActual.getFullYear();
-        mesActual = fechaActual.getMonth() + 1;
-        diaActual = fechaActual.getDay();
-      }
 
       if (isNaN(valorFecha)) {
         elementoMostrarMensaje.textContent =
@@ -145,18 +121,17 @@
     );
   };
 
-  let validarFecha = function() {
+  let validarFecha = () =>
     validador.testFecha(fechaLlegada, spanFllegada, "fechaLlegada");
-  };
-  let validarNumNoches = function() {
+
+  let validarNumNoches = () =>
     validador.testNumber(numNoches, spanNumNoches, "numNoches");
-  };
-  let validarNumPersonas = function() {
+
+  let validarNumPersonas = () =>
     validador.testNumber(numPersonas, spanNumPersonas, "numPersonas");
-  };
-  let validarHoraLlegada = function() {
+
+  let validarHoraLlegada = () =>
     validador.test(patrones.hora, horaLlegada, spanHoraLlegada, "horaLlegada");
-  };
 
   let radioPulsado = function() {
     if (radio20y40.checked) {
@@ -179,10 +154,15 @@
         checkboxChecked.push(element.value);
       }
     });
-
-    console.log(checkboxChecked);
-
     return checkboxChecked;
+  };
+
+  let limpiar = function(mapKey, spanElemento, spanError) {
+    if (collectionNoValidos.has(mapKey)) {
+      collectionNoValidos.delete(mapKey);
+    }
+    spanElemento.textContent = "";
+    spanError.textContent = "";
   };
 
   let validar = function() {
@@ -215,7 +195,6 @@
             radioPulsado()
           );
           reserva.mostrar();
-          //checkPulsado();
         } catch (e) {
           spanError.textContent = e.message;
         }
