@@ -5,9 +5,6 @@
   let horaLlegada;
   let numNoches;
   let numPersonas;
-  let radioMenos20;
-  let radio20y40;
-  let radioMasDe40;
   let spanNombre;
   let spanCorreo;
   let spanFllegada;
@@ -139,13 +136,15 @@
     validador.test(patrones.hora, horaLlegada, spanHoraLlegada, "horaLlegada");
 
   let radioPulsado = function() {
-    if (radio20y40.checked) {
-      return radio20y40.value;
-    } else if (radioMenos20.checked) {
-      return radioMenos20.value;
-    } else if (radioMasDe40.checked) {
-      return radioMasDe40.value;
-    }
+    let radios = Array.from(document.querySelectorAll("input[type='radio']"));
+    let radioPulsado = [];
+    radios.forEach(element => {
+      if (element.checked) {
+        radioPulsado.push(element.value);
+      }
+    });
+
+    return radioPulsado[0];
   };
 
   let checkPulsado = function() {
