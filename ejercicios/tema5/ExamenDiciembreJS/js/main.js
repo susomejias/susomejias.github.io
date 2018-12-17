@@ -69,18 +69,14 @@
     testNumber(campo, elementoMostrarMensaje, mapKey) {
       if (campo.value <= 0 || campo.value === "") {
         collectionNoValidos.set(mapKey, campo);
-        switch (campo.value) {
-          case campo.value <= 0:
-            elementoMostrarMensaje.textContent = "Valor no válido";
-            break;
-          case "":
-            elementoMostrarMensaje.textContent = "Rellene este campo";
-            break;
-          default:
-            break;
+        if (campo.value <= 0) {
+          elementoMostrarMensaje.textContent = "Valor no válido";
+        }
+        if (campo.value === "") {
+          elementoMostrarMensaje.textContent = "Rellene este campo";
         }
       } else {
-        limpiar(mapKey, elementoMostrarMensaje, spanError);
+        validador.limpiar(mapKey, elementoMostrarMensaje, spanError);
       }
     },
     test(patron, campo, elementoMostrarMensaje, mapKey) {
@@ -89,7 +85,7 @@
         collectionNoValidos.set(mapKey, campo);
         elementoMostrarMensaje.textContent = patron[1];
       } else {
-        limpiar(mapKey, elementoMostrarMensaje, spanError);
+        validador.limpiar(mapKey, elementoMostrarMensaje, spanError);
       }
     },
     testFecha(campo, elementoMostrarMensaje, mapKey) {
@@ -99,7 +95,16 @@
         elementoMostrarMensaje.textContent =
           "La fecha de llegada no puede estar vacía";
         collectionNoValidos.set(mapKey, campo);
+      } else {
+        validador.limpiar(mapKey, elementoMostrarMensaje, spanError);
       }
+    },
+    limpiar(mapKey, spanElemento, spanError) {
+      if (collectionNoValidos.has(mapKey)) {
+        collectionNoValidos.delete(mapKey);
+      }
+      spanElemento.textContent = "";
+      spanError.textContent = "";
     }
   };
 
@@ -155,14 +160,6 @@
       }
     });
     return checkboxChecked;
-  };
-
-  let limpiar = function(mapKey, spanElemento, spanError) {
-    if (collectionNoValidos.has(mapKey)) {
-      collectionNoValidos.delete(mapKey);
-    }
-    spanElemento.textContent = "";
-    spanError.textContent = "";
   };
 
   let validar = function() {
