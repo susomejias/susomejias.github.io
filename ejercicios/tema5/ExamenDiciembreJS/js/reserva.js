@@ -14,12 +14,18 @@ function Reserva(
   this.horaLlegada = horaLlegada;
   this.numeroNoches = numeroNoches;
   this.numeroPersonas = numeroPersonas;
-  this.servicioRestaurante = servicioRestaurante;
+  this.servicioRestaurante = this.SetServicioRestaurante(servicioRestaurante);
   this.edadCliente = edadCliente;
   Reserva.prototype.autoIncrementableId();
 }
 
 Reserva.prototype.id = 0;
+
+Reserva.prototype.SetServicioRestaurante = function(servicioRestaurante) {
+    if (servicioRestaurante === undefined){
+      return "Ninguno";
+    }
+};
 
 Reserva.prototype.autoIncrementableId = function() {
   this.id++;
