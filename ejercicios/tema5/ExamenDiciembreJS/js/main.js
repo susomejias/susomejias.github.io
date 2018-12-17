@@ -73,14 +73,13 @@
 
   let validador = {
     testNumber(campo, elementoMostrarMensaje, mapKey) {
-      if (campo.value <= 0 || campo.value === "") {
+      if (campo.value <= 0 || campo.value === "") {
         collectionNoValidos.set(mapKey, campo);
-        if (campo.value <= 0){
+        if (campo.value <= 0) {
           elementoMostrarMensaje.textContent = "Valor no válido";
-        }else{
+        } else {
           elementoMostrarMensaje.textContent = "Rellene este campo";
         }
-        
       } else {
         if (collectionNoValidos.has(mapKey)) {
           collectionNoValidos.delete(mapKey);
@@ -170,54 +169,55 @@
   };
 
   let checkPulsado = function() {
-    if (checkAlmuerzo.checked) {
-      return checkAlmuerzo.value;
-    } else if (checkDesayuno.checked) {
-      return checkDesayuno.value;
-    } else if (checkCena.checked) {
-      return checkCena.value;
-    }
+    let checkboxs = Array.from(
+      document.querySelectorAll("input[type='checkbox']")
+    );
+    let checkboxChecked = [];
+
+    checkboxs.forEach(element => {
+      if (element.checked) {
+        checkboxChecked.push(element.value);
+      }
+    });
+
+    console.log(checkboxChecked);
+
+    return checkboxChecked;
   };
 
   let validar = function() {
     try {
-      if (
-        inputNombreCompleto.value === "" &&
-        inputCorreoElectronico.value === "" &&
-        fechaLlegada.value === "" &&
-        horaLlegada.value === "" &&
-        numNoches.value === "" &&
-        numPersonas.value === ""
-      ) {
-        spanError.textContent = "Rellene los campos";
+      collectionNoValidos.clear();
+      validarNombre();
+      validarCorreo();
+      validarFecha();
+      validarHoraLlegada();
+      validarNumNoches();
+      validarNumPersonas();
+
+      if (collectionNoValidos.size > 0) {
+        spanError.textContent = "";
         collectionNoValidos.forEach(element => {
           element.focus();
           throw false;
         });
-      } else {
-        if (collectionNoValidos.size === 0) {
-          spanError.textContent = "";
-          try {
-            let reserva = new Reserva(
-              inputNombreCompleto.value,
-              inputCorreoElectronico.value,
-              new Date(fechaLlegada.value),
-              horaLlegada.value,
-              numNoches.value,
-              numPersonas.value,
-              checkPulsado(),
-              radioPulsado()
-            );
-            reserva.mostrar();
-          } catch (e) {
-            spanError.textContent = e.message;
-          }
-        } else {
-          spanError.textContent = "";
-          collectionNoValidos.forEach(element => {
-            element.focus();
-            throw false;
-          });
+      } else if (collectionNoValidos.size === 0) {
+        spanError.textContent = "";
+        try {
+          let reserva = new Reserva(
+            inputNombreCompleto.value,
+            inputCorreoElectronico.value,
+            new Date(fechaLlegada.value),
+            horaLlegada.value,
+            numNoches.value,
+            numPersonas.value,
+            checkPulsado(),
+            radioPulsado()
+          );
+          reserva.mostrar();
+          //checkPulsado();
+        } catch (e) {
+          spanError.textContent = e.message;
         }
       }
     } catch (e) {}

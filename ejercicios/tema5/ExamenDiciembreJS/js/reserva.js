@@ -15,17 +15,27 @@ function Reserva(
   this.numeroNoches = numeroNoches;
   this.numeroPersonas = numeroPersonas;
   this.servicioRestaurante = this.setServicioRestaurante(servicioRestaurante);
-  this.edadCliente = edadCliente; 
-  Reserva.prototype.autoIncrementableId();
+  this.edadCliente = edadCliente;
+  this.id = this.uniqueID();
 }
 
-Reserva.prototype.id = 0;
-
+Reserva.prototype.uniqueID = (function() {
+  let id = 0;
+  return function() {
+    return id++;
+  };
+})();
 
 Reserva.prototype.setServicioRestaurante = function(servicioRestaurante) {
-    if (servicioRestaurante === undefined){
-      return "Ninguno";
-    }
+  if (servicioRestaurante.length >= 1) {
+    let salida = "";
+    servicioRestaurante.forEach((element, index) => {
+      salida += "| " + element + " |";
+    });
+    return salida;
+  } else {
+    return servicioRestaurante[0];
+  }
 };
 
 Reserva.prototype.autoIncrementableId = function() {
@@ -52,18 +62,24 @@ Reserva.prototype.mostrar = function() {
         <h1>Jesús Mejías Leiva</h1>
           <div class="card">
             <p id="idReserva"><b>id reserva: </b>${this.id}</p>
-            <p id="nombreCompleto"><b>Nombre completo:</b> ${this.nombreCompleto}</p>
+            <p id="nombreCompleto"><b>Nombre completo:</b> ${
+              this.nombreCompleto
+            }</p>
             <p id="correo"><b>Correo electrónico:</b> ${this.correo}</p>
             <p id="fechaLlegada"><b>Fecha llegada:</b> ${this.formatoFecha()}</p>
             <p id="horaLlegada"><b>Hora llegada:</b> ${this.horaLlegada}</p>
-            <p id="numeroCoches"><b>Numero noches:</b> ${this.numeroNoches} noche/s</p>
+            <p id="numeroCoches"><b>Numero noches:</b> ${
+              this.numeroNoches
+            } noche/s</p>
             <p id="numeroPersonas"><b>Numero personas:</b> ${
               this.numeroPersonas
             } persona/s</p>
             <p id="servicioRestaurante"><b>Servicio restaurante:</b> ${
               this.servicioRestaurante
             }</p>
-            <p id="edadCliente"><b>Edad cliente:</b>  ${this.edadCliente} años.</p>
+            <p id="edadCliente"><b>Edad cliente:</b>  ${
+              this.edadCliente
+            } años.</p>
             <p id="diasReserva"><b>Días para la reserva:</b> ${this.calcularDias()}  dia/s.</p>
           </div>
           </main>
@@ -103,7 +119,7 @@ Reserva.prototype.calcularDias = function() {
   if (dias < 0) {
     throw new Error("La fecha introducida es anterior a la fecha actual");
   }
-  if (diasSinTruncar > 0 && diasSinTruncar < 1){
+  if (diasSinTruncar > 0 && diasSinTruncar < 1) {
     return 1;
   }
   return dias;
