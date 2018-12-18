@@ -18,60 +18,45 @@
         <h1>Validación formulario Javascript</h1>
         <div class="dosColumnasInput">
           <div class="containerDosColumnas">
-            <input type="text" id="inputNombre" placeholder="Nombre" required />
+            <input type="text" id="inputNombre" placeholder="Nombre" />
             <span id="lbNombre"></span>
           </div>
 
           <div class="containerDosColumnas">
-            <input type="text" id="inputDni" placeholder="DNI" required />
+            <input type="text" id="inputDni" placeholder="DNI" />
             <span id="lbDni"></span>
           </div>
         </div>
 
         <div class="columnaRadio">
           <div class="containerDosColumnas">
-              <div class="containerRadio">
-                  <input
-                  type="radio"
-                  name="sexo"
-                  value="Mujer"
-                  id="radioMujer"
-                />
-                <label for="radioMujer">Mujer</label>
-  
-              </div>
-
             <div class="containerRadio">
-                <input
-                type="radio"
-                name="sexo"
-                value="Hombre"
-                id="radioHombre"
-              />
-              <label for="radioHombre">Hombre</label>
-
+              <input type="radio" name="sexo" value="Mujer" id="radioMujer" />
+              <label for="radioMujer">Mujer</label>
             </div>
 
+            <div class="containerRadio">
+              <input type="radio" name="sexo" value="Hombre" id="radioHombre" />
+              <label for="radioHombre">Hombre</label>
+            </div>
           </div>
-
-          
         </div>
 
         <div class="unaColumnaInput">
           <div class="containerUnaColumna">
-            <input type="email" id="inputCorreo" placeholder="Correo" required />
+            <input type="email" id="inputCorreo" placeholder="Correo" />
             <span id="lbCorreo"></span>
           </div>
         </div>
 
         <div class="dosColumnasInput">
           <div class="containerDosColumnas">
-            <input type="date" id="inputFecha" placeholder="Fecha nacimiento" required />
+            <input type="date" id="inputFecha" placeholder="Fecha nacimiento" />
             <span id="lbFechaNacimiento"></span>
           </div>
 
           <div class="containerDosColumnas">
-            <input type="number" id="inputTelefono" placeholder="Teléfono" required/>
+            <input type="number" id="inputTelefono" placeholder="Teléfono" />
             <span id="lbTelefono"></span>
           </div>
         </div>
@@ -90,21 +75,24 @@
 
         <div class="unaColumnaInput">
           <div class="containerUnaColumna">
-            <input type="url" id="inputUrl" placeholder="Dirección web" required/>
+            <input type="url" id="inputUrl" placeholder="Dirección web" />
             <span id="lbUrl"></span>
           </div>
         </div>
 
         <div class="unaColumnaInput">
+          <div class="containerCheckbox">
             <div class="containerCheckbox">
-                <div class="containerCheckbox">
-                    <input type="checkbox" id="checkboxTerminos" name="checkBoxTerminos" required/>
-                    <label>Acepto términos</label>
-                </div>
-                <span id="lbDni"></span>
-              </div>
+              <input
+                type="checkbox"
+                id="checkboxTerminos"
+                name="checkBoxTerminos"
+              />
+              <label>Acepto términos</label>
+            </div>
+            <span id="lbDni"></span>
+          </div>
         </div>
-
 
         <span id="spanError"></span>
         <input

@@ -285,36 +285,32 @@
    */
   let validar = function() {
     try {
-      // valida radio button
+      collectionNoValidos.clear();
+      validarNombre();
+      validarDni();
+      validarCorreo();
+      validarFechaNacimiento();
+      validarTelefono();
+      validarCuenta();
+      validarUrl();
       validador.testRadio();
-      // valida checkbox
       validador.testCheckbox();
 
-      if (
-        nombre.value === "" ||
-        dni.value === "" ||
-        correo.value === "" ||
-        cuentaCorriente.value === "" ||
-        fechaNacimiento.value === "" ||
-        telefono.value === "" ||
-        direccionWeb.value === ""
-      ) {
+      if (collectionNoValidos.size === 0) {
         spanError.textContent = "Rellene los campos";
         collectionNoValidos.forEach(element => {
           element.focus();
           throw false;
         });
+      } else if (collectionNoValidos.size === 0) {
+        spanError.textContent = "";
+        alert("se enviaría el formulario");
       } else {
-        if (collectionNoValidos.size === 0) {
-          spanError.textContent = "";
-          alert("se enviaría el formulario");
-        } else {
-          spanError.textContent = "";
-          collectionNoValidos.forEach(element => {
-            element.focus();
-            throw false;
-          });
-        }
+        spanError.textContent = "";
+        collectionNoValidos.forEach(element => {
+          element.focus();
+          throw false;
+        });
       }
     } catch (e) {}
   };
