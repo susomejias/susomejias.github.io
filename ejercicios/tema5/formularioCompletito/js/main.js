@@ -296,8 +296,7 @@
       validador.testRadio();
       validador.testCheckbox();
 
-      if (collectionNoValidos.size === 0) {
-        spanError.textContent = "Rellene los campos";
+      if (collectionNoValidos.size > 0) {
         collectionNoValidos.forEach(element => {
           element.focus();
           throw false;
