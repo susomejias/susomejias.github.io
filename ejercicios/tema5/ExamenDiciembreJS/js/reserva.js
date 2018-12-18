@@ -53,6 +53,7 @@ Reserva.prototype.mostrar = function() {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="css/animaciones.css" />
         <link rel="stylesheet" href="css/estilos.min.css" />
         <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"> 
         <title>Ejercicio-JesúsMejiasLeiva</title>
@@ -62,7 +63,7 @@ Reserva.prototype.mostrar = function() {
             Por favor, comprueba que tu navegador es compatible con javascript, o bien
             comprueba si lo tienes activado
         </noscript>
-        <main>
+        <main class="slide-top">
         <h1>Jesús Mejías Leiva</h1>
           <div class="card">
             <p><b>id reserva: </b>${this.id}</p>
