@@ -60,7 +60,6 @@
         }
       }
     },
-
     generaMinas() {
       for (let i = 0; i < buscaMinas.numMinas; i++) {
         let fila = Math.floor(Math.random() * (buscaMinas.filas - 1 - 0)) + 0;
@@ -161,7 +160,7 @@
           throw new Error("Pulsaste una mina");
         } else {
           buscaMinas.abrirCeros(i, j);
-          buscaMinas.tablero[i][j] = "";
+          buscaMinas.tablero2[i][j] = "";
           console.table(buscaMinas.tablero2);
         }
       } catch (e) {
