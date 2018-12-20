@@ -126,8 +126,9 @@
   let validarFecha = () =>
     validador.testFecha(fechaLlegada, spanFllegada, "fechaLlegada");
 
-  let validarNumNoches = () =>
+  let validarNumNoches = () => {
     validador.testNumber(numNoches, spanNumNoches, "numNoches");
+  };
 
   let validarNumPersonas = () =>
     validador.testNumber(numPersonas, spanNumPersonas, "numPersonas");

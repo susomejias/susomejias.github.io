@@ -19,8 +19,6 @@
     cambioNivel: false,
     numCambiosNivel: 0,
     resetTime: false,
-    tableroCuentaMinas: [],
-
 
     /**
      * Actualiza el numero de casillas en función del nivel
@@ -33,6 +31,9 @@
       }
     },
 
+    /**
+     * Crear div para mostrar record
+     */
     crearDivRecord() {
       if (document.getElementById("record")) {
         document.getElementById("record").remove();
@@ -74,9 +75,6 @@
       buscaMinas.nivel = this[this.selectedIndex].value;
       if (containerTablero.childElementCount === 0) {
         buscaMinas.iniciarJuego();
-      } else {
-        buscaMinas.eliminarTablero();
-        buscaMinas.iniciarJuego();
       }
 
       buscaMinas.cambioNivel = true;
@@ -87,12 +85,14 @@
     iniciarJuego() {
       buscaMinas.numCasillasDependeNivel();
       buscaMinas.numMinasNivel();
+      buscaMinas.crearDivNumMinas();
       buscaMinas.generaTablero();
       buscaMinas.generarMinas();
       buscaMinas.compruebaMinas();
       buscaMinas.crearDivRecord();
       buscaMinas.crearDivTimer();
       buscaMinas.mostrarTiempoPartida();
+      elegirNivel.disabled = true; // deshabilitar select del nivel
     },
     /**
      * Comprueba si has ganado la partida
@@ -102,14 +102,15 @@
       let numCasillasSinDescubrirRojas = 0;
       for (let k = 0; k < buscaMinas.numCasillasNivel; k++) {
         for (let f = 0; f < buscaMinas.numCasillasNivel; f++) {
-          if (buscaMinas.obtenerValorCasilla(k, f).classList.contains("verde")){
+          if (
+            buscaMinas.obtenerValorCasilla(k, f).classList.contains("verde")
+          ) {
             numCasillasSinDescubrirVerdes++;
           }
 
-          if (buscaMinas.obtenerValorCasilla(k, f).classList.contains("rojo")){
+          if (buscaMinas.obtenerValorCasilla(k, f).classList.contains("rojo")) {
             numCasillasSinDescubrirRojas++;
           }
-
         }
       }
 
@@ -119,16 +120,6 @@
 
       if (numCasillasSinDescubrirRojas - 1 === buscaMinas.numMinas) {
         buscaMinas.flagGanado = true;
-      }
-    },
-    /**
-     * Elimina los inputs del tablero
-     */
-    eliminarTablero() {
-      let inputs = Array.from(document.getElementsByTagName("input"));
-
-      for (var i = 0; i < inputs.length; i++) {
-        inputs[i].remove();
       }
     },
     /**
@@ -144,9 +135,24 @@
         buscaMinas.numCasillas = 16 * 16;
       }
     },
+    /**
+     * Crear div para el timer
+     */
     crearDivTimer() {
       timer.innerHTML = `<img src="images/hourglass.svg" /><p id="time"></p>`;
       let time = document.getElementById("time");
+    },
+    /**
+     * Crear div numero de minas
+     */
+    crearDivNumMinas() {
+      let container = document.getElementById("container");
+      let div = document.createElement("div");
+      div.id = "numMinas";
+      div.innerHTML = `<p id="mostrarNumeroMinas">Minas: ${
+        buscaMinas.numMinas
+      }</p>`;
+      container.appendChild(div);
     },
     /**
      * Acciones que realizaremos tras pulsar una mina
@@ -161,7 +167,6 @@
     /**
      * Reliza una función u otra al pulsar en una casilla
      */
-
     comprobarCasilla() {
       // cuando el fondo sea diferente de rojo
 
@@ -171,23 +176,26 @@
       this.classList.add("selectionGreen");
       this.classList.remove("selectionRed");
       if (this.value === "x") {
-        buscaMinas.accionTrasPerderGanar(this,"#FFEB3B","Pulsaste una mina, perdiste");
+        buscaMinas.accionTrasPerderGanar(
+          this,
+          "#FFEB3B",
+          "Pulsaste una mina, perdiste"
+        );
         buscaMinas.finPartida = true;
       } else {
         let coordenada = this.getAttribute("id").split("-");
         console.log(coordenada);
         this.classList.remove("verde");
-          this.classList.remove("rojo");
-          this.classList.add("blanco");
+        this.classList.remove("rojo");
+        this.classList.add("blanco");
         if (!buscaMinas.flagGanado) {
-          
           buscaMinas.comprobarGanar();
           buscaMinas.abrirCeros(
             parseInt(coordenada[0]),
             parseInt(coordenada[1])
           );
-        }else{
-          buscaMinas.accionTrasPerderGanar(this,"#FFF","Felicidades ganaste");
+        } else {
+          buscaMinas.accionTrasPerderGanar(this, "#FFF", "Felicidades ganaste");
         }
       }
     },
@@ -217,7 +225,6 @@
     /**
      * Descubre las Minas del tablero
      */
-
     mostrarMinas() {
       for (let i = 0; i < buscaMinas.numCasillasNivel; i++) {
         for (let j = 0; j < buscaMinas.numCasillasNivel; j++) {
@@ -239,7 +246,6 @@
     /**
      * Crear el boton de jugar de nuevo cuando pierdes la partida
      */
-
     crearBotonJugarDeNuevo() {
       if (!buscaMinas.finPartida) {
         let main = document.getElementsByTagName("main")[0];
@@ -257,7 +263,6 @@
      * @param fi indice de fin para la fila
      * @param fj indice de fin para la columna
      */
-
     cuentaMinas(ii, ij, fi, fj) {
       for (let i = ii; i <= fi; i++) {
         for (let j = ij; j <= fj; j++) {
@@ -278,7 +283,6 @@
      * @param j indice para la columna
      * @returns elemento pulsado
      */
-
     obtenerValorCasilla(i, j) {
       return document.getElementById(i + "-" + j);
     },
@@ -330,7 +334,6 @@
     /**
      * Genera un numero de Minas en el tablero según el nivel
      */
-
     generarMinas() {
       for (let i = 0; i < buscaMinas.numMinas; i++) {
         let fila =
@@ -368,7 +371,6 @@
     /**
      * Genera un tablero html, segun el numero de casillas
      */
-
     generaTablero() {
       containerTablero.style.display = "grid";
       containerTablero.style.gridTemplateColumns =
@@ -381,7 +383,6 @@
           input.value = "0";
           input.readOnly = "true";
           input.addEventListener("click", buscaMinas.comprobarCasilla);
-          //input.addEventListener("contextmenu", () => false);
           input.addEventListener("mousedown", buscaMinas.colocarBandera);
           input.classList.add("verde");
           containerTablero.appendChild(input);
@@ -420,7 +421,6 @@
      * @param x coordenada para la fila
      * @param y coordenada para la columna
      */
-
     abrirCeros(x, y) {
       if (buscaMinas.obtenerValorCasilla(x, y).value === "0") {
         buscaMinas.obtenerValorCasilla(x, y).value = "";
@@ -445,11 +445,11 @@
   };
 
   function init() {
-    // desactivar contextmenu, solo funciona en firefox
+    // desactivar contextmenu
     window.oncontextmenu = function() {
       return false;
     };
-    
+
     containerTablero = document.getElementById("containerTablero");
     spanError = document.getElementById("spanError");
     timer = document.getElementById("timer");
