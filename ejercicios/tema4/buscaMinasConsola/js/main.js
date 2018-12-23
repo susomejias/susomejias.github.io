@@ -2,16 +2,22 @@
   var buscaMinas = {
     tablero: [],
     tablero2: [],
+    tableroPulsaciones: [],
     tableroBanderas: [],
     filas: 8,
     columnas: 8,
     numMinas: 10,
+
     /**
      * genera un campo de minas nuevo y lo muestra por consola.
      */
 
     init() {
       buscaMinas.generarTableros();
+    },
+
+    calcularCasillasTotales() {
+      buscaMinas.casillasSinDescubrir = buscaMinas.filas * buscaMinas.columnas;
     },
     /**
      * En caso de picar una minas se indica que se ha perdido el juego.
@@ -53,10 +59,12 @@
         buscaMinas.tablero[i] = [];
         buscaMinas.tablero2[i] = [];
         buscaMinas.tableroBanderas[i] = [];
+        buscaMinas.tableroPulsaciones[i] = [];
         for (let j = 0; j < buscaMinas.columnas; j++) {
           buscaMinas.tablero[i][j] = 0;
           buscaMinas.tablero2[i][j] = 0;
           buscaMinas.tableroBanderas[i][j] = 0;
+          buscaMinas.tableroPulsaciones[i][j] = 0;
         }
       }
     },
@@ -76,6 +84,9 @@
         buscaMinas.tablero2[fila][columna] = "x";
         buscaMinas.tableroBanderas[fila][columna] = "x";
       }
+    },
+    cargarPulsacion(x, y) {
+      buscaMinas.tableroPulsaciones[x][y] = "p";
     },
     numerosAlrededorMinas() {
       for (let i = 0; i < buscaMinas.filas; i++) {
@@ -132,6 +143,24 @@
         }
       }
     },
+    obtenerNumeroCasillasPulsadas() {
+      let contador = 0;
+      for (let i = 0; i < buscaMinas.filas; i++) {
+        for (let j = 0; j < buscaMinas.columnas; j++) {
+          if (buscaMinas.tableroPulsaciones[i][j] === "p") contador++;
+        }
+      }
+      return contador;
+    },
+    obtenerNumeroCasillasParaGanar() {
+      let contador = 0;
+      for (let i = 0; i < buscaMinas.filas; i++) {
+        for (let j = 0; j < buscaMinas.columnas; j++) {
+          if (buscaMinas.tablero[i][j] !== "x") contador++;
+        }
+      }
+      return contador;
+    },
     abrirCeros(x, y) {
       //buscaMinas.tablero2[x][y] = -1;
       if (buscaMinas.tablero2[x][y] === 0) {
@@ -148,6 +177,8 @@
               k++
             ) {
               buscaMinas.tablero2[j][k] = "";
+              buscaMinas.cargarPulsacion(j, k);
+              buscaMinas.casillasSinDescubrir--;
               //array.push(j + "_" + k);
               buscaMinas.abrirCeros(j, k);
             }
@@ -156,23 +187,59 @@
     },
     picar(i, j) {
       try {
-        if (buscaMinas.tablero[i][j] === "x") {
+        if (buscaMinas.tablero2[i][j] === "x") {
           throw new Error("Pulsaste una mina");
+        } else if (
+          buscaMinas.tablero2[i][j] === "" ||
+          buscaMinas.tableroPulsaciones[i][j] === "p"
+        ) {
+          throw new Error("Esta casilla ya fue pulsada");
         } else {
           buscaMinas.abrirCeros(i, j);
-          buscaMinas.tablero2[i][j] = "";
+          buscaMinas.cargarPulsacion(i, j);
           console.table(buscaMinas.tablero2);
+          console.table(buscaMinas.tableroPulsaciones);
         }
       } catch (e) {
         console.log(e.message);
+      }
+    },
+    comprobarSiGana() {
+      try {
+        if (
+          buscaMinas.obtenerNumeroCasillasPulsadas() ===
+          buscaMinas.obtenerNumeroCasillasParaGanar()
+        ) {
+          throw new Error("¡¡¡ Felicidades has ganado !!!");
+        }
+      } catch (e) {
+        console.log(e.message);
+      }
+    },
+
+    abrirTodasParaGanar() {
+      for (let i = 0; i < buscaMinas.filas; i++) {
+        for (let j = 0; j < buscaMinas.columnas; j++) {
+          if (
+            buscaMinas.tablero[i][j] !== "x" &&
+            buscaMinas.tablero2[i][j] !== "" &&
+            buscaMinas.tableroPulsaciones[i][j] !== "p"
+          )
+            buscaMinas.picar(i, j);
+        }
       }
     }
   };
   function init() {
     buscaMinas.mostrar();
+    buscaMinas.calcularCasillasTotales();
     buscaMinas.generaMinas();
     buscaMinas.numerosAlrededorMinas();
-    console.table(buscaMinas.tablero);
+    //buscaMinas.abrirTodasParaGanar();
+    buscaMinas.comprobarSiGana();
+
+    console.table(buscaMinas.tablero2);
+    console.log("Casillas sin descubrir: " + buscaMinas.casillasSinDescubrir);
   }
 
   window.addEventListener("load", init);
