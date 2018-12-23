@@ -14,6 +14,12 @@
 
     init() {
       buscaMinas.generarTableros();
+      buscaMinas.mostrar();
+      buscaMinas.calcularCasillasTotales();
+      buscaMinas.generaMinas();
+      buscaMinas.numerosAlrededorMinas();
+      //buscaMinas.abrirTodasParaGanar();
+      buscaMinas.comprobarSiGana();
     },
 
     calcularCasillasTotales() {
@@ -33,7 +39,10 @@
 
     marcar(x, y) {
       try {
-        if (buscaMinas.tablero[x][y] !== "") {
+        if (
+          buscaMinas.tablero[x][y] !== "" &&
+          buscaMinas.tableroPulsaciones[x][y] !== "p"
+        ) {
           buscaMinas.tableroBanderas[x][y] = "!";
           console.table(buscaMinas.tableroBanderas);
         } else {
@@ -231,13 +240,7 @@
     }
   };
   function init() {
-    buscaMinas.mostrar();
-    buscaMinas.calcularCasillasTotales();
-    buscaMinas.generaMinas();
-    buscaMinas.numerosAlrededorMinas();
-    //buscaMinas.abrirTodasParaGanar();
-    buscaMinas.comprobarSiGana();
-
+    buscaMinas.init();
     console.table(buscaMinas.tablero2);
     console.log("Casillas sin descubrir: " + buscaMinas.casillasSinDescubrir);
   }
