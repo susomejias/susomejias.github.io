@@ -236,18 +236,6 @@
         }
       }
     },
-    obtenerNumeroBanderas() {
-      let contador = 0;
-      for (let i = 0; i < buscaMinas.filas; i++) {
-        for (let j = 0; j < buscaMinas.columnas; j++) {
-          if (buscaMinas.tableroBanderas[i][j] === "!") {
-            contador;
-          }
-        }
-      }
-      return contador;
-    },
-
     comprobarSiGana() {
       try {
         if (
