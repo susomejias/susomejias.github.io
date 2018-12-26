@@ -16,10 +16,15 @@
       buscaMinas.generarTableros();
       buscaMinas.generaMinas();
       buscaMinas.numerosAlrededorMinas();
+      buscaMinas.mostrar();
       buscaMinas.abrirTodasParaGanar();
       buscaMinas.comprobarSiGana();
     },
 
+    mostrar() {
+      console.table(buscaMinas.tablero);
+      console.table(buscaMinas.tablero2);
+    },
     /**
      * marca con una bandera la casilla(x, y) y muestra el campo de minas actualizado.
      */
@@ -38,6 +43,7 @@
           );
         }
       } catch (e) {
+        console.clear();
         console.log(e.message);
       }
     },
@@ -135,13 +141,12 @@
       for (let i = ii; i <= fi; i++) {
         for (let j = ij; j <= fj; j++) {
           if (buscaMinas.tablero[i][j] !== "x") {
-            if (buscaMinas.tablero[i][j] === "0") {
+            if (buscaMinas.tablero[i][j] === 0) {
               buscaMinas.tablero[i][j] = 0 + 1;
               buscaMinas.tablero3[i][j] = 0 + 1;
             } else {
               buscaMinas.tablero[i][j] = parseInt(buscaMinas.tablero[i][j]) + 1;
-              buscaMinas.tablero3[i][j] =
-                parseInt(buscaMinas.tablero[i][j]) + 1;
+              buscaMinas.tablero3[i][j] = parseInt(buscaMinas.tablero[i][j]);
             }
           }
         }
@@ -179,7 +184,6 @@
               k <= Math.min(y + 1, buscaMinas.columnas - 1);
               k++
             ) {
-              buscaMinas.tablero2[j][k] = "-";
               buscaMinas.cargarPulsacion(j, k);
               buscaMinas.abrirCeros(j, k);
             }
@@ -196,13 +200,27 @@
           buscaMinas.abrirCeros(i, j);
           buscaMinas.cargarPulsacion(i, j);
           buscaMinas.actualizaCambios();
+
           console.table(buscaMinas.tablero);
           console.table(buscaMinas.tablero2);
           console.table(buscaMinas.tableroPulsaciones);
         }
       } catch (e) {
-        console.log(e.message);
-        return;
+        if (e.message === "Pulsaste una mina") {
+          /**
+           * FIXME:
+           * Arreglar proble con clear a la hora de mostrar mensaje
+           */
+          setInterval(function() {
+            console.error(e.message);
+            return;
+          }, 3000);
+          console.clear();
+          buscaMinas.init();
+        } else {
+          console.error(e.message);
+          console.clear();
+        }
       }
     },
     comprobarSiGana() {
@@ -235,7 +253,7 @@
   /**
    * Funciones publicas
    */
-  publicar = (function() {
+  var publicar = (function() {
     return {
       init: () => buscaMinas.init(),
       picar: (x, y) => buscaMinas.picar(x, y),
@@ -245,8 +263,6 @@
 
   function init() {
     publicar.init();
-
-    //console.table(buscaMinas.tablero2);
   }
 
   window.addEventListener("load", init);
