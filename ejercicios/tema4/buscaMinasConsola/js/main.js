@@ -1,13 +1,12 @@
 {
   let buscaMinas = {
-    tablero: [],
-    tablero2: [],
-    tablero3: [],
+    tableroMaster: [],
+    tableroCopiaMaster: [],
+    tableroVisible: [],
     tableroPulsaciones: [],
-    tableroBanderas: [],
-    filas: 8,
-    columnas: 8,
-    numMinas: 10,
+    filas: 2,
+    columnas: 2,
+    numMinas: 1,
 
     /**
      * genera un campo de minas nuevo y lo muestra por consola.
@@ -17,13 +16,16 @@
       buscaMinas.generaMinas();
       buscaMinas.numerosAlrededorMinas();
       buscaMinas.mostrar();
-      buscaMinas.abrirTodasParaGanar();
+      //buscaMinas.abrirTodasParaGanar();
       buscaMinas.comprobarSiGana();
+      buscaMinas.comprobarGanadorBanderas();
     },
 
     mostrar() {
-      console.table(buscaMinas.tablero);
-      console.table(buscaMinas.tablero2);
+      console.log("Tablero master \n");
+      console.table(buscaMinas.tableroMaster);
+      console.log("Tablero visible \n");
+      console.table(buscaMinas.tableroVisible);
     },
     /**
      * marca con una bandera la casilla(x, y) y muestra el campo de minas actualizado.
@@ -32,35 +34,32 @@
     marcar(x, y) {
       try {
         if (
-          buscaMinas.tablero[x][y] !== "" &&
-          buscaMinas.tableroPulsaciones[x][y] !== "p"
+          buscaMinas.tableroPulsaciones[x][y] !== "p" &&
+          buscaMinas.tableroVisible[x][y] !== "!"
         ) {
-          buscaMinas.tableroBanderas[x][y] = "!";
-          console.table(buscaMinas.tableroBanderas);
-        } else {
+          buscaMinas.tableroVisible[x][y] = "!";
+          console.table(buscaMinas.tableroVisible);
+        } else if (buscaMinas.tableroPulsaciones[x][y] === "p") {
           throw new Error(
             "No puedes colocar una bandera en una casilla descubierta"
           );
+        } else if (
+          buscaMinas.tableroPulsaciones[x][y] !== "p" &&
+          buscaMinas.tableroVisible[x][y] === "!"
+        ) {
+          buscaMinas.tableroVisible[x][y] = "$";
+          console.table(buscaMinas.tableroVisible);
         }
+        buscaMinas.comprobarGanadorBanderas();
       } catch (e) {
-        console.clear();
         console.log(e.message);
       }
     },
-
-    /**
-     * intenta destapar las casillas colindantes, sólo si el número de banderas se * corresponden con las que indica la casilla. Entonces muestra el campo de minas actualizado.
-     En caso de estar las banderas equivocadas se indica que se ha perdido el juego.
-     Después se generará el entorno gráfico. Pero eso no entra en esta entrega.
-     */
-
-    //despejar(x, y) {},
-
     actualizaCambios() {
       for (let i = 0; i < buscaMinas.filas; i++) {
         for (let j = 0; j < buscaMinas.columnas; j++) {
           if (buscaMinas.tableroPulsaciones[i][j] === "p") {
-            buscaMinas.tablero2[i][j] = buscaMinas.tablero[i][j];
+            buscaMinas.tableroVisible[i][j] = buscaMinas.tableroMaster[i][j];
           }
         }
       }
@@ -68,18 +67,35 @@
 
     generarTableros() {
       for (let i = 0; i < buscaMinas.filas; i++) {
-        buscaMinas.tablero[i] = [];
-        buscaMinas.tablero2[i] = [];
-        buscaMinas.tablero3[i] = [];
-        buscaMinas.tableroBanderas[i] = [];
+        buscaMinas.tableroMaster[i] = [];
+        buscaMinas.tableroVisible[i] = [];
+        buscaMinas.tableroCopiaMaster[i] = [];
         buscaMinas.tableroPulsaciones[i] = [];
         for (let j = 0; j < buscaMinas.columnas; j++) {
-          buscaMinas.tablero[i][j] = 0;
-          buscaMinas.tablero2[i][j] = "";
-          buscaMinas.tablero3[i][j] = 0;
-          buscaMinas.tableroBanderas[i][j] = 0;
+          buscaMinas.tableroMaster[i][j] = 0;
+          buscaMinas.tableroVisible[i][j] = "$";
+          buscaMinas.tableroCopiaMaster[i][j] = 0;
           buscaMinas.tableroPulsaciones[i][j] = 0;
         }
+      }
+    },
+    comprobarGanadorBanderas() {
+      let contadorBanderasMinas = 0;
+      for (let i = 0; i < buscaMinas.filas; i++) {
+        for (let j = 0; j < buscaMinas.columnas; j++) {
+          if (
+            buscaMinas.tableroVisible[i][j] === "!" &&
+            buscaMinas.tableroMaster[i][j] === "x"
+          ) {
+            contadorBanderasMinas++;
+          }
+        }
+      }
+
+      console.log(contadorBanderasMinas);
+
+      if (contadorBanderasMinas === buscaMinas.numMinas) {
+        throw new Error("Has ganado la partida");
       }
     },
     generaMinas() {
@@ -88,14 +104,14 @@
         let columna =
           Math.floor(Math.random() * (buscaMinas.columnas - 1 - 0)) + 0;
 
-        while (buscaMinas.tablero[fila][columna] === "x") {
+        while (buscaMinas.tableroMaster[fila][columna] === "x") {
           fila = Math.floor(Math.random() * (buscaMinas.filas - 1 - 0)) + 0;
           columna =
             Math.floor(Math.random() * (buscaMinas.columnas - 1 - 0)) + 0;
         }
 
-        buscaMinas.tablero[fila][columna] = "x";
-        buscaMinas.tablero3[fila][columna] = "x";
+        buscaMinas.tableroMaster[fila][columna] = "x";
+        buscaMinas.tableroCopiaMaster[fila][columna] = "x";
       }
     },
     cargarPulsacion(x, y) {
@@ -104,7 +120,7 @@
     numerosAlrededorMinas() {
       for (let i = 0; i < buscaMinas.filas; i++) {
         for (let j = 0; j < buscaMinas.columnas; j++) {
-          if (buscaMinas.tablero[i][j] === "x") {
+          if (buscaMinas.tableroMaster[i][j] === "x") {
             if (i == 0 && j == 0) {
               buscaMinas.cuentaMinas(i, j, i + 1, j + 1);
             } else if (i == 0 && (j > 0 && j < buscaMinas.numMinas - 1)) {
@@ -140,13 +156,16 @@
     cuentaMinas(ii, ij, fi, fj) {
       for (let i = ii; i <= fi; i++) {
         for (let j = ij; j <= fj; j++) {
-          if (buscaMinas.tablero[i][j] !== "x") {
-            if (buscaMinas.tablero[i][j] === 0) {
-              buscaMinas.tablero[i][j] = 0 + 1;
-              buscaMinas.tablero3[i][j] = 0 + 1;
+          if (buscaMinas.tableroMaster[i][j] !== "x") {
+            if (buscaMinas.tableroMaster[i][j] === 0) {
+              buscaMinas.tableroMaster[i][j] = 0 + 1;
+              buscaMinas.tableroCopiaMaster[i][j] = 0 + 1;
             } else {
-              buscaMinas.tablero[i][j] = parseInt(buscaMinas.tablero[i][j]) + 1;
-              buscaMinas.tablero3[i][j] = parseInt(buscaMinas.tablero[i][j]);
+              buscaMinas.tableroMaster[i][j] =
+                parseInt(buscaMinas.tableroMaster[i][j]) + 1;
+              buscaMinas.tableroCopiaMaster[i][j] = parseInt(
+                buscaMinas.tableroMaster[i][j]
+              );
             }
           }
         }
@@ -165,15 +184,15 @@
       let contador = 0;
       for (let i = 0; i < buscaMinas.filas; i++) {
         for (let j = 0; j < buscaMinas.columnas; j++) {
-          if (buscaMinas.tablero[i][j] !== "x") contador++;
+          if (buscaMinas.tableroMaster[i][j] !== "x") contador++;
         }
       }
       return contador;
     },
     abrirCeros(x, y) {
-      if (buscaMinas.tablero3[x][y] === 0) {
-        buscaMinas.tablero3[x][y] = -1;
-        if (buscaMinas.tablero[x][y] === 0) {
+      if (buscaMinas.tableroCopiaMaster[x][y] === 0) {
+        buscaMinas.tableroCopiaMaster[x][y] = -1;
+        if (buscaMinas.tableroMaster[x][y] === 0) {
           for (
             let j = Math.max(x - 1, 0);
             j <= Math.min(x + 1, buscaMinas.filas - 1);
@@ -192,7 +211,7 @@
     },
     picar(i, j) {
       try {
-        if (buscaMinas.tablero[i][j] === "x") {
+        if (buscaMinas.tableroMaster[i][j] === "x") {
           throw new Error("Pulsaste una mina");
         } else if (buscaMinas.tableroPulsaciones[i][j] === "p") {
           throw new Error("Esta casilla ya fue pulsada");
@@ -200,29 +219,35 @@
           buscaMinas.abrirCeros(i, j);
           buscaMinas.cargarPulsacion(i, j);
           buscaMinas.actualizaCambios();
-
-          console.table(buscaMinas.tablero);
-          console.table(buscaMinas.tablero2);
+          console.log("Tablero Master \n");
+          console.table(buscaMinas.tableroMaster);
+          console.log("Tablero Visible \n");
+          console.table(buscaMinas.tableroVisible);
+          console.log("Tablero pulsaciones \n");
           console.table(buscaMinas.tableroPulsaciones);
+          buscaMinas.comprobarSiGana();
         }
       } catch (e) {
         if (e.message === "Pulsaste una mina") {
-          /**
-           * FIXME:
-           * Arreglar proble con clear a la hora de mostrar mensaje
-           */
-          setInterval(function() {
-            console.error(e.message);
-            return;
-          }, 3000);
-          console.clear();
+          console.error(e.message);
           buscaMinas.init();
         } else {
           console.error(e.message);
-          console.clear();
         }
       }
     },
+    obtenerNumeroBanderas() {
+      let contador = 0;
+      for (let i = 0; i < buscaMinas.filas; i++) {
+        for (let j = 0; j < buscaMinas.columnas; j++) {
+          if (buscaMinas.tableroBanderas[i][j] === "!") {
+            contador;
+          }
+        }
+      }
+      return contador;
+    },
+
     comprobarSiGana() {
       try {
         if (
@@ -233,6 +258,7 @@
         }
       } catch (e) {
         console.log(e.message);
+        buscaMinas.init();
       }
     },
 
@@ -240,8 +266,7 @@
       for (let i = 0; i < buscaMinas.filas; i++) {
         for (let j = 0; j < buscaMinas.columnas; j++) {
           if (
-            buscaMinas.tablero[i][j] !== "x" &&
-            buscaMinas.tablero2[i][j] !== "" &&
+            buscaMinas.tableroMaster[i][j] !== "x" &&
             buscaMinas.tableroPulsaciones[i][j] !== "p"
           )
             buscaMinas.picar(i, j);
