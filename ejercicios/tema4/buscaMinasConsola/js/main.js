@@ -1,3 +1,7 @@
+/**
+ * Buscaminas consola
+ * @author Jesús Mejías Leiva
+ */
 {
   let buscaMinas = {
     tableroMaster: [],
