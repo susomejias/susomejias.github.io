@@ -4,9 +4,9 @@
     tableroCopiaMaster: [],
     tableroVisible: [],
     tableroPulsaciones: [],
-    filas: 2,
-    columnas: 2,
-    numMinas: 1,
+    filas: 8,
+    columnas: 8,
+    numMinas: 10,
 
     /**
      * Genera la funcionalidad
