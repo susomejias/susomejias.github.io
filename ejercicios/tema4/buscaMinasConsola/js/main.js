@@ -11,26 +11,16 @@
     /**
      * genera un campo de minas nuevo y lo muestra por consola.
      */
-
     init() {
       buscaMinas.generarTableros();
-      buscaMinas.mostrar();
       buscaMinas.calcularCasillasTotales();
       buscaMinas.generaMinas();
       buscaMinas.numerosAlrededorMinas();
-      //buscaMinas.abrirTodasParaGanar();
       buscaMinas.comprobarSiGana();
     },
 
     calcularCasillasTotales() {
       buscaMinas.casillasSinDescubrir = buscaMinas.filas * buscaMinas.columnas;
-    },
-    /**
-     * En caso de picar una minas se indica que se ha perdido el juego.
-     */
-
-    mostrar() {
-      buscaMinas.generarTableros();
     },
 
     /**
@@ -63,6 +53,16 @@
 
     despejar(x, y) {},
 
+    actualizaCambios() {
+      for (let i = 0; i < buscaMinas.filas; i++) {
+        for (let j = 0; j < buscaMinas.columnas; j++) {
+          if (buscaMinas.tableroPulsaciones[i][j] === "p") {
+            buscaMinas.tablero2[i][j] = buscaMinas.tablero[i][j];
+          }
+        }
+      }
+    },
+
     generarTableros() {
       for (let i = 0; i < buscaMinas.filas; i++) {
         buscaMinas.tablero[i] = [];
@@ -71,7 +71,7 @@
         buscaMinas.tableroPulsaciones[i] = [];
         for (let j = 0; j < buscaMinas.columnas; j++) {
           buscaMinas.tablero[i][j] = 0;
-          buscaMinas.tablero2[i][j] = 0;
+          buscaMinas.tablero2[i][j] = "";
           buscaMinas.tableroBanderas[i][j] = 0;
           buscaMinas.tableroPulsaciones[i][j] = 0;
         }
@@ -90,8 +90,6 @@
         }
 
         buscaMinas.tablero[fila][columna] = "x";
-        buscaMinas.tablero2[fila][columna] = "x";
-        buscaMinas.tableroBanderas[fila][columna] = "x";
       }
     },
     cargarPulsacion(x, y) {
@@ -139,14 +137,8 @@
           if (buscaMinas.tablero[i][j] !== "x") {
             if (buscaMinas.tablero[i][j] === "0") {
               buscaMinas.tablero[i][j] = 0 + 1;
-              buscaMinas.tablero2[i][j] = 0 + 1;
-              buscaMinas.tableroBanderas[i][j] = 0 + 1;
             } else {
               buscaMinas.tablero[i][j] = parseInt(buscaMinas.tablero[i][j]) + 1;
-              buscaMinas.tablero2[i][j] =
-                parseInt(buscaMinas.tablero2[i][j]) + 1;
-              buscaMinas.tableroBanderas[i][j] =
-                parseInt(buscaMinas.tableroBanderas[i][j]) + 1;
             }
           }
         }
@@ -171,46 +163,41 @@
       return contador;
     },
     abrirCeros(x, y) {
-      //buscaMinas.tablero2[x][y] = -1;
-      if (buscaMinas.tablero2[x][y] === 0) {
-        buscaMinas.tablero2[x][y] = -1;
-        if (buscaMinas.tablero[x][y] === 0) {
+      if (buscaMinas.tablero[x][y] === 0) {
+        buscaMinas.tablero[x][y] = -1;
+        for (
+          let j = Math.max(x - 1, 0);
+          j <= Math.min(x + 1, buscaMinas.filas - 1);
+          j++
+        )
           for (
-            let j = Math.max(x - 1, 0);
-            j <= Math.min(x + 1, buscaMinas.filas - 1);
-            j++
-          )
-            for (
-              let k = Math.max(y - 1, 0);
-              k <= Math.min(y + 1, buscaMinas.columnas - 1);
-              k++
-            ) {
-              buscaMinas.tablero2[j][k] = "";
-              buscaMinas.cargarPulsacion(j, k);
-              buscaMinas.casillasSinDescubrir--;
-              //array.push(j + "_" + k);
-              buscaMinas.abrirCeros(j, k);
-            }
-        }
+            let k = Math.max(y - 1, 0);
+            k <= Math.min(y + 1, buscaMinas.columnas - 1);
+            k++
+          ) {
+            buscaMinas.tablero2[j][k] = "=";
+            buscaMinas.cargarPulsacion(j, k);
+            buscaMinas.abrirCeros(j, k);
+          }
       }
     },
     picar(i, j) {
       try {
-        if (buscaMinas.tablero2[i][j] === "x") {
+        if (buscaMinas.tablero[i][j] === "x") {
           throw new Error("Pulsaste una mina");
-        } else if (
-          buscaMinas.tablero2[i][j] === "" ||
-          buscaMinas.tableroPulsaciones[i][j] === "p"
-        ) {
+        } else if (buscaMinas.tableroPulsaciones[i][j] === "p") {
           throw new Error("Esta casilla ya fue pulsada");
         } else {
           buscaMinas.abrirCeros(i, j);
           buscaMinas.cargarPulsacion(i, j);
+          buscaMinas.actualizaCambios();
+          console.table(buscaMinas.tablero);
           console.table(buscaMinas.tablero2);
           console.table(buscaMinas.tableroPulsaciones);
         }
       } catch (e) {
         console.log(e.message);
+        return;
       }
     },
     comprobarSiGana() {
@@ -239,10 +226,22 @@
       }
     }
   };
+
+  /**
+   * Funciones publicas
+   */
+  var publicar = (function() {
+    return {
+      init: () => buscaMinas.init(),
+      picar: (x, y) => buscaMinas.picar(x, y),
+      marcar: (x, y) => buscaMinas.marcar(x, y)
+    };
+  })();
+
   function init() {
-    buscaMinas.init();
+    console.log(publicar.init());
+
     console.table(buscaMinas.tablero2);
-    console.log("Casillas sin descubrir: " + buscaMinas.casillasSinDescubrir);
   }
 
   window.addEventListener("load", init);
