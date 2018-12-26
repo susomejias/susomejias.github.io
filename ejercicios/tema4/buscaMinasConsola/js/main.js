@@ -7,7 +7,6 @@
     filas: 2,
     columnas: 2,
     numMinas: 1,
-
     /**
      * genera un campo de minas nuevo y lo muestra por consola.
      */
@@ -16,7 +15,6 @@
       buscaMinas.generaMinas();
       buscaMinas.numerosAlrededorMinas();
       buscaMinas.mostrar();
-      //buscaMinas.abrirTodasParaGanar();
       buscaMinas.comprobarSiGana();
       buscaMinas.comprobarGanadorBanderas();
     },
@@ -27,9 +25,6 @@
       console.log("Tablero visible \n");
       console.table(buscaMinas.tableroVisible);
     },
-    /**
-     * marca con una bandera la casilla(x, y) y muestra el campo de minas actualizado.
-     */
 
     marcar(x, y) {
       try {
@@ -65,6 +60,9 @@
       }
     },
 
+    /**
+     * Genera los tableros y los inicializa
+     */
     generarTableros() {
       for (let i = 0; i < buscaMinas.filas; i++) {
         buscaMinas.tableroMaster[i] = [];
@@ -79,6 +77,9 @@
         }
       }
     },
+    /**
+     * Comprueba si ganaste la partida, mediante el uso de banderas
+     */
     comprobarGanadorBanderas() {
       let contadorBanderasMinas = 0;
       for (let i = 0; i < buscaMinas.filas; i++) {
@@ -98,6 +99,9 @@
         throw new Error("Has ganado la partida");
       }
     },
+    /**
+     * Genera y coloca las minas
+     */
     generaMinas() {
       for (let i = 0; i < buscaMinas.numMinas; i++) {
         let fila = Math.floor(Math.random() * (buscaMinas.filas - 1 - 0)) + 0;
@@ -114,9 +118,17 @@
         buscaMinas.tableroCopiaMaster[fila][columna] = "x";
       }
     },
+    /**
+     * Carga la pulsacion en la matriz correspondiente
+     * @param x cordenada para la fila
+     * @param y coordenada para la columna
+     */
     cargarPulsacion(x, y) {
       buscaMinas.tableroPulsaciones[x][y] = "p";
     },
+    /**
+     * Coloca los numeros alrededor de las minas del tablero
+     */
     numerosAlrededorMinas() {
       for (let i = 0; i < buscaMinas.filas; i++) {
         for (let j = 0; j < buscaMinas.columnas; j++) {
@@ -153,6 +165,9 @@
         }
       }
     },
+    /**
+     * Coloca el numero de minas
+     */
     cuentaMinas(ii, ij, fi, fj) {
       for (let i = ii; i <= fi; i++) {
         for (let j = ij; j <= fj; j++) {
@@ -171,6 +186,9 @@
         }
       }
     },
+    /**
+     * Devuelve el número de casillas que hay pulsadas en el tablero
+     */
     obtenerNumeroCasillasPulsadas() {
       let contador = 0;
       for (let i = 0; i < buscaMinas.filas; i++) {
@@ -180,6 +198,9 @@
       }
       return contador;
     },
+    /**
+     * Devuelve el número de casillas necesarias para ganar del tablero
+     */
     obtenerNumeroCasillasParaGanar() {
       let contador = 0;
       for (let i = 0; i < buscaMinas.filas; i++) {
@@ -189,6 +210,11 @@
       }
       return contador;
     },
+    /**
+     * Descubre casillas, de manera recursiva
+     * @param x coordenada para la fila
+     * @param y coordenada para la columna
+     */
     abrirCeros(x, y) {
       if (buscaMinas.tableroCopiaMaster[x][y] === 0) {
         buscaMinas.tableroCopiaMaster[x][y] = -1;
@@ -209,6 +235,11 @@
         }
       }
     },
+    /**
+     * pica una casilla y realiza las acciones correspondientes
+     * @param x coordenada fila
+     * @param j coordenada columna
+     */
     picar(i, j) {
       try {
         if (buscaMinas.tableroMaster[i][j] === "x") {
@@ -236,6 +267,9 @@
         }
       }
     },
+    /**
+     * Comprueba si ganas las partida de manera normal
+     */
     comprobarSiGana() {
       try {
         if (
@@ -247,18 +281,6 @@
       } catch (e) {
         console.log(e.message);
         buscaMinas.init();
-      }
-    },
-
-    abrirTodasParaGanar() {
-      for (let i = 0; i < buscaMinas.filas; i++) {
-        for (let j = 0; j < buscaMinas.columnas; j++) {
-          if (
-            buscaMinas.tableroMaster[i][j] !== "x" &&
-            buscaMinas.tableroPulsaciones[i][j] !== "p"
-          )
-            buscaMinas.picar(i, j);
-        }
       }
     }
   };
