@@ -55,9 +55,12 @@
         console.log(e.message);
       }
     },
+
     /**
      * Actualiza los valores del tablero visible
-     */ actualizaCambios() {
+     */
+
+    actualizaCambios() {
       for (let i = 0; i < buscaMinas.filas; i++) {
         for (let j = 0; j < buscaMinas.columnas; j++) {
           if (buscaMinas.tableroPulsaciones[i][j] === "p") {
@@ -83,9 +86,12 @@
         }
       }
     },
+
     /**
      * Comprueba si ganaste la partida, mediante el uso de banderas
-     */ comprobarGanadorBanderas() {
+     */
+
+    comprobarGanadorBanderas() {
       let contadorBanderasMinas = 0;
       for (let i = 0; i < buscaMinas.filas; i++) {
         for (let j = 0; j < buscaMinas.columnas; j++) {
@@ -106,7 +112,9 @@
     },
     /**
      * Genera y coloca las minas
-     */ generaMinas() {
+     */
+
+    generaMinas() {
       for (let i = 0; i < buscaMinas.numMinas; i++) {
         let fila = Math.floor(Math.random() * (buscaMinas.filas - 1 - 0)) + 0;
         let columna =
@@ -122,16 +130,21 @@
         buscaMinas.tableroCopiaMaster[fila][columna] = "x";
       }
     },
+
     /**
      * Carga la pulsacion en la matriz correspondiente
      * @param x cordenada para la fila
      * @param y coordenada para la columna
-     */ cargarPulsacion(x, y) {
+     */
+
+    cargarPulsacion(x, y) {
       buscaMinas.tableroPulsaciones[x][y] = "p";
     },
     /**
      * Coloca los numeros alrededor de las minas del tablero
-     */ numerosAlrededorMinas() {
+     */
+
+    numerosAlrededorMinas() {
       for (let i = 0; i < buscaMinas.filas; i++) {
         for (let j = 0; j < buscaMinas.columnas; j++) {
           if (buscaMinas.tableroMaster[i][j] === "x") {
@@ -167,9 +180,12 @@
         }
       }
     },
+
     /**
      * Coloca el numero de minas
-     */ cuentaMinas(ii, ij, fi, fj) {
+     */
+
+    cuentaMinas(ii, ij, fi, fj) {
       for (let i = ii; i <= fi; i++) {
         for (let j = ij; j <= fj; j++) {
           if (buscaMinas.tableroMaster[i][j] !== "x") {
@@ -187,9 +203,12 @@
         }
       }
     },
+
     /**
      * Devuelve el número de casillas que hay pulsadas en el tablero
-     */ obtenerNumeroCasillasPulsadas() {
+     */
+
+    obtenerNumeroCasillasPulsadas() {
       let contador = 0;
       for (let i = 0; i < buscaMinas.filas; i++) {
         for (let j = 0; j < buscaMinas.columnas; j++) {
@@ -200,7 +219,8 @@
     },
     /**
      * Devuelve el número de casillas necesarias para ganar del tablero
-     */ obtenerNumeroCasillasParaGanar() {
+     */
+    obtenerNumeroCasillasParaGanar() {
       let contador = 0;
       for (let i = 0; i < buscaMinas.filas; i++) {
         for (let j = 0; j < buscaMinas.columnas; j++) {
@@ -235,7 +255,7 @@
     },
     /**
      * pica una casilla y realiza las acciones correspondientes
-     * @param x coordenada fila
+     * @param i coordenada fila
      * @param j coordenada columna
      */ picar(i, j) {
       try {
