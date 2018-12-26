@@ -1,7 +1,8 @@
 {
-  var buscaMinas = {
+  let buscaMinas = {
     tablero: [],
     tablero2: [],
+    tablero3: [],
     tableroPulsaciones: [],
     tableroBanderas: [],
     filas: 8,
@@ -13,14 +14,10 @@
      */
     init() {
       buscaMinas.generarTableros();
-      buscaMinas.calcularCasillasTotales();
       buscaMinas.generaMinas();
       buscaMinas.numerosAlrededorMinas();
+      buscaMinas.abrirTodasParaGanar();
       buscaMinas.comprobarSiGana();
-    },
-
-    calcularCasillasTotales() {
-      buscaMinas.casillasSinDescubrir = buscaMinas.filas * buscaMinas.columnas;
     },
 
     /**
@@ -51,7 +48,7 @@
      Después se generará el entorno gráfico. Pero eso no entra en esta entrega.
      */
 
-    despejar(x, y) {},
+    //despejar(x, y) {},
 
     actualizaCambios() {
       for (let i = 0; i < buscaMinas.filas; i++) {
@@ -67,11 +64,13 @@
       for (let i = 0; i < buscaMinas.filas; i++) {
         buscaMinas.tablero[i] = [];
         buscaMinas.tablero2[i] = [];
+        buscaMinas.tablero3[i] = [];
         buscaMinas.tableroBanderas[i] = [];
         buscaMinas.tableroPulsaciones[i] = [];
         for (let j = 0; j < buscaMinas.columnas; j++) {
           buscaMinas.tablero[i][j] = 0;
           buscaMinas.tablero2[i][j] = "";
+          buscaMinas.tablero3[i][j] = 0;
           buscaMinas.tableroBanderas[i][j] = 0;
           buscaMinas.tableroPulsaciones[i][j] = 0;
         }
@@ -90,6 +89,7 @@
         }
 
         buscaMinas.tablero[fila][columna] = "x";
+        buscaMinas.tablero3[fila][columna] = "x";
       }
     },
     cargarPulsacion(x, y) {
@@ -137,8 +137,11 @@
           if (buscaMinas.tablero[i][j] !== "x") {
             if (buscaMinas.tablero[i][j] === "0") {
               buscaMinas.tablero[i][j] = 0 + 1;
+              buscaMinas.tablero3[i][j] = 0 + 1;
             } else {
               buscaMinas.tablero[i][j] = parseInt(buscaMinas.tablero[i][j]) + 1;
+              buscaMinas.tablero3[i][j] =
+                parseInt(buscaMinas.tablero[i][j]) + 1;
             }
           }
         }
@@ -163,22 +166,24 @@
       return contador;
     },
     abrirCeros(x, y) {
-      if (buscaMinas.tablero[x][y] === 0) {
-        buscaMinas.tablero[x][y] = -1;
-        for (
-          let j = Math.max(x - 1, 0);
-          j <= Math.min(x + 1, buscaMinas.filas - 1);
-          j++
-        )
+      if (buscaMinas.tablero3[x][y] === 0) {
+        buscaMinas.tablero3[x][y] = -1;
+        if (buscaMinas.tablero[x][y] === 0) {
           for (
-            let k = Math.max(y - 1, 0);
-            k <= Math.min(y + 1, buscaMinas.columnas - 1);
-            k++
-          ) {
-            buscaMinas.tablero2[j][k] = "=";
-            buscaMinas.cargarPulsacion(j, k);
-            buscaMinas.abrirCeros(j, k);
-          }
+            let j = Math.max(x - 1, 0);
+            j <= Math.min(x + 1, buscaMinas.filas - 1);
+            j++
+          )
+            for (
+              let k = Math.max(y - 1, 0);
+              k <= Math.min(y + 1, buscaMinas.columnas - 1);
+              k++
+            ) {
+              buscaMinas.tablero2[j][k] = "-";
+              buscaMinas.cargarPulsacion(j, k);
+              buscaMinas.abrirCeros(j, k);
+            }
+        }
       }
     },
     picar(i, j) {
@@ -230,7 +235,7 @@
   /**
    * Funciones publicas
    */
-  var publicar = (function() {
+  publicar = (function() {
     return {
       init: () => buscaMinas.init(),
       picar: (x, y) => buscaMinas.picar(x, y),
@@ -239,9 +244,9 @@
   })();
 
   function init() {
-    console.log(publicar.init());
+    publicar.init();
 
-    console.table(buscaMinas.tablero2);
+    //console.table(buscaMinas.tablero2);
   }
 
   window.addEventListener("load", init);
