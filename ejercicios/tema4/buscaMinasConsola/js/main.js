@@ -309,8 +309,8 @@
           console.table(buscaMinas.tableroMaster);
           console.log("Tablero Visible \n");
           console.table(buscaMinas.tableroVisible);
-          console.log("Tablero pulsaciones \n");
-          console.table(buscaMinas.tableroPulsaciones);
+          // console.log("Tablero pulsaciones \n");
+          // console.table(buscaMinas.tableroPulsaciones);
           buscaMinas.comprobarSiGana();
         }
       } catch (e) {
