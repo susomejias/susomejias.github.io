@@ -16,6 +16,7 @@
      * Genera la funcionalidad
      */
     init() {
+      buscaMinas.elegirNivel();
       buscaMinas.generarTableros();
       buscaMinas.generaMinas();
       buscaMinas.numerosAlrededorMinas();
@@ -60,6 +61,39 @@
       }
     },
 
+    /**
+     * Selecciona el nivel y asigna las casillas y el numero de minas según el nivel
+     */
+    elegirNivel() {
+      let nivel = "";
+      do {
+        nivel = prompt("Introduce el nivel: (facil, intermedio, experto)");
+      } while (
+        nivel.toLowerCase() === "facil" &&
+        nivel.toLowerCase() === "intermedio" &&
+        nivel.toLowerCase() === "experto"
+      );
+
+      switch (nivel.toLowerCase()) {
+        case "facil":
+          buscaMinas.filas = 8;
+          buscaMinas.columnas = 8;
+          buscaMinas.numMinas = 10;
+          break;
+        case "intermedio":
+          buscaMinas.filas = 16;
+          buscaMinas.columnas = 16;
+          buscaMinas.numMinas = 40;
+          break;
+        case "experto":
+          buscaMinas.filas = 16;
+          buscaMinas.columnas = 30;
+          buscaMinas.numMinas = 99;
+          break;
+        default:
+          break;
+      }
+    },
     /**
      * Actualiza los valores del tablero visible
      */
