@@ -300,11 +300,12 @@
         if (buscaMinas.tableroMaster[i][j] === "x") {
           throw new Error("Pulsaste una mina");
         } else if (buscaMinas.tableroPulsaciones[i][j] === "p") {
-          throw new Error("Esta casilla ya fue pulsada");
+          throw new Error("Esta casilla ya fue pulsada, por favor pulsa otra casilla");
         } else {
           buscaMinas.abrirCeros(i, j);
           buscaMinas.cargarPulsacion(i, j);
           buscaMinas.actualizaCambios();
+          console.clear();
           console.log("Tablero Master \n");
           console.table(buscaMinas.tableroMaster);
           console.log("Tablero Visible \n");
@@ -315,8 +316,7 @@
         }
       } catch (e) {
         if (e.message === "Pulsaste una mina") {
-          console.error(e.message);
-          buscaMinas.init();
+          buscaMinas.volverAjugar(e.message)
         } else {
           console.error(e.message);
         }
@@ -333,11 +333,30 @@
           throw new Error("¡¡¡ Felicidades has ganado !!!");
         }
       } catch (e) {
-        console.log(e.message);
+        buscaMinas.volverAjugar(e.message)
+      }
+    },
+
+    /**
+     * Pregunta si deseas volver a jugar, es caso verdadero inicia el juego
+     * @param msg mensaje para mostrar al usuario
+     */
+    volverAjugar(msg){
+      let volverAjugar = "";
+      do {
+        volverAjugar = prompt(msg + ", ¿deseas volver a jugar?");
+      } while (
+        volverAjugar.toLowerCase() === "s" &&
+        volverAjugar.toLowerCase() === "n" 
+      );
+      if (volverAjugar.toLowerCase() === "s"){
         buscaMinas.init();
+      }else{
+        return;
       }
     }
   };
+
 
   /**
    * Funciones publicas
