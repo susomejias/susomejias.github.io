@@ -87,7 +87,7 @@
           break;
         case "experto":
           buscaMinas.filas = 16;
-          buscaMinas.columnas = 30;
+          buscaMinas.columnas = 20;
           buscaMinas.numMinas = 99;
           break;
         default:
@@ -344,7 +344,7 @@
     volverAjugar(msg){
       let volverAjugar = "";
       do {
-        volverAjugar = prompt(msg + ", ¿deseas volver a jugar?");
+        volverAjugar = prompt(msg + ", ¿deseas volver a jugar? (s/n)");
       } while (
         volverAjugar.toLowerCase() === "s" &&
         volverAjugar.toLowerCase() === "n" 
