@@ -4,13 +4,15 @@ import { buscaMinas } from "./main.js";
   let elegirNivel;
   let audio;
   let toogleAudio;
+  let timer;
+  let time;
 
   function init() {
     containerTablero = document.getElementById("containerTablero");
     elegirNivel = document.getElementById("elegirNivel")
     audio = document.getElementById("audio")
     toogleAudio = document.getElementById("silenciarAudio");
-
+    timer = document.getElementById("timer");
     elegirNivel.addEventListener("change", buscaMinasGUI.initJuego);
     toogleAudio.addEventListener("click", buscaMinasGUI.audioFunctionality);
     
@@ -24,8 +26,10 @@ import { buscaMinas } from "./main.js";
     initJuego(){
         buscaMinas.nivel = this[this.selectedIndex].value;
         buscaMinas.init();
+        this.disabled = true;
         buscaMinasGUI.generarTableroGui();
         buscaMinasGUI.crearDivRecord();
+        buscaMinasGUI.mostrarTiempoPartida();
     },
     /**
     * Genera el tablero GUI
@@ -77,14 +81,18 @@ import { buscaMinas } from "./main.js";
     picarGui(i,j){
         buscaMinas.picar(i,j)
         buscaMinasGUI.actualizarGui();
+        if (buscaMinas.flagGanado){
+            buscaMinasGUI.comprobarRecord();
+        }
     },
     /**
     * Realiza la accion de picar y actualiza la GUI
     */
-    marcarGui(ev,i,j) {
-        if (ev.button === 2){
-            buscaMinas.marcar(i,j)
-            buscaMinasGUI.actualizarGui();
+    marcarGui(i,j) {
+        buscaMinas.marcar(i,j)
+        buscaMinasGUI.actualizarGui();
+        if (buscaMinas.flagGanado){
+            buscaMinasGUI.comprobarRecord();
         }
     },
     /**
@@ -107,21 +115,30 @@ import { buscaMinas } from "./main.js";
             element.className = "";
         }
     },
-
-    crearDivRecord(params) {
-
+    /**
+     * Crear div para el timer y
+     */
+    crearDivTimer() {
+        timer.innerHTML = `<img src="images/hourglass.svg" /><p id="time"></p>`;
+        time = document.getElementById("time");
+    },
+    /**
+     * Crea los divs para el record y el tiempo
+     */
+    crearDivRecord() {
+        buscaMinasGUI.crearDivTimer();
         if (document.getElementById("record")) {
           document.getElementById("record").remove();
         }
         let container = document.getElementById("container");
         let div = document.createElement("div");
         div.id = "record";
-        timer.innerHTML = `<div id="record"></div>`;
+        time.innerHTML = `<div id="record"></div>`;
     
-        if (buscaMinas.nivel === "principiante") {
-          if (localStorage.getItem("recordPrincipiante") !== null) {
+        if (buscaMinas.nivel === "facil") {
+          if (localStorage.getItem("recordFacil") !== null) {
             div.textContent = `Record: ${localStorage.getItem(
-              "recordPrincipiante"
+              "recordFacil"
             )}`;
           } else {
             div.textContent = `Record: 0`;
@@ -134,19 +151,84 @@ import { buscaMinas } from "./main.js";
           } else {
             div.textContent = `Record: 0`;
           }
-        }
+        }else if (buscaMinas.nivel === "experto") {
+            if (localStorage.getItem("recordExperto") !== null) {
+              div.textContent = `Record: ${localStorage.getItem(
+                "recordExperto"
+              )}`;
+            } else {
+              div.textContent = `Record: 0`;
+            }
+          }
     
         container.appendChild(div);
+      },
+      /**
+       * Comprueba el record y lo actualiza
+       */
+      comprobarRecord() {
+        let tiempo = parseInt(document.querySelector("#timer p").textContent);
+   
+        if (buscaMinas.nivel === "facil") {
+          if (localStorage.getItem("recordFacil") === null) {
+            localStorage.setItem("recordFacil", tiempo);
+          } else {
+            if (
+              localStorage.getItem("recordFacil") === 0 ||
+              localStorage.getItem("recordFacil") > tiempo
+            ) {
+              localStorage.setItem("recordFacil", tiempo);
+            }
+          }
+        } else if (buscaMinas.nivel === "intermedio") {
+          if (localStorage.getItem("recordIntermedio") === null) {
+            localStorage.setItem("recordIntermedio", tiempo);
+          } else {
+            if (
+              localStorage.getItem("recordIntermedio") === 0 ||
+              localStorage.getItem("recordIntermedio") > tiempo
+            ) {
+              localStorage.setItem("recordIntermedio", tiempo);
+            }
+          }
+        }else if (buscaMinas.nivel === "experto") {
+            if (localStorage.getItem("recordExperto") === null) {
+              localStorage.setItem("recordExperto", tiempo);
+            } else {
+              if (
+                localStorage.getItem("recordExperto") === 0 ||
+                localStorage.getItem("recordExperto") > tiempo
+              ) {
+                localStorage.setItem("recordExperto", tiempo);
+              }
+            }
+          }
+      },
+      /**
+       * Muestra el tiempo de partida
+       */
+      mostrarTiempoPartida() {
+        
+        let seconds = 0;
+  
+        let interv = setInterval(() => {
+          if (
+            !buscaMinas.flagFinPartida && 
+            !buscaMinas.flagGanado
+          ) {
+            seconds++;
+            time.textContent = seconds;
+          } else {
+            //buscaMinas.resetTime = false;
+            clearInterval(interv);
+            if (buscaMinas.flagGanado) {
+              buscaMinas.comprobarRecord();
+            }
+          }
+        }, 1000);
       }
 
   }
-
-
-
-
-
-
-
 
   window.addEventListener("load", init);
 

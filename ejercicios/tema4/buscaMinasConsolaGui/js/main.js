@@ -12,11 +12,15 @@ export let buscaMinas = {
   columnas: 0,
   numMinas: 0,
   nivel: "",
+  flagGanado: false,
+  flagFinPartida: false,
 
   /**
    * Genera la funcionalidad
    */
   init() {
+    buscaMinas.finPartida = false;
+    buscaMinas.flagFinPartida = false;
     buscaMinas.elegirNivel();
     buscaMinas.generarTableros();
     buscaMinas.generaMinas();
@@ -140,6 +144,7 @@ export let buscaMinas = {
     }
     try {
       if (contadorBanderasMinas === buscaMinas.numMinas) {
+        buscaMinas.flagGanado = true;
         throw new Error("Has ganado la partida");
       }
     } catch (e) {
@@ -303,6 +308,7 @@ export let buscaMinas = {
   picar(i, j) {
     try {
       if (buscaMinas.tableroMaster[i][j] === "x") {
+        buscaMinas.flagFinPartida = true;
         throw new Error("Pulsaste una mina");
       } else if (buscaMinas.tableroPulsaciones[i][j] === "p") {
         throw new Error(
@@ -340,6 +346,7 @@ export let buscaMinas = {
         buscaMinas.obtenerNumeroCasillasPulsadas() ===
         buscaMinas.obtenerNumeroCasillasParaGanar()
       ) {
+        buscaMinas.flagGanado = true;
         throw new Error("¡¡¡ Felicidades has ganado !!!");
       }
     } catch (e) {
@@ -360,7 +367,7 @@ export let buscaMinas = {
       volverAjugar.toLowerCase() === "n"
     );
     if (volverAjugar.toLowerCase() === "s") {
-      buscaMinas.init();
+      location.reload();
     } else {
       return;
     }

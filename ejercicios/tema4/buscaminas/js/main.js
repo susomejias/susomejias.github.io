@@ -140,7 +140,6 @@
      */
     crearDivTimer() {
       timer.innerHTML = `<img src="images/hourglass.svg" /><p id="time"></p>`;
-      let time = document.getElementById("time");
     },
     /**
      * Crear div numero de minas
