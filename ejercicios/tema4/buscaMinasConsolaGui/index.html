@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Ejercicio-JesúsMejiasLeiva</title>
+    <script type="module" src="js/main.js" charset="UTF-8"></script>
+    <script type="module" src="js/gui.js" charset="UTF-8"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/estilos.min.css" />
+  </head>
+  <body>
+    <noscript>
+      Por favor, comprueba que tu navegador es compatible con javascript, o bien
+      comprueba si lo tienes activado
+    </noscript>
+    <img src="images/volumenOn.svg" id="silenciarAudio" />
+    <main>
+      <audio id="audio" autoplay loop>
+        <source
+          src="audio/John_Bartmann_-_08_-_Gameshow_Brazz.mp3"
+          type="audio/mpeg"
+        />
+        Your browser does not support the audio element.
+      </audio>
+      <h1>Buscaminas js Jesús Mejías Leiva</h1>
+
+      <div>
+        <div id="container">
+          <select name="nivel" id="elegirNivel">
+            <option value="Elige la dificultad">Elige la dificultad</option>
+            <option value="facil">Facil</option>
+            <option value="intermedio">Intermedio</option>
+            <option value="experto">Experto</option>
+          </select>
+          <div id="timer"></div>
+        </div>
+
+        <div id="containerTablero"></div>
+      </div>
+
+      <span id="spanError"></span>
+    </main>
+  </body>
+</html>
