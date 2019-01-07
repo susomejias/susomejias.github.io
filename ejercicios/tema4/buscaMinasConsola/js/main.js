@@ -303,7 +303,17 @@
         }
       }
     },
+    descubrirMinas(){
+      for (let i = 0; i < buscaMinas.filas; i++) {
+        for (let j = 0; j < buscaMinas.columnas; j++) {
+          if (buscaMinas.tableroMaster[i][j] !== "x"){
+            buscaMinas.tableroVisible[i][j] = 0;
+          }
+        }
+      }
 
+    console.table(buscaMinas.tableroVisible);
+    },
     /**
      * pica una casilla y realiza las acciones correspondientes
      * @param i coordenada fila
@@ -381,7 +391,8 @@
     return {
       init: () => buscaMinas.init(),
       picar: (x, y) => buscaMinas.picar(x, y),
-      marcar: (x, y) => buscaMinas.marcar(x, y)
+      marcar: (x, y) => buscaMinas.marcar(x, y),
+      descubrirMinas: () => buscaMinas.descubrirMinas(),
     };
   })();
 

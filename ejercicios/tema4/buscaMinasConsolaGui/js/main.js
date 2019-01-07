@@ -43,7 +43,6 @@ export let buscaMinas = {
    * @param y coordenada para la columna
    */
   marcar(x, y) {
-    try {
       if (
         buscaMinas.tableroPulsaciones[x][y] !== "p" &&
         buscaMinas.tableroVisible[x][y] !== "!"
@@ -66,9 +65,6 @@ export let buscaMinas = {
         console.table(buscaMinas.tableroVisible);
       }
       buscaMinas.comprobarGanadorBanderas();
-    } catch (e) {
-      console.log(e.message);
-    }
   },
 
   /**
@@ -108,7 +104,15 @@ export let buscaMinas = {
       }
     }
   },
-
+  descubrirMinas(){
+    for (let i = 0; i < buscaMinas.filas; i++) {
+      for (let j = 0; j < buscaMinas.columnas; j++) {
+        if (buscaMinas.tableroMaster[i][j] !== "x"){
+          buscaMinas.tableroVisible[i][j] = 0;
+        }
+      }
+    }
+  },
   /**
    * Genera los tableros y los inicializa
    */
@@ -142,14 +146,10 @@ export let buscaMinas = {
         }
       }
     }
-    try {
       if (contadorBanderasMinas === buscaMinas.numMinas) {
         buscaMinas.flagGanado = true;
         throw new Error("Has ganado la partida");
       }
-    } catch (e) {
-      buscaMinas.volverAjugar(e.message);
-    }
   },
 
   /**
@@ -306,7 +306,6 @@ export let buscaMinas = {
    */
 
   picar(i, j) {
-    try {
       if (buscaMinas.tableroMaster[i][j] === "x") {
         buscaMinas.flagFinPartida = true;
         throw new Error("Pulsaste una mina");
@@ -327,13 +326,6 @@ export let buscaMinas = {
         // console.table(buscaMinas.tableroPulsaciones);
         buscaMinas.comprobarSiGana();
       }
-    } catch (e) {
-      if (e.message === "Pulsaste una mina") {
-        buscaMinas.volverAjugar(e.message);
-      } else {
-        console.error(e.message);
-      }
-    }
   },
 
   /**
@@ -341,7 +333,7 @@ export let buscaMinas = {
    */
 
   comprobarSiGana() {
-    try {
+    
       if (
         buscaMinas.obtenerNumeroCasillasPulsadas() ===
         buscaMinas.obtenerNumeroCasillasParaGanar()
@@ -349,9 +341,6 @@ export let buscaMinas = {
         buscaMinas.flagGanado = true;
         throw new Error("¡¡¡ Felicidades has ganado !!!");
       }
-    } catch (e) {
-      buscaMinas.volverAjugar(e.message);
-    }
   },
 
   /**
@@ -373,20 +362,3 @@ export let buscaMinas = {
     }
   }
 };
-
-/**
- * Funciones publicas
- */
-var publicar = (function() {
-  return {
-    init: () => buscaMinas.init(),
-    picar: (x, y) => buscaMinas.picar(x, y),
-    marcar: (x, y) => buscaMinas.marcar(x, y)
-  };
-})();
-
-function init() {
-  //publicar.init(); // iniciamos el juego
-}
-
-window.addEventListener("load", init);

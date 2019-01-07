@@ -6,6 +6,7 @@ import { buscaMinas } from "./main.js";
   let toogleAudio;
   let timer;
   let time;
+  let span;
 
   function init() {
     containerTablero = document.getElementById("containerTablero");
@@ -13,6 +14,7 @@ import { buscaMinas } from "./main.js";
     audio = document.getElementById("audio")
     toogleAudio = document.getElementById("silenciarAudio");
     timer = document.getElementById("timer");
+    span = document.getElementById("span");
     elegirNivel.addEventListener("change", buscaMinasGUI.initJuego);
     toogleAudio.addEventListener("click", buscaMinasGUI.audioFunctionality);
     
@@ -33,6 +35,8 @@ import { buscaMinas } from "./main.js";
         buscaMinasGUI.crearDivNumBombas();
         buscaMinasGUI.mostrarTiempoPartida();
         buscaMinasGUI.volverAjugar();
+
+        
     },
     /**
     * Genera el tablero GUI
@@ -43,7 +47,7 @@ import { buscaMinas } from "./main.js";
         "repeat(" + buscaMinas.columnas + ", 1fr)";
         containerTablero.style.border = "2px solid #6A1B9A";
 
-        for (let i = 0; i < buscaMinas.columnas; i++) {
+        for (let i = 0; i < buscaMinas.filas; i++) {
         for (let j = 0; j < buscaMinas.columnas; j++) {
             let input = document.createElement("input");
             input.id = i + "-" + j;
@@ -90,18 +94,33 @@ import { buscaMinas } from "./main.js";
     * Realiza la accion de picar y actualiza la GUI
     */
     picarGui(i,j){
-        if (event.buttons === 0){
-          buscaMinas.picar(i,j)
-          buscaMinasGUI.actualizarGui();
-          if (buscaMinas.flagGanado){
-              buscaMinasGUI.comprobarRecord();
+      if (buscaMinas.flagGanado || buscaMinas.flagFinPartida){
+        event.preventDefault;
+      }else{
+        try {
+          if (event.buttons === 0){
+            buscaMinas.picar(i,j)
+            buscaMinasGUI.actualizarGui();
+            if (buscaMinas.flagGanado){
+                buscaMinasGUI.comprobarRecord();
+            }
           }
+        } catch (e) {
+          buscaMinasGUI.descubrirMinas();
+          if (e.message === "Pulsate una mina"){
+            span.textContent = e.message;
+          }else{
+            span.textContent = e.message;
+          }
+          
         }
+      }
     },
     /**
     * Realiza la accion de picar y actualiza la GUI
     */
     marcarGui(i,j) {
+      try {
         if (event.buttons === 2){
           buscaMinas.marcar(i,j)
           buscaMinasGUI.actualizarGui();
@@ -109,17 +128,24 @@ import { buscaMinas } from "./main.js";
               buscaMinasGUI.comprobarRecord();
           }
         }
+      } catch (e) {
+        buscaMinasGUI.descubrirMinas();
+        span.textContent = e.message;
+      }
+
     },
 
     /**
      * Descubre las minas
      */
     descubrirMinas(){
-      for (let i = 0; i < buscaMinas.columnas; i++) {
+      for (let i = 0; i < buscaMinas.filas; i++) {
         for (let j = 0; j < buscaMinas.columnas; j++) {
           buscaMinasGUI.limpiarClasesCss(document.getElementById(i + "-" + j));
                 if (buscaMinas.tableroMaster[i][j] === "x"){
                     document.getElementById(i + "-" + j).className = "amarillo";
+                }else{
+                    document.getElementById(i + "-" + j).className = "blanco";
                 }
         }
       }
@@ -136,6 +162,9 @@ import { buscaMinas } from "./main.js";
 
       let parentContainerTablero = containerTablero.parentNode;
       parentContainerTablero.appendChild(btnVolverAjugar);
+
+      let btnVolverJugar = document.getElementById("btnVolverAjugar");
+      btnVolverJugar.addEventListener("click", ()=> location.reload());
 
     },
     /**
@@ -275,7 +304,7 @@ import { buscaMinas } from "./main.js";
             //buscaMinas.resetTime = false;
             clearInterval(interv);
             if (buscaMinas.flagGanado) {
-              buscaMinas.comprobarRecord();
+              buscaMinasGUI.comprobarRecord();
             }
           }
         }, 1000);
