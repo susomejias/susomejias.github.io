@@ -201,7 +201,7 @@ import { buscaMinas } from "./main.js";
       let btnVolverJugar = document.getElementById("btnVolverAjugar");
       btnVolverJugar.addEventListener("click", ()=>{
         // reseteamos el select
-        elegirNivel[0].selected = elegirNivel[0].defaultSelected;
+        elegirNivel.selectedIndex = 0;
         location.reload();
       }); 
 
