@@ -57,7 +57,7 @@ import { buscaMinas } from "./main.js";
             input.id = i + "-" + j;
             input.value = "";
             input.readOnly = "true";
-            input.className = "violet"
+            buscaMinasGUI.claseSegunNivel("violet",input);
             input.addEventListener("click", buscaMinasGUI.picarGui.bind(null,i,j));
             input.addEventListener("mousedown", buscaMinasGUI.marcarGui.bind(null,i,j));
             
@@ -65,6 +65,31 @@ import { buscaMinas } from "./main.js";
         }
     }
     },
+    /**
+     * Clases según el nivel
+     */
+    claseSegunNivel(classs,input){
+      switch (buscaMinas.nivel) {
+        case "facil":
+              input.className = classs
+              input.classList.add("inputFacil");
+          break;
+  
+          case "intermedio":
+              input.className = classs
+              input.classList.add("inputIntermedio");
+          break;
+          
+          case "experto":
+              input.className = classs
+              input.classList.add("inputExperto");
+          break;
+      
+        default:
+          break;
+      }
+    },
+    
     /**
     * Actualiza la GUI con los valores del tablero visible interno
     */
@@ -76,9 +101,9 @@ import { buscaMinas } from "./main.js";
             for (let j = 0; j < buscaMinas.columnas; j++) {
                 buscaMinasGUI.limpiarClasesCss(document.getElementById(i + "-" + j));
                 if (buscaMinas.tableroVisible[i][j] === "#"){
-                    document.getElementById(i + "-" + j).className = "violet";
+                  buscaMinasGUI.claseSegunNivel("violet",document.getElementById(i + "-" + j));
                 }else if (buscaMinas.tableroVisible[i][j] === "!"){
-                    document.getElementById(i + "-" + j).className = "rojo";
+                  buscaMinasGUI.claseSegunNivel("rojo",document.getElementById(i + "-" + j));
                 }else if (buscaMinas.tableroVisible[i][j] !== "!" && buscaMinas.tableroVisible[i][j] !== "#"){
                     if (buscaMinas.tableroVisible[i][j] === 0){
                         document.getElementById(i + "-" + j).value = ""
@@ -86,7 +111,7 @@ import { buscaMinas } from "./main.js";
                         document.getElementById(i + "-" + j).value = buscaMinas.tableroVisible[i][j]
                     }
                     
-                    document.getElementById(i + "-" + j).className = "blanco";
+                    buscaMinasGUI.claseSegunNivel("blanco",document.getElementById(i + "-" + j));
                   }
               }
           }
@@ -146,9 +171,9 @@ import { buscaMinas } from "./main.js";
         for (let j = 0; j < buscaMinas.columnas; j++) {
           buscaMinasGUI.limpiarClasesCss(document.getElementById(i + "-" + j));
                 if (buscaMinas.tableroMaster[i][j] === "x"){
-                    document.getElementById(i + "-" + j).className = "amarillo";
+                  buscaMinasGUI.claseSegunNivel("amarillo",document.getElementById(i + "-" + j));
                 }else{
-                    document.getElementById(i + "-" + j).className = "blanco";
+                  buscaMinasGUI.claseSegunNivel("blanco",document.getElementById(i + "-" + j));
                 }
         }
       }

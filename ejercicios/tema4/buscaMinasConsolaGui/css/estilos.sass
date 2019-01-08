@@ -1,3 +1,31 @@
+// Mixings
+
+// Estilo para cada casilla
+=tile($height, $width, $fontSize)
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    margin: 0px
+    width: $width
+    height: $height
+    text-align: center
+    outline: none
+    font-size: $fontSize
+    border-width: 0px
+    *color: #fff
+    border: 2px solid #6A1B9A
+
+// Estilo para centrar en horizontal o vertical
+=flex-center($direction)
+    display: flex
+    flex-direction: $direction
+    justify-content: center
+    align-items: center
+
+//
+
+// Estilos estructura
 body
     margin: 0px
     padding: 0px
@@ -13,22 +41,13 @@ body
     main
         min-height: 100vh
         width: 100%
-        display: flex
-        flex-direction: column
-        justify-content: center
-        align-items: center
+        +flex-center(column)
         div
-            display: flex
-            flex-direction: column
-            justify-content: center
-            align-items: center
+            +flex-center(column)
             button
                 width: 80%
             div
-                display: flex
-                flex-direction: row
-                justify-content: center
-                align-items: center
+                +flex-center(row)
                 background-color: #4A148C
                 width: 100%
                 select
@@ -49,25 +68,14 @@ body
                 width: auto
                 height: auto
                 border: 0px
-                input
-                    display: flex
-                    flex-direction: column
-                    justify-content: center
-                    align-items: center
-                    margin: 0px
-                    width: 50px
-                    height: 50px
-                    text-align: center
-                    outline: none
-                    font-size: 1.7rem
-                    border-width: 0px
-                    *color: #fff
-                    border: 2px solid #6A1B9A    
         h1
             text-align: center
             font-size: 3rem
             color: #263238
-        
+
+//
+
+// Estilos componentes    
 #span
     padding: 15px
     color: #E53935
@@ -87,10 +95,7 @@ body
     margin-top: 20px
 
 #timer
-    display: flex
-    flex-direction: row
-    justify-content: center
-    align-items: center
+    +flex-center(row)
     p
         font-size: 1.5rem
         margin: 0px
@@ -98,22 +103,24 @@ body
     img
         height: 30px
 #record
-    display: flex
-    flex-direction: row
-    justify-content: center
-    align-items: center
+    +flex-center(row)
     font-weight: bold
     font-size: 1.3rem
     color: #FFF
     img
         margin-right: 5px
 
+#numBombas
+    font-weight: bold
+    font-size: 1.3rem
+    color: #FFF
+    img
+        height: 30px
+        margin-right: 5px
 
-// Para evitar que se visualicen los values seleccionando texto
-::selection
-    color: #7CB342
-    background: #7CB342
+//
 
+// Colors
 .rojo
     background: rgb(244, 67, 54)
     color: rgb(244, 67, 54)
@@ -131,10 +138,19 @@ body
 .amarillo
     background: yellow
     color: #fff
-#numBombas
-    font-weight: bold
-    font-size: 1.3rem
-    color: #FFF
-    img
-        height: 30px
-        margin-right: 5px
+
+//
+
+// estilos del input según el nivel
+
+.inputFacil
+    +tile(50px,50px, 1.7rem)
+
+.inputIntermedio
+    +tile(30px,30px, 1.3rem)
+
+.inputExperto
+    +tile(20px,20px, 1.1rem)
+
+//
+
