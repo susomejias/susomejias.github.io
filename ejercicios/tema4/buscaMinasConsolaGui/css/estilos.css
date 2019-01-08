@@ -29,6 +29,12 @@ body main div {
   align-items: center;
 }
 
+@media only screen and (max-width: 968px) {
+  body main div {
+    *width: 100%;
+  }
+}
+
 body main div button {
   width: 80%;
 }
@@ -40,6 +46,7 @@ body main div div {
   align-items: center;
   text-align: center;
   background-color: #4A148C;
+  *width: 100%;
 }
 
 body main div div select {
@@ -62,6 +69,12 @@ body main div #containerTablero {
   width: auto;
   height: auto;
   border: 0px;
+}
+
+@media only screen and (max-width: 968px) {
+  body main div #containerTablero {
+    width: 90%;
+  }
 }
 
 body main h1 {

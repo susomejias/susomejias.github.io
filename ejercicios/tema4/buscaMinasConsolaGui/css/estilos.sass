@@ -50,12 +50,15 @@ body
         +flex-center(column)
         div
             +flex-center(column)
+            @media only screen and (max-width: 968px)
+                *width: 100%
             button
                 width: 80%
             div
                 +flex-center(row)
                 text-align: center
                 background-color: $primary-color
+                *width: 100%
                 select
                     height: 30px
                     font-size: 1.5rem
@@ -74,6 +77,8 @@ body
                 width: auto
                 height: auto
                 border: 0px
+                @media only screen and (max-width: 968px)
+                    width: 90%
         h1
             text-align: center
             font-size: 3rem
