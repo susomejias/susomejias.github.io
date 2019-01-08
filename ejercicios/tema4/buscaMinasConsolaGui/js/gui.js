@@ -169,12 +169,9 @@ import { buscaMinas } from "./main.js";
     descubrirMinas(){
       for (let i = 0; i < buscaMinas.filas; i++) {
         for (let j = 0; j < buscaMinas.columnas; j++) {
-          buscaMinasGUI.limpiarClasesCss(document.getElementById(i + "-" + j));
-                if (buscaMinas.tableroMaster[i][j] === "x"){
-                  buscaMinasGUI.claseSegunNivel("amarillo",document.getElementById(i + "-" + j));
-                }else{
-                  buscaMinasGUI.claseSegunNivel("blanco",document.getElementById(i + "-" + j));
-                }
+            if (buscaMinas.tableroMaster[i][j] === "x"){
+                buscaMinasGUI.claseSegunNivel("amarillo",document.getElementById(i + "-" + j));
+            }
         }
       }
     },

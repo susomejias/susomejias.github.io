@@ -104,15 +104,6 @@ export let buscaMinas = {
       }
     }
   },
-  descubrirMinas(){
-    for (let i = 0; i < buscaMinas.filas; i++) {
-      for (let j = 0; j < buscaMinas.columnas; j++) {
-        if (buscaMinas.tableroMaster[i][j] !== "x"){
-          buscaMinas.tableroVisible[i][j] = 0;
-        }
-      }
-    }
-  },
   /**
    * Genera los tableros y los inicializa
    */
