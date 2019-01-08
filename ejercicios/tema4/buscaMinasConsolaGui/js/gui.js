@@ -13,6 +13,7 @@ import { buscaMinas } from "./main.js";
   let span;
 
   function init() {
+    window.addEventListener("contextmenu", ()=> false);
     containerTablero = document.getElementById("containerTablero");
     elegirNivel = document.getElementById("elegirNivel")
     audio = document.getElementById("audio")
@@ -30,10 +31,11 @@ import { buscaMinas } from "./main.js";
     * Inicia el juego GUI
     */
     initJuego(){
+        
         buscaMinas.nivel = this[this.selectedIndex].value;
         buscaMinas.init();
         this.disabled = true;
-        this.style.widht = "auto"; 
+        document.getElementById("container").style.width = "100%";
         buscaMinasGUI.generarTableroGui();
         buscaMinasGUI.crearDivRecord();
         buscaMinasGUI.crearDivNumBombas();
@@ -148,6 +150,7 @@ import { buscaMinas } from "./main.js";
     * Realiza la accion de picar y actualiza la GUI
     */
     marcarGui(i,j) {
+      buscaMinasGUI.disableContextMenu();
       try {
         if (event.buttons === 2){
           buscaMinas.marcar(i,j)
@@ -342,7 +345,20 @@ import { buscaMinas } from "./main.js";
             }
           }
         }, 1000);
+      },
+
+      disableContextMenu(){
+        if (document.addEventListener) {
+          document.addEventListener('contextmenu', function (e) {
+              e.preventDefault();
+          }, false);
+      } else {
+          document.attachEvent('oncontextmenu', function () {
+              window.event.returnValue = false;
+          });
+
       }
+    }
 
   }
 
