@@ -1,3 +1,7 @@
+/**
+ * Módulo GUI para el juego buscaminas
+ * @author Jesús Mejías Leiva
+ */
 import { buscaMinas } from "./main.js";
 
   let containerTablero;
@@ -54,7 +58,6 @@ import { buscaMinas } from "./main.js";
             input.value = "";
             input.readOnly = "true";
             input.className = "violet"
-            // preguntar a lourdes como bindear el evento.
             input.addEventListener("click", buscaMinasGUI.picarGui.bind(null,i,j));
             input.addEventListener("mousedown", buscaMinasGUI.marcarGui.bind(null,i,j));
             
@@ -66,10 +69,10 @@ import { buscaMinas } from "./main.js";
     * Actualiza la GUI con los valores del tablero visible interno
     */
     actualizarGui(){
-        if (buscaMinas.flagFinPartida && buscaMinas.flagGanado){
+        if (buscaMinas.flagFinPartida || buscaMinas.flagGanado){
           buscaMinasGUI.descubrirMinas();
         }else{
-          for (let i = 0; i < buscaMinas.columnas; i++) {
+          for (let i = 0; i < buscaMinas.filas; i++) {
             for (let j = 0; j < buscaMinas.columnas; j++) {
                 buscaMinasGUI.limpiarClasesCss(document.getElementById(i + "-" + j));
                 if (buscaMinas.tableroVisible[i][j] === "#"){
@@ -106,12 +109,12 @@ import { buscaMinas } from "./main.js";
             }
           }
         } catch (e) {
-          buscaMinasGUI.descubrirMinas();
-          if (e.message === "Pulsate una mina"){
-            span.textContent = e.message;
-          }else{
-            span.textContent = e.message;
-          }
+            buscaMinasGUI.descubrirMinas();
+            if (e.message === "Pulsate una mina"){
+              span.textContent = e.message;
+            }else{
+              span.textContent = e.message;
+            }
           
         }
       }
@@ -167,6 +170,7 @@ import { buscaMinas } from "./main.js";
       btnVolverJugar.addEventListener("click", ()=> location.reload());
 
     },
+
     /**
     * Maneja la funcionalidad del audio
     */
@@ -183,10 +187,15 @@ import { buscaMinas } from "./main.js";
     * @param element elemento del DOM
     */
     limpiarClasesCss(element) {
-        if (element.classList.contains("violet") || element.classList.contains("rojo") ||  element.classList.contains("blanco") ||  element.classList.contains("violet")){
-            element.className = "";
+
+      if (element){
+        if (element.classList.contains("violet") || element.classList.contains("rojo") ||  element.classList.contains("blanco") ||  element.classList.contains("amarillo")){
+          element.className = "";
         }
+      }  
+      
     },
+
     /**
      * Crear div numero de bombas
      */
@@ -197,13 +206,15 @@ import { buscaMinas } from "./main.js";
       div.innerHTML = `<img src="images/bomb.svg"/> ${buscaMinas.numMinas}`;
       container.appendChild(div);
     },
+
     /**
-     * Crear div para el timer y
+     * Crear div para el timer
      */
     crearDivTimer() {
         timer.innerHTML = `<img src="images/hourglass.svg" /><p id="time"></p>`;
         time = document.getElementById("time");
     },
+
     /**
      * Crea los divs para el record y el tiempo
      */
@@ -239,12 +250,13 @@ import { buscaMinas } from "./main.js";
                 "recordExperto"
               )}`;
             } else {
-              div.innerHTML = `<img src="images/record.svg"/> 0`;
+              div.innerHTML = `<img src="images/record.svg" height="30px"/> 0`;
             }
           }
     
         container.appendChild(div);
       },
+
       /**
        * Comprueba el record y lo actualiza
        */
@@ -286,6 +298,7 @@ import { buscaMinas } from "./main.js";
             }
           }
       },
+
       /**
        * Muestra el tiempo de partida
        */
@@ -301,7 +314,6 @@ import { buscaMinas } from "./main.js";
             seconds++;
             time.textContent = seconds;
           } else {
-            //buscaMinas.resetTime = false;
             clearInterval(interv);
             if (buscaMinas.flagGanado) {
               buscaMinasGUI.comprobarRecord();

@@ -83,8 +83,8 @@ export let buscaMinas = {
         buscaMinas.numMinas = 40;
         break;
       case "experto":
-        buscaMinas.filas = 16;
-        buscaMinas.columnas = 20;
+        buscaMinas.filas = 20;
+        buscaMinas.columnas = 24;
         buscaMinas.numMinas = 99;
         break;
       default:
