@@ -60,6 +60,7 @@ import { buscaMinas } from "./main.js";
             input.value = "";
             input.readOnly = "true";
             buscaMinasGUI.claseSegunNivel("violet",input);
+            // preguntar lourdes como bindear el event para usar la funcion con arrow y bind()
             input.addEventListener("click", function(ev){
               buscaMinasGUI.picarGui(ev,i,j)
             });
@@ -198,7 +199,14 @@ import { buscaMinas } from "./main.js";
       parentContainerTablero.appendChild(btnVolverAjugar);
 
       let btnVolverJugar = document.getElementById("btnVolverAjugar");
-      btnVolverJugar.addEventListener("click", ()=> location.reload());
+      btnVolverJugar.addEventListener("click", ()=>{
+        // reseteamos el select
+        elegirNivel[0].selected = elegirNivel[0].defaultSelected;
+        location.reload();
+      }); 
+
+      
+
 
     },
 
