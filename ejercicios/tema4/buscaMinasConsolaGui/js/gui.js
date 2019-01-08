@@ -60,8 +60,12 @@ import { buscaMinas } from "./main.js";
             input.value = "";
             input.readOnly = "true";
             buscaMinasGUI.claseSegunNivel("violet",input);
-            input.addEventListener("click", buscaMinasGUI.picarGui.bind(null,i,j));
-            input.addEventListener("mousedown", buscaMinasGUI.marcarGui.bind(null,i,j));
+            input.addEventListener("click", function(ev){
+              buscaMinasGUI.picarGui(ev,i,j)
+            });
+            input.addEventListener("mousedown", function(ev){
+              buscaMinasGUI.marcarGui(ev,i,j);
+            });
             
             containerTablero.appendChild(input);
         }
@@ -123,12 +127,14 @@ import { buscaMinas } from "./main.js";
     /**
     * Realiza la accion de picar y actualiza la GUI
     */
-    picarGui(i,j){
+    picarGui(ev,i,j){
+      console.log(ev);
+      
       if (buscaMinas.flagGanado || buscaMinas.flagFinPartida){
-        event.preventDefault;
+        ev.preventDefault;
       }else{
         try {
-          if (event.buttons === 0){
+          if (ev.buttons === 0){
             buscaMinas.picar(i,j)
             buscaMinasGUI.actualizarGui();
             if (buscaMinas.flagGanado){
@@ -149,10 +155,10 @@ import { buscaMinas } from "./main.js";
     /**
     * Realiza la accion de picar y actualiza la GUI
     */
-    marcarGui(i,j) {
+    marcarGui(ev,i,j) {
       buscaMinasGUI.disableContextMenu();
       try {
-        if (event.buttons === 2){
+        if (ev.buttons === 2){
           buscaMinas.marcar(i,j)
           buscaMinasGUI.actualizarGui();
           if (buscaMinas.flagGanado){
