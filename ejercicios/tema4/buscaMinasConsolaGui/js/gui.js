@@ -214,16 +214,12 @@ import { buscaMinas } from "./main.js";
         elegirNivel.selectedIndex = 0;
         location.reload();
       }); 
-
-      
-
-
     },
 
     /**
     * Maneja la funcionalidad del audio
     */
-    audioFunctionality(params) {
+    audioFunctionality() {
         audio.muted = !audio.muted;
         if (audio.muted) {
             silenciarAudio.src = "./images/volumenOff.svg";
@@ -311,7 +307,7 @@ import { buscaMinas } from "./main.js";
        */
       comprobarRecord() {
         let tiempo = parseInt(document.querySelector("#timer p").textContent);
-   
+        
         if (buscaMinas.nivel === "facil") {
           if (localStorage.getItem("recordFacil") === null) {
             localStorage.setItem("recordFacil", tiempo);
