@@ -275,7 +275,7 @@ import { buscaMinas } from "./main.js";
           } else {
             div.innerHTML = `<img src="images/record.svg" height="30px"/> 0`;
           }
-        } else if (buscaMinas.nivel === "intermedio") {
+        } else if (buscaMinas.nivel === "Intermedio") {
           if (localStorage.getItem("recordIntermedio") !== null) {
             div.textContent = `<img src="images/record.svg" height="30px"/> ${localStorage.getItem(
               "recordIntermedio"
