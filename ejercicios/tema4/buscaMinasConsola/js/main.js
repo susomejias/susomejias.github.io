@@ -436,7 +436,7 @@
           buscaMinas.abrirCeros(i, j);
           buscaMinas.cargarPulsacion(i, j);
           buscaMinas.actualizaCambios();
-          //console.clear();
+          console.clear();
           console.log("Tablero Master \n");
           console.table(buscaMinas.tableroMaster);
           console.log("Tablero Visible \n");
