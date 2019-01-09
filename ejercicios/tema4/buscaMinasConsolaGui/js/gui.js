@@ -35,7 +35,7 @@ import { buscaMinas } from "./main.js";
         buscaMinas.nivel = this[this.selectedIndex].value;
         buscaMinas.init();
         this.disabled = true;
-        document.getElementById("container").style.width = "100%";
+        buscaMinasGUI.cssAlEmpezar();
         buscaMinasGUI.generarTableroGui();
         buscaMinasGUI.crearDivRecord();
         buscaMinasGUI.crearDivNumBombas();
@@ -43,6 +43,12 @@ import { buscaMinas } from "./main.js";
         buscaMinasGUI.volverAjugar();
 
         
+    },
+    cssAlEmpezar(){
+      document.getElementById("container").style.width = "100%";
+      document.getElementById("container").style.border = "2px solid #6A1B9A";
+      containerTablero.style.width = "100%";
+
     },
     /**
     * Genera el tablero GUI
@@ -67,10 +73,21 @@ import { buscaMinas } from "./main.js";
             input.addEventListener("mousedown", function(ev){
               buscaMinasGUI.marcarGui(ev,i,j);
             });
+
+            input.addEventListener("mousedown", function(ev){
+              buscaMinasGUI.despejarGui(ev,i,j);
+            });
             
             containerTablero.appendChild(input);
         }
     }
+    },
+    despejarGui(ev,i,j){
+      if (ev.buttons === 3){
+        buscaMinas.despejar(i,j);
+        buscaMinasGUI.actualizarGui();
+      }
+      
     },
     /**
      * Clases según el nivel
@@ -129,8 +146,6 @@ import { buscaMinas } from "./main.js";
     * Realiza la accion de picar y actualiza la GUI
     */
     picarGui(ev,i,j){
-      console.log(ev);
-      
       if (buscaMinas.flagGanado || buscaMinas.flagFinPartida){
         ev.preventDefault;
       }else{
@@ -144,12 +159,7 @@ import { buscaMinas } from "./main.js";
           }
         } catch (e) {
             buscaMinasGUI.descubrirMinas();
-            if (e.message === "Pulsate una mina"){
-              span.textContent = e.message;
-            }else{
-              span.textContent = e.message;
-            }
-          
+            span.textContent = e.message;
         }
       }
     },

@@ -51,10 +51,6 @@ export let buscaMinas = {
         console.clear();
         console.table(buscaMinas.tableroMaster);
         console.table(buscaMinas.tableroVisible);
-      } else if (buscaMinas.tableroPulsaciones[x][y] === "p") {
-        throw new Error(
-          "No puedes colocar una bandera en una casilla descubierta"
-        );
       } else if (
         buscaMinas.tableroPulsaciones[x][y] !== "p" &&
         buscaMinas.tableroVisible[x][y] === "!"
@@ -66,7 +62,124 @@ export let buscaMinas = {
       }
       buscaMinas.comprobarGanadorBanderas();
   },
+/**
+     * intenta destapar las casillas colindantes, sólo si el número de banderas
+     * se corresponden con las que indica la casilla. Entonces muestra el campo 
+     * de minas actualizado.
+     * En caso de estar las banderas equivocadas se indica que se ha perdido el
+     * juego.
+     */
+    despejar(x,y){
 
+      let banderas = 0;
+
+      if (x > buscaMinas.filas || y > buscaMinas.columnas){
+        throw new Error("Coordenadas no válidas");
+      }
+
+      if (buscaMinas.tableroPulsaciones[x][y] === "p"){
+        if (x > 0 && y > 0){
+          if (buscaMinas.tableroVisible[x - 1][ y - 1] === "!"){
+            banderas++;
+          }
+        } 
+        
+        if ( y > 0){
+          if (buscaMinas.tableroVisible[x][y - 1] === "!"){
+            banderas++;
+          }
+        } 
+
+        if (y > 0 && x < buscaMinas.filas - 1){
+          if (buscaMinas.tableroVisible[x + 1][y - 1] === "!"){
+            banderas++;
+          }
+        } 
+
+        if (x > 0){
+          if (buscaMinas.tableroVisible[x - 1][y] === "!"){
+            banderas++;
+          }
+        }
+        
+        if (x < buscaMinas.filas - 1 ){
+          if (buscaMinas.tableroVisible[x + 1][y] === "!"){
+            banderas++;
+          }
+        }
+
+        if (y < buscaMinas.columnas - 1){
+          if (buscaMinas.tableroVisible[x][y + 1] === "!"){
+            banderas++;
+          }
+        }
+
+        if (x < buscaMinas.filas - 1  && y < buscaMinas.columnas - 1){
+          if (buscaMinas.tableroVisible[x + 1][y + 1] === "!"){
+            banderas++;
+          }
+        }
+
+        if (x > 0  && y < buscaMinas.columnas - 1){
+          if (buscaMinas.tableroVisible[x - 1][y + 1] === "!"){
+            banderas++;
+          }
+        }
+      }
+
+
+      if (banderas === buscaMinas.tableroMaster[x][y]){
+
+        if (x > 0 && y > 0){
+          if (buscaMinas.tableroVisible[x - 1][ y - 1] !== "!" && buscaMinas.tableroPulsaciones[x - 1][y - 1] !== "p"){
+            buscaMinas.picar(x-1,y-1);
+          }
+        } 
+        
+        if ( y > 0){
+          if (buscaMinas.tableroVisible[x][y - 1] !== "!" && buscaMinas.tableroPulsaciones[x][y-1] !== "p"){
+            buscaMinas.picar(x,y-1);
+          }
+        } 
+
+        if (y > 0 && x < buscaMinas.filas - 1){
+          if (buscaMinas.tableroVisible[x + 1][y - 1] !== "!" && buscaMinas.tableroPulsaciones[x+1][y-1] !== "p"){
+            buscaMinas.picar(x+1,y-1);
+          }
+        } 
+
+        if (x > 0){
+          if (buscaMinas.tableroVisible[x - 1][y] !== "!" && buscaMinas.tableroPulsaciones[x-1][y] !== "p"){
+            buscaMinas.picar(x-1,y);
+          }
+        }
+        
+        if (x < buscaMinas.filas - 1 ){
+          if (buscaMinas.tableroVisible[x + 1][y] !== "!" && buscaMinas.tableroPulsaciones[x+1][y] !== "p"){
+            buscaMinas.picar(x+1,y);
+          }
+        }
+
+        if (y < buscaMinas.columnas - 1){
+          if (buscaMinas.tableroVisible[x][y + 1] !== "!" && buscaMinas.tableroPulsaciones[x][y+1] !== "p"){
+            buscaMinas.picar(x,y+1);
+          }
+        }
+
+        if (x < buscaMinas.filas - 1  && y < buscaMinas.columnas - 1){
+          if (buscaMinas.tableroVisible[x + 1][y + 1] !== "!" && buscaMinas.tableroPulsaciones[x+1][y+1] !== "p"){
+            buscaMinas.picar(x+1,y+1);
+          }
+        }
+
+        if (x > 0  && y < buscaMinas.columnas - 1){
+          if (buscaMinas.tableroVisible[x - 1][y + 1] !== "!" && buscaMinas.tableroPulsaciones[x-1][y+1] !== "p"){
+            buscaMinas.picar(x-1,y+1);
+          }
+        }
+
+      }
+    },
   /**
    * Selecciona el nivel y asigna las casillas y el numero de minas según el nivel
    */
@@ -300,10 +413,6 @@ export let buscaMinas = {
       if (buscaMinas.tableroMaster[i][j] === "x") {
         buscaMinas.flagFinPartida = true;
         throw new Error("Pulsaste una mina");
-      } else if (buscaMinas.tableroPulsaciones[i][j] === "p") {
-        throw new Error(
-          "Esta casilla ya fue pulsada, por favor pulsa otra casilla"
-        );
       } else {
         buscaMinas.abrirCeros(i, j);
         buscaMinas.cargarPulsacion(i, j);
