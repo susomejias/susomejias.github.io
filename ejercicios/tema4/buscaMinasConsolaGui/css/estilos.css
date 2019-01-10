@@ -142,7 +142,29 @@ body main h1 {
   font-weight: bold;
 }
 
-.spanAbsolute {
+.muestraSpanVerde {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 80px;
+  min-width: 300px;
+  position: absolute;
+  color: #fff;
+  background: #43A047;
+  border-radius: 2px;
+  bottom: 25%;
+  -webkit-animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  -webkit-animation-animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.muestraSpanRojo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 80px;
+  min-width: 300px;
   position: absolute;
   color: #fff;
   background: #FF525D;

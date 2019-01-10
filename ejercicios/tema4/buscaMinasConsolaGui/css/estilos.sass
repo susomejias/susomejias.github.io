@@ -56,12 +56,26 @@
 
 //
 
+=mostrar-span($color)
+    +flex-center(column)
+    min-height: 80px
+    min-width: 300px
+    position: absolute
+    color: #fff
+    background: $color
+    border-radius: 2px
+    bottom: 25%
+    -webkit-animation: slide-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both
+	    animation: slide-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both
+
 // Estilos estructura
 
 // colors
 $primary-color: #4A148C
 $accent-color: #6A1B9A
 $error-color: #FF525D
+$succes-color: #43A047
+
 //
 
 body
@@ -129,15 +143,11 @@ body
     font-size: 1.6rem
     font-weight: bold
 
-.spanAbsolute
-    position: absolute
-    color: #fff
-    background: $error-color
-    border-radius: 2px
-    bottom: 25%
-    -webkit-animation: slide-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both
-	    animation: slide-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both
+.muestraSpanVerde
+    +mostrar-span($succes-color)
 
+.muestraSpanRojo
+    +mostrar-span($error-color)
 
 
 #btnVolverAjugar

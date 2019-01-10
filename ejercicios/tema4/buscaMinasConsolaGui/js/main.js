@@ -259,7 +259,7 @@ export let buscaMinas = {
     }
       if (contadorBanderasMinas === buscaMinas.numMinas) {
         buscaMinas.flagGanado = true;
-        throw new Error("Has ganado la partida");
+        throw new Error("¡¡¡ Felicidades has ganado !!!");
       }
   },
 

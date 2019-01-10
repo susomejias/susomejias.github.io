@@ -120,6 +120,8 @@ import { buscaMinas } from "./main.js";
     },
     /**
      * Clases según el nivel
+     * @param classs clase que se le añadirá al input
+     * @param input elemento al cuál se le añadirá la clase
      */
     claseSegunNivel(classs,input){
       switch (buscaMinas.nivel) {
@@ -173,6 +175,9 @@ import { buscaMinas } from "./main.js";
     },
     /**
     * Realiza la accion de picar y actualiza la GUI
+    * @param ev evento
+    * @param i coordenada para la fila
+    * @param j coordenada para la columna
     */
     picarGui(ev,i,j){
       if (buscaMinas.flagGanado || buscaMinas.flagFinPartida){
@@ -188,21 +193,34 @@ import { buscaMinas } from "./main.js";
           }
         } catch (e) {
             buscaMinasGUI.descubrirMinas();
-            buscaMinasGUI.animationSpan(e.message) 
+            if (e.message === "¡¡¡ Felicidades has ganado !!!"){
+              buscaMinasGUI.animationSpan(e.message, "muestraSpanVerde") 
+            }else{
+              buscaMinasGUI.animationSpan(e.message, "muestraSpanRojo")
+            }
+            
         }
       }
     },
 
-    animationSpan(msg){
-      span.classList.add("spanAbsolute");
+    /**
+     * Animation span, muestra span con la clase pasada por parámetro
+     * @param msg mensaje a mostrar en el stopPropagation();
+     * @param classs clase que se le añadirá al span
+     */
+    animationSpan(msg, classs){
+      span.classList.add(classs);
             span.textContent = msg;
             setTimeout(function () {
               span.textContent = "";
-              span.classList.remove("spanAbsolute")
+              span.classList.remove(classs)
             }, 3000);
     },
     /**
     * Realiza la accion de picar y actualiza la GUI
+    * @param ev evento
+    * @param i coordenada para la fila
+    * @param j coordenada para la columna
     */
     marcarGui(ev,i,j) {
       buscaMinasGUI.disableContextMenu();
@@ -216,7 +234,11 @@ import { buscaMinas } from "./main.js";
         }
       } catch (e) {
         buscaMinasGUI.descubrirMinas();
-        buscaMinasGUI.animationSpan(e.message) 
+            if (e.message === "¡¡¡ Felicidades has ganado !!!"){
+              buscaMinasGUI.animationSpan(e.message, "muestraSpanVerde") 
+            }else{
+              buscaMinasGUI.animationSpan(e.message, "muestraSpanRojo")
+            }
       }
 
     },
