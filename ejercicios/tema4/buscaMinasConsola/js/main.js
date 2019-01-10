@@ -75,64 +75,11 @@
      */
     despejar(x,y){
 
-      let banderas = 0;
-
       if (x > buscaMinas.filas || y > buscaMinas.columnas){
         throw new Error("Coordenadas no válidas");
       }
 
-      if (buscaMinas.tableroPulsaciones[x][y] === "p"){
-        if (x > 0 && y > 0){
-          if (buscaMinas.tableroVisible[x - 1][ y - 1] === "!"){
-            banderas++;
-          }
-        } 
-        
-        if ( y > 0){
-          if (buscaMinas.tableroVisible[x][y - 1] === "!"){
-            banderas++;
-          }
-        } 
-
-        if (y > 0 && x < buscaMinas.filas - 1){
-          if (buscaMinas.tableroVisible[x + 1][y - 1] === "!"){
-            banderas++;
-          }
-        } 
-
-        if (x > 0){
-          if (buscaMinas.tableroVisible[x - 1][y] === "!"){
-            banderas++;
-          }
-        }
-        
-        if (x < buscaMinas.filas - 1 ){
-          if (buscaMinas.tableroVisible[x + 1][y] === "!"){
-            banderas++;
-          }
-        }
-
-        if (y < buscaMinas.columnas - 1){
-          if (buscaMinas.tableroVisible[x][y + 1] === "!"){
-            banderas++;
-          }
-        }
-
-        if (x < buscaMinas.filas - 1  && y < buscaMinas.columnas - 1){
-          if (buscaMinas.tableroVisible[x + 1][y + 1] === "!"){
-            banderas++;
-          }
-        }
-
-        if (x > 0  && y < buscaMinas.columnas - 1){
-          if (buscaMinas.tableroVisible[x - 1][y + 1] === "!"){
-            banderas++;
-          }
-        }
-      }
-
-
-      if (banderas === buscaMinas.tableroMaster[x][y]){
+      if (buscaMinas.obtenerBanderasColindantes(x,y) === buscaMinas.tableroMaster[x][y]){
 
         if (x > 0 && y > 0){
           if (buscaMinas.tableroVisible[x - 1][ y - 1] !== "!" && buscaMinas.tableroPulsaciones[x - 1][y - 1] !== "p"){
@@ -185,6 +132,65 @@
       }
     },
 
+    /**
+     * Obtiene el numero de banderas de las casillas colindantes, de la casilla pasada por parámetros
+     * @param x coordenada de la fila
+     * @param y coordenada de la columna
+     */
+    obtenerBanderasColindantes(x,y){
+      let banderas = 0;
+      if (buscaMinas.tableroPulsaciones[x][y] === "p"){
+        if (x > 0 && y > 0){
+          if (buscaMinas.tableroVisible[x - 1][ y - 1] === "!"){
+            banderas++;
+          }
+        } 
+        
+        if ( y > 0){
+          if (buscaMinas.tableroVisible[x][y - 1] === "!"){
+            banderas++;
+          }
+        } 
+
+        if (y > 0 && x < buscaMinas.filas - 1){
+          if (buscaMinas.tableroVisible[x + 1][y - 1] === "!"){
+            banderas++;
+          }
+        } 
+
+        if (x > 0){
+          if (buscaMinas.tableroVisible[x - 1][y] === "!"){
+            banderas++;
+          }
+        }
+        
+        if (x < buscaMinas.filas - 1 ){
+          if (buscaMinas.tableroVisible[x + 1][y] === "!"){
+            banderas++;
+          }
+        }
+
+        if (y < buscaMinas.columnas - 1){
+          if (buscaMinas.tableroVisible[x][y + 1] === "!"){
+            banderas++;
+          }
+        }
+
+        if (x < buscaMinas.filas - 1  && y < buscaMinas.columnas - 1){
+          if (buscaMinas.tableroVisible[x + 1][y + 1] === "!"){
+            banderas++;
+          }
+        }
+
+        if (x > 0  && y < buscaMinas.columnas - 1){
+          if (buscaMinas.tableroVisible[x - 1][y + 1] === "!"){
+            banderas++;
+          }
+        }
+      }
+
+      return banderas;
+    }
     /**
      * Selecciona el nivel y asigna las casillas y el numero de minas según el nivel
      */
