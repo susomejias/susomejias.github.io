@@ -44,6 +44,9 @@ import { buscaMinas } from "./main.js";
 
         
     },
+    /**
+     * Inserta el css necesario al comienzo del juego
+     */
     cssAlEmpezar(){
       let container = document.getElementById("container");
       container.style.width = "100%";
@@ -87,11 +90,23 @@ import { buscaMinas } from "./main.js";
         }
     }
     },
+    /**
+     * Despeja las casilla colindantes si el numero de banderas coincide con el valor de la casilla
+     * @param ev evento
+     * @param i coordenada para fila
+     * @param j coordenada para columna
+     */
     despejarGui(ev,i,j){
-      if (ev.buttons === 3){
-        buscaMinas.despejar(i,j);
-        buscaMinasGUI.actualizarGui();
+      try{
+        if (ev.buttons === 3){
+          buscaMinas.despejar(i,j);
+          buscaMinasGUI.actualizarGui();
+        }
+      }catch(e){
+        buscaMinasGUI.descubrirMinas();
+        buscaMinasGUI.animationSpan(e.message);
       }
+      
       
     },
     /**
@@ -164,9 +179,18 @@ import { buscaMinas } from "./main.js";
           }
         } catch (e) {
             buscaMinasGUI.descubrirMinas();
-            span.textContent = e.message;
+            buscaMinasGUI.animationSpan(e.message) 
         }
       }
+    },
+
+    animationSpan(msg){
+      span.classList.add("spanAbsolute");
+            span.textContent = msg;
+            setTimeout(function () {
+              span.textContent = "";
+              span.classList.remove("spanAbsolute")
+            }, 3000);
     },
     /**
     * Realiza la accion de picar y actualiza la GUI
@@ -183,7 +207,7 @@ import { buscaMinas } from "./main.js";
         }
       } catch (e) {
         buscaMinasGUI.descubrirMinas();
-        span.textContent = e.message;
+        buscaMinasGUI.animationSpan(e.message) 
       }
 
     },
@@ -210,8 +234,8 @@ import { buscaMinas } from "./main.js";
       btnVolverAjugar.textContent = "Volver a jugar"
 
 
-      let parentContainerTablero = containerTablero.parentNode;
-      parentContainerTablero.appendChild(btnVolverAjugar);
+      let tools = document.getElementById("tools");
+      tools.appendChild(btnVolverAjugar);
 
       let btnVolverJugar = document.getElementById("btnVolverAjugar");
       btnVolverJugar.addEventListener("click", ()=>{
