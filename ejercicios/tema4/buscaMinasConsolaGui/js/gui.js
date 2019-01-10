@@ -11,6 +11,7 @@ import { buscaMinas } from "./main.js";
   let timer;
   let time;
   let span;
+  let instrucciones;
 
   function init() {
     window.addEventListener("contextmenu", ()=> false);
@@ -20,8 +21,11 @@ import { buscaMinas } from "./main.js";
     toogleAudio = document.getElementById("silenciarAudio");
     timer = document.getElementById("timer");
     span = document.getElementById("span");
+    instrucciones = document.getElementById("instrucciones");
+
     elegirNivel.addEventListener("change", buscaMinasGUI.initJuego);
     toogleAudio.addEventListener("click", buscaMinasGUI.audioFunctionality);
+    instrucciones.addEventListener("click", buscaMinasGUI.abrirInstrucciones);
     container.classList.add("shadowMaterialButton");
   };
 
@@ -43,6 +47,11 @@ import { buscaMinas } from "./main.js";
         buscaMinasGUI.cssAlEmpezar();
 
         
+    },
+    abrirInstrucciones(){
+
+      window.open("./instrucciones.html","","")
+
     },
     /**
      * Inserta el css necesario al comienzo del juego

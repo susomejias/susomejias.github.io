@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>¿Cómo juego buscaminas?</title>
+    <script type="module" src="js/main.js" charset="UTF-8"></script>
+    <script type="module" src="js/gui.js" charset="UTF-8"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/instrucciones.min.css" />
+  </head>
+  <body>
+    <noscript>
+      Por favor, comprueba que tu navegador es compatible con javascript, o bien
+      comprueba si lo tienes activado
+    </noscript>
+    
+    <main>
+      <div class="container">
+          <h1>¿Cómo jugar?</h1>
+          
+          <div id="click">
+            <p id="action">
+              <img id="imgMouse" src="images/mouse.svg" />
+              Click izquierdo del ratón
+            </p>
+            <p id="description">Pulsa la casilla sobre la casillas que te encuentres.</p>
+          </div>
+
+          <div id="click">
+              <p id="action">
+                <img id="imgMouse" src="images/mouse.svg" />
+                Click derecho del ratón
+              </p>
+              <p id="description">Coloca una bandera sobre la casilla que te encuentres.</p>
+          </div>
+
+          <div id="click">
+              <p id="action">
+                <img id="imgMouse" src="images/mouse.svg" />
+                Click izquierdo y derecho del ratón.
+              </p>
+              <p id="description">Intenta descubrir las casillas colindantes, si el número de banderas colindantes coincide con el valor de la casilla pulsada.</p>
+          </div>
+
+          <div id="click">
+              <p id="action">
+                <img id="imgMouse" src="images/win.svg" />
+                ¿Cuándo gano?
+              </p>
+              <p id="description">Ganarás cuando el número de casillas sin descubrir sea igual al número de minas.</p>
+          </div>
+
+          <div id="click">
+              <p id="action">
+                <img id="imgMouse" src="images/lost.svg" />
+                ¿Cuándo puedo perder?
+              </p>
+              <p id="description">Puedes perder cuando pulses una casilla que contenga una mina o cuando intentes despejar y el número de banderas no coincida con el valor de la casillaa.</p>
+          </div>
+          
+      </div>
+    </main>
+  </body>
+</html>
