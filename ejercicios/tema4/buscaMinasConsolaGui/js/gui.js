@@ -22,7 +22,7 @@ import { buscaMinas } from "./main.js";
     span = document.getElementById("span");
     elegirNivel.addEventListener("change", buscaMinasGUI.initJuego);
     toogleAudio.addEventListener("click", buscaMinasGUI.audioFunctionality);
-    
+    container.classList.add("shadowMaterialButton");
   };
 
   let buscaMinasGUI = {
@@ -35,20 +35,24 @@ import { buscaMinas } from "./main.js";
         buscaMinas.nivel = this[this.selectedIndex].value;
         buscaMinas.init();
         this.disabled = true;
-        buscaMinasGUI.cssAlEmpezar();
         buscaMinasGUI.generarTableroGui();
         buscaMinasGUI.crearDivRecord();
         buscaMinasGUI.crearDivNumBombas();
         buscaMinasGUI.mostrarTiempoPartida();
         buscaMinasGUI.volverAjugar();
+        buscaMinasGUI.cssAlEmpezar();
 
         
     },
     cssAlEmpezar(){
-      document.getElementById("container").style.width = "100%";
-      document.getElementById("container").style.border = "2px solid #6A1B9A";
-      containerTablero.style.width = "100%";
+      let container = document.getElementById("container");
+      container.style.width = "100%";
+      container.style.borderBottom = "2px solid #6A1B9A";
+      
 
+      document.getElementById("btnVolverAjugar").classList.add("shadowMaterialButton");
+      
+      containerTablero.classList.add("shadowMaterial");
     },
     /**
     * Genera el tablero GUI
@@ -57,7 +61,8 @@ import { buscaMinas } from "./main.js";
         containerTablero.style.display = "grid";
         containerTablero.style.gridTemplateColumns =
         "repeat(" + buscaMinas.columnas + ", 1fr)";
-        containerTablero.style.border = "2px solid #6A1B9A";
+        containerTablero.style.width = "100%";
+        
 
         for (let i = 0; i < buscaMinas.filas; i++) {
         for (let j = 0; j < buscaMinas.columnas; j++) {
@@ -281,7 +286,7 @@ import { buscaMinas } from "./main.js";
           } else {
             div.innerHTML = `<img src="images/record.svg" height="30px"/> 0`;
           }
-        } else if (buscaMinas.nivel === "Intermedio") {
+        } else if (buscaMinas.nivel === "intermedio") {
           if (localStorage.getItem("recordIntermedio") !== null) {
             div.textContent = `<img src="images/record.svg" height="30px"/> ${localStorage.getItem(
               "recordIntermedio"
