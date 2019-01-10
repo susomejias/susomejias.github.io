@@ -190,7 +190,7 @@
       }
 
       return banderas;
-    }
+    },
     /**
      * Selecciona el nivel y asigna las casillas y el numero de minas según el nivel
      */
