@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Demo3-JesúsMejiasLeiva</title>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"
+    ></script>
+    <script type="text/javascript" src="demo3.js" charset="UTF-8"></script>
+  </head>
+  <body>
+    <noscript>
+      Por favor, comprueba que tu navegador es compatible con javascript, o bien
+      comprueba si lo tienes activado
+    </noscript>
+    <a href="#" id="enlace1" class="enlacealmacenar">Enlace 1</a> <br />
+    <a href="#" id="enlace2" class="enlacealmacenar">Enlace 2</a> <br />
+    <a href="#" id="enlace3" class="enlacealmacenar">Enlace 3</a> <br />
+    <br />
+    <div id="mensaje">Mensaje...</div>
+    <br />
+    <ol style="line-height: 200%;">
+      <li>
+        <a id="guardar" href="#"
+          >guardar "midato" con valor "mivalor" en todos los enlaces</a
+        >
+      </li>
+      <li>
+        <a id="guardarenlace1" href="#"
+          >guardar "midato" con valor "otro valor" en el enlace 1</a
+        >
+      </li>
+      <li>
+        <a id="guardarobjeto" href="#"
+          >guardar "miobjeto" con una referencia a la capa de pruebas</a
+        >
+      </li>
+      <li style="line-height: 100%;">
+        <a id="operarobjetoenlace1" href="#"
+          >Recuperar un objeto del enlace1 para hacer cosas con él
+          <SPAN style="font-size: 8pt; font-weight: bold">
+            PULSAR ESTE ENLACE SÓLO DESPUÉS DE HABER ALMACENADO EL OBJETO EN LOS
+            ENLACES POR MEDIO DEL ENLACE DE ESTA LISTA MARCADO COMO 3)
+          </SPAN>
+        </a>
+      </li>
+      <li style="line-height: 100%;">
+        <a id="operarobjetoenlace2" href="#"
+          >Recuperar un objeto del enlace2 para hacer cosas con él
+          <SPAN style="font-size: 8pt; font-weight: bold">
+            PULSAR ESTE ENLACE SÓLO DESPUÉS DE HABER ALMACENADO EL OBJETO EN LOS
+            ENLACES POR MEDIO DEL ENLACE DE ESTA LISTA MARCADO COMO 3)
+          </SPAN>
+        </a>
+      </li>
+    </ol>
+    <br />
+    <br />
+    <div id="capapruebas">
+      Este es el texto de una capa de pruebas... con id="capapruebas"
+    </div>
+  </body>
+</html>
