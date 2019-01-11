@@ -211,7 +211,6 @@ export let buscaMinas = {
         break;
     }
   },
-
   /**
    * Actualiza los valores del tablero visible
    */
