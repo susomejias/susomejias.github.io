@@ -193,9 +193,9 @@ export let buscaMinas = {
   elegirNivel() {
     switch (buscaMinas.nivel.toLowerCase()) {
       case "facil":
-        buscaMinas.filas = 2;
-        buscaMinas.columnas = 2;
-        buscaMinas.numMinas = 1;
+        buscaMinas.filas = 8;
+        buscaMinas.columnas = 8;
+        buscaMinas.numMinas = 10;
         break;
       case "intermedio":
         buscaMinas.filas = 16;
