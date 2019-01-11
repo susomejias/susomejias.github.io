@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Demo1-JesúsMejiasLeiva</title>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"
+    ></script>
+    <script type="text/javascript" src="demo1.js" charset="UTF-8"></script>
+    <style type="text/css">
+      .rojo {
+        color: #cc0000;
+      }
+      .verde {
+        color: #00cc00;
+      }
+      .azul {
+        color: #0000cc;
+      }
+      .fondogris {
+        background-color: #cccccc;
+      }
+      body {
+        font-family: verdana, arial, helvetica;
+      }
+      div {
+        margin-bottom: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>
+      Por favor, comprueba que tu navegador es compatible con javascript, o bien
+      comprueba si lo tienes activado
+    </noscript>
+    <form>
+      Selector: <input type="Text" name="camposelector" id="camposelector" />
+      <input type="button" id="boton" value="Ver qué elementos seleccionas" />
+    </form>
+    <p id="p1" class="rojo">Este es un párrafo con id="p1" y class="rojo"</p>
+    <p id="p2" class="verde">
+      Este es un párrafo con id="p2" y class="verde" y aquí
+      <i>meto una itálica</i>
+    </p>
+    <p id="p3" class="rojo fondogris">
+      Este es un párrafo con id="p3" y class="rojo fondogris" (es decir, este
+      elemento tiene aplicadas las clases "rojo" y "fondogris"
+    </p>
+    <p id="p4">Este es un párrafo con id="p4", sin class</p>
+    <p>Este es un párrafo sin id ni class</p>
+    <div id="div1">Esto es una división con id="div1"</div>
+    <div id="div2" class="rojo">
+      Esto es una división con id="div2" y class="rojo" y aqui
+      <b>meto una negrita</b>
+    </div>
+    <div id="div3" class="verde fondogris">
+      Esto es una división con id="div3" y class="verde fondogris"
+    </div>
+    <div>Esto es una división sin id ni class</div>
+    <div class="azul">Esto es una división sin id, con class="azul"</div>
+    <b>Esto es una etiqueta b</b> <i>Esto es una etiqueta i</i>
+  </body>
+</html>
