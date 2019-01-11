@@ -2,7 +2,6 @@
  * Buscaminas consola
  * @author Jesús Mejías Leiva
  */
-
 export let buscaMinas = {
   tableroMaster: [],
   tableroCopiaMaster: [],
@@ -14,6 +13,7 @@ export let buscaMinas = {
   nivel: "",
   flagGanado: false,
   flagFinPartida: false,
+  flagRecord: false,
 
   /**
    * Genera la funcionalidad
@@ -193,9 +193,9 @@ export let buscaMinas = {
   elegirNivel() {
     switch (buscaMinas.nivel.toLowerCase()) {
       case "facil":
-        buscaMinas.filas = 8;
-        buscaMinas.columnas = 8;
-        buscaMinas.numMinas = 10;
+        buscaMinas.filas = 2;
+        buscaMinas.columnas = 2;
+        buscaMinas.numMinas = 1;
         break;
       case "intermedio":
         buscaMinas.filas = 16;
@@ -449,7 +449,6 @@ export let buscaMinas = {
         throw new Error("¡¡¡ Felicidades has ganado !!!");
       }
   },
-
   /**
    * Pregunta si deseas volver a jugar, es caso verdadero inicia el juego
    * @param msg mensaje para mostrar al usuario
