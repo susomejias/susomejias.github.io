@@ -264,7 +264,7 @@ function init() {
     if (icon === "success"){
       message = `Tu tiempo en esta partida a sido ${tiempoPartida} segundo/s. \n \n El record actual es de ${recordNivel} segundo/s.\n \n`;
     }
-    if (recordNivel === 0 || tiempoPartida < recordNivel){
+    if (icon === "success" && (recordNivel === 0 || tiempoPartida < recordNivel)){
       title = `${msg} \n además has establecido el record de este nivel en ${tiempoPartida} segundo/s. \n\n`;
     }
     
