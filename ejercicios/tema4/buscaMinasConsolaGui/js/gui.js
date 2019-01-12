@@ -106,7 +106,15 @@ function init() {
       }
     } catch (e) {
       buscaMinasGUI.descubrirMinas();
-      buscaMinasGUI.animationSpan(e.message);
+      if (e.message === "¡¡¡ Felicidades has ganado !!!") {
+        console.log(buscaMinasGUI.flagRecord);
+        
+        // buscaMinasGUI.swalVolverAJugar(buscaMinasGUI.messageIsRecord(e.message), "success");
+
+        buscaMinasGUI.swalVolverAJugar(e.message, "success");
+      } else {
+        buscaMinasGUI.swalVolverAJugar(e.message, "error");
+      }
     }
   },
   /**
@@ -246,10 +254,24 @@ function init() {
    * @param icon icono que mostrará la ventana
    */
   swalVolverAJugar(msg,icon){
+
+    let tiempoPartida = parseInt(document.querySelector("#timer #time").textContent);
+    let recordNivel = buscaMinasGUI.obtenerRecordActualNivel();
+
+    let message = "";
+    let title = msg;
+
+    if (icon === "success"){
+      message = `Tu tiempo en esta partida a sido ${tiempoPartida} segundo/s. \n \n El record actual es de ${recordNivel} segundo/s.\n \n`;
+    }
+    if (recordNivel === 0 || tiempoPartida < recordNivel){
+      title = `${msg} \n además has establecido el record de este nivel en ${tiempoPartida} segundo/s. \n\n`;
+    }
+    
     swal({
       className: "buttons-Swal",
-      title: msg,
-      text: "¿Desea jugar de nuevo?",
+      title: title,
+      text: message + "¿Desea jugar de nuevo?",
       icon: icon,
       buttons: {
         Si: true,
@@ -262,14 +284,14 @@ function init() {
       }
     });
   },
-  // messageIsRecord(msg){
-  //   if (buscaMinasGUI.flagRecord){
-  //     let message = msg + "/n" + "¡¡Batiste el record!!"
-  //     return message;
-  //   }else {
-  //     return msg;
-  //   }
-  // },
+  obtenerRecordActualNivel(){
+
+    if (localStorage.getItem(buscaMinas.nivel) !== null){
+      return parseInt(localStorage.getItem(buscaMinas.nivel));
+    }else{
+      return 0;
+    }
+  },
   /**
    * Descubre las minas
    */
@@ -364,31 +386,13 @@ function init() {
     div.id = "record";
     time.innerHTML = `<div id="record"></div>`;
 
-    if (buscaMinas.nivel === "facil") {
-      if (localStorage.getItem("recordFacil") !== null) {
+      if (localStorage.getItem(buscaMinas.nivel) !== null) {
         div.innerHTML = `<img src="images/record.svg" height="30px"/> ${localStorage.getItem(
-          "recordFacil"
+          buscaMinas.nivel
         )}`;
       } else {
         div.innerHTML = `<img src="images/record.svg" height="30px"/> 0`;
       }
-    } else if (buscaMinas.nivel === "intermedio") {
-      if (localStorage.getItem("recordIntermedio") !== null) {
-        div.textContent = `<img src="images/record.svg" height="30px"/> ${localStorage.getItem(
-          "recordIntermedio"
-        )}`;
-      } else {
-        div.innerHTML = `<img src="images/record.svg" height="30px"/> 0`;
-      }
-    } else if (buscaMinas.nivel === "experto") {
-      if (localStorage.getItem("recordExperto") !== null) {
-        div.innerHTML = `<img src="images/record.svg" height="30px"/> ${localStorage.getItem(
-          "recordExperto"
-        )}`;
-      } else {
-        div.innerHTML = `<img src="images/record.svg" height="30px"/> 0`;
-      }
-    }
 
     container.appendChild(div);
   },
@@ -399,41 +403,15 @@ function init() {
   comprobarRecord() {
     let tiempo = parseInt(document.querySelector("#timer p").textContent);
 
-    if (buscaMinas.nivel === "facil") {
-      if (localStorage.getItem("recordFacil") === null) {
-        localStorage.setItem("recordFacil", tiempo);
+      if (localStorage.getItem(buscaMinas.nivel) === null) {
+        localStorage.setItem(buscaMinas.nivel, tiempo);
       } else {
         if (
-          localStorage.getItem("recordFacil") === 0 ||
-          localStorage.getItem("recordFacil") > tiempo
+          localStorage.getItem(buscaMinas.nivel) === 0 ||
+          localStorage.getItem(buscaMinas.nivel) > tiempo
         ) {
         }
       }
-    } else if (buscaMinas.nivel === "intermedio") {
-      if (localStorage.getItem("recordIntermedio") === null) {
-        localStorage.setItem("recordIntermedio", tiempo);
-      } else {
-        if (
-          localStorage.getItem("recordIntermedio") === 0 ||
-          localStorage.getItem("recordIntermedio") > tiempo
-        ) {
-          buscaMinasGUI.flagRecord = true;
-          localStorage.setItem("recordIntermedio", tiempo);
-        }
-      }
-    } else if (buscaMinas.nivel === "experto") {
-      if (localStorage.getItem("recordExperto") === null) {
-        localStorage.setItem("recordExperto", tiempo);
-      } else {
-        if (
-          localStorage.getItem("recordExperto") === 0 ||
-          localStorage.getItem("recordExperto") > tiempo
-        ) {
-          buscaMinasGUI.flagRecord = true;
-          localStorage.setItem("recordExperto", tiempo);
-        }
-      }
-    }
   },
 
   /**

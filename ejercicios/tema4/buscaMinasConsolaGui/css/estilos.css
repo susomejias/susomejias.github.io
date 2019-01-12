@@ -283,3 +283,7 @@ body main h1 {
   background-color: #4a158c;
   color: #fff;
 }
+
+.swal-text {
+  font-weight: bold;
+}
