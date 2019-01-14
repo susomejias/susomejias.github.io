@@ -14,6 +14,7 @@ export let buscaMinas = {
   flagGanado: false,
   flagFinPartida: false,
   flagRecord: false,
+  numBanderas: 0,
 
   /**
    * Genera la funcionalidad
@@ -47,15 +48,23 @@ export let buscaMinas = {
         buscaMinas.tableroPulsaciones[x][y] !== "p" &&
         buscaMinas.tableroVisible[x][y] !== "!"
       ) {
-        buscaMinas.tableroVisible[x][y] = "!";
-        console.clear();
-        console.table(buscaMinas.tableroMaster);
-        console.table(buscaMinas.tableroVisible);
+        if (buscaMinas.obtenerNumeroBanderasTablero() < buscaMinas.numMinas) {
+          buscaMinas.tableroVisible[x][y] = "!";
+          buscaMinas.numBanderas =
+            buscaMinas.numBanderas -
+            buscaMinas.obtenerNumeroBanderasTablero();
+          console.clear();
+          console.table(buscaMinas.tableroMaster);
+          console.table(buscaMinas.tableroVisible);
+        } else {
+          throw new Error("No puedes colocar más banderas");
+        }
       } else if (
         buscaMinas.tableroPulsaciones[x][y] !== "p" &&
         buscaMinas.tableroVisible[x][y] === "!"
       ) {
         buscaMinas.tableroVisible[x][y] = "#";
+        buscaMinas.numBanderas++;
         console.clear();
         console.table(buscaMinas.tableroMaster);
         console.table(buscaMinas.tableroVisible);
@@ -127,7 +136,20 @@ export let buscaMinas = {
 
       }
     },
-
+    /**
+     * Obtiene las banderas que hay en el tablero
+     */
+    obtenerNumeroBanderasTablero() {
+      let numBanderas = 0;
+      for (let i = 0; i < buscaMinas.filas; i++) {
+        for (let j = 0; j < buscaMinas.columnas; j++) {
+          if (buscaMinas.tableroVisible[i][j] === "!") {
+            numBanderas++;
+          }
+        }
+      }
+      return numBanderas;
+    },
     /**
      * Obtiene el numero de banderas de las casillas colindantes, de la casilla pasada por parámetros
      * @param x coordenada de la fila
@@ -193,9 +215,9 @@ export let buscaMinas = {
   elegirNivel() {
     switch (buscaMinas.nivel.toLowerCase()) {
       case "facil":
-        buscaMinas.filas = 8;
-        buscaMinas.columnas = 8;
-        buscaMinas.numMinas = 10;
+        buscaMinas.filas = 2;
+        buscaMinas.columnas = 2;
+        buscaMinas.numMinas = 1;
         break;
       case "intermedio":
         buscaMinas.filas = 16;
@@ -245,21 +267,28 @@ export let buscaMinas = {
    * Comprueba si ganaste la partida, mediante el uso de banderas
    */
   comprobarGanadorBanderas() {
-    let contadorBanderasMinas = 0;
-    for (let i = 0; i < buscaMinas.filas; i++) {
-      for (let j = 0; j < buscaMinas.columnas; j++) {
-        if (
-          buscaMinas.tableroVisible[i][j] === "!" &&
-          buscaMinas.tableroMaster[i][j] === "x"
-        ) {
-          contadorBanderasMinas++;
+    let casillasSinPulsar = 0;
+      let casillasGanar = 0;
+      let casillasPulsadas = 0;
+      for (let i = 0; i < buscaMinas.filas; i++) {
+        for (let j = 0; j < buscaMinas.columnas; j++) {
+          if (buscaMinas.tableroPulsaciones[i][j] === "p") {
+            casillasPulsadas++;
+          }
+          if (buscaMinas.tableroPulsaciones[i][j] !== "p") {
+            casillasSinPulsar++;
+            if (
+              (casillasSinPulsar === buscaMinas.numMinas) &&
+              (buscaMinas.tableroMaster[i][j] === "x" && buscaMinas.tableroVisible[i][j] === "!")
+            ) {
+              casillasGanar++
+            }
+          }
         }
       }
-    }
-      if (contadorBanderasMinas === buscaMinas.numMinas) {
-        buscaMinas.flagGanado = true;
-        throw new Error("¡¡¡ Felicidades has ganado !!!");
-      }
+        if (casillasPulsadas > 1 && (casillasGanar === buscaMinas.numMinas)) {
+          throw new Error("Has ganado la partida");
+        }
   },
 
   /**

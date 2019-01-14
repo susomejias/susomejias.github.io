@@ -1,8 +1,4 @@
 /**
- * TODO 
- * GANAR CON BANDERAS SOLO CUANDO ESTEN TODAS LAS CASILLAS DEPEJADAS MENOS LAS CASILLAS CON MINAS Y BANDERAS
- */
-/**
  * Buscaminas consola
  * @author Jesús Mejías Leiva
  */
@@ -15,6 +11,7 @@
     filas: 0,
     columnas: 0,
     numMinas: 0,
+    numBanderas: 0,
 
     /**
      * Genera la funcionalidad
@@ -48,10 +45,18 @@
           buscaMinas.tableroPulsaciones[x][y] !== "p" &&
           buscaMinas.tableroVisible[x][y] !== "!"
         ) {
-          buscaMinas.tableroVisible[x][y] = "!";
-          console.clear();
-          console.table(buscaMinas.tableroMaster);
-          console.table(buscaMinas.tableroVisible);
+          if (buscaMinas.obtenerNumeroBanderasTablero() < buscaMinas.numMinas) {
+            buscaMinas.tableroVisible[x][y] = "!";
+            buscaMinas.numBanderas =
+              buscaMinas.numBanderas -
+              buscaMinas.obtenerNumeroBanderasTablero();
+            console.clear();
+            console.table(buscaMinas.tableroMaster);
+            console.table(buscaMinas.tableroVisible);
+            console.table(buscaMinas.tableroPulsaciones);
+          } else {
+            throw new Error("No puedes colocar más banderas");
+          }
         } else if (buscaMinas.tableroPulsaciones[x][y] === "p") {
           throw new Error(
             "No puedes colocar una bandera en una casilla descubierta"
@@ -61,9 +66,11 @@
           buscaMinas.tableroVisible[x][y] === "!"
         ) {
           buscaMinas.tableroVisible[x][y] = "#";
+          buscaMinas.numBanderas++;
           console.clear();
           console.table(buscaMinas.tableroMaster);
           console.table(buscaMinas.tableroVisible);
+          console.table(buscaMinas.tableroPulsaciones);
         }
         buscaMinas.comprobarGanadorBanderas();
       } catch (e) {
@@ -72,67 +79,91 @@
     },
     /**
      * intenta destapar las casillas colindantes, sólo si el número de banderas
-     * se corresponden con las que indica la casilla. Entonces muestra el campo 
+     * se corresponden con las que indica la casilla. Entonces muestra el campo
      * de minas actualizado.
      * En caso de estar las banderas equivocadas se indica que se ha perdido el
      * juego.
      */
-    despejar(x,y){
-
-      if (x > buscaMinas.filas || y > buscaMinas.columnas){
+    despejar(x, y) {
+      if (x > buscaMinas.filas || y > buscaMinas.columnas) {
         throw new Error("Coordenadas no válidas");
       }
 
-      if (buscaMinas.obtenerBanderasColindantes(x,y) === buscaMinas.tableroMaster[x][y]){
-
-        if (x > 0 && y > 0){
-          if (buscaMinas.tableroVisible[x - 1][ y - 1] !== "!" && buscaMinas.tableroPulsaciones[x - 1][y - 1] !== "p"){
-            buscaMinas.picar(x-1,y-1);
-          }
-        } 
-        
-        if ( y > 0){
-          if (buscaMinas.tableroVisible[x][y - 1] !== "!" && buscaMinas.tableroPulsaciones[x][y-1] !== "p"){
-            buscaMinas.picar(x,y-1);
-          }
-        } 
-
-        if (y > 0 && x < buscaMinas.filas - 1){
-          if (buscaMinas.tableroVisible[x + 1][y - 1] !== "!" && buscaMinas.tableroPulsaciones[x+1][y-1] !== "p"){
-            buscaMinas.picar(x+1,y-1);
-          }
-        } 
-
-        if (x > 0){
-          if (buscaMinas.tableroVisible[x - 1][y] !== "!" && buscaMinas.tableroPulsaciones[x-1][y] !== "p"){
-            buscaMinas.picar(x-1,y);
-          }
-        }
-        
-        if (x < buscaMinas.filas - 1 ){
-          if (buscaMinas.tableroVisible[x + 1][y] !== "!" && buscaMinas.tableroPulsaciones[x+1][y] !== "p"){
-            buscaMinas.picar(x+1,y);
+      if (
+        buscaMinas.obtenerBanderasColindantes(x, y) ===
+        buscaMinas.tableroMaster[x][y]
+      ) {
+        if (x > 0 && y > 0) {
+          if (
+            buscaMinas.tableroVisible[x - 1][y - 1] !== "!" &&
+            buscaMinas.tableroPulsaciones[x - 1][y - 1] !== "p"
+          ) {
+            buscaMinas.picar(x - 1, y - 1);
           }
         }
 
-        if (y < buscaMinas.columnas - 1){
-          if (buscaMinas.tableroVisible[x][y + 1] !== "!" && buscaMinas.tableroPulsaciones[x][y+1] !== "p"){
-            buscaMinas.picar(x,y+1);
+        if (y > 0) {
+          if (
+            buscaMinas.tableroVisible[x][y - 1] !== "!" &&
+            buscaMinas.tableroPulsaciones[x][y - 1] !== "p"
+          ) {
+            buscaMinas.picar(x, y - 1);
           }
         }
 
-        if (x < buscaMinas.filas - 1  && y < buscaMinas.columnas - 1){
-          if (buscaMinas.tableroVisible[x + 1][y + 1] !== "!" && buscaMinas.tableroPulsaciones[x+1][y+1] !== "p"){
-            buscaMinas.picar(x+1,y+1);
+        if (y > 0 && x < buscaMinas.filas - 1) {
+          if (
+            buscaMinas.tableroVisible[x + 1][y - 1] !== "!" &&
+            buscaMinas.tableroPulsaciones[x + 1][y - 1] !== "p"
+          ) {
+            buscaMinas.picar(x + 1, y - 1);
           }
         }
 
-        if (x > 0  && y < buscaMinas.columnas - 1){
-          if (buscaMinas.tableroVisible[x - 1][y + 1] !== "!" && buscaMinas.tableroPulsaciones[x-1][y+1] !== "p"){
-            buscaMinas.picar(x-1,y+1);
+        if (x > 0) {
+          if (
+            buscaMinas.tableroVisible[x - 1][y] !== "!" &&
+            buscaMinas.tableroPulsaciones[x - 1][y] !== "p"
+          ) {
+            buscaMinas.picar(x - 1, y);
           }
         }
 
+        if (x < buscaMinas.filas - 1) {
+          if (
+            buscaMinas.tableroVisible[x + 1][y] !== "!" &&
+            buscaMinas.tableroPulsaciones[x + 1][y] !== "p"
+          ) {
+            buscaMinas.picar(x + 1, y);
+          }
+        }
+
+        if (y < buscaMinas.columnas - 1) {
+          if (
+            buscaMinas.tableroVisible[x][y + 1] !== "!" &&
+            buscaMinas.tableroPulsaciones[x][y + 1] !== "p"
+          ) {
+            buscaMinas.picar(x, y + 1);
+          }
+        }
+
+        if (x < buscaMinas.filas - 1 && y < buscaMinas.columnas - 1) {
+          if (
+            buscaMinas.tableroVisible[x + 1][y + 1] !== "!" &&
+            buscaMinas.tableroPulsaciones[x + 1][y + 1] !== "p"
+          ) {
+            buscaMinas.picar(x + 1, y + 1);
+          }
+        }
+
+        if (x > 0 && y < buscaMinas.columnas - 1) {
+          if (
+            buscaMinas.tableroVisible[x - 1][y + 1] !== "!" &&
+            buscaMinas.tableroPulsaciones[x - 1][y + 1] !== "p"
+          ) {
+            buscaMinas.picar(x - 1, y + 1);
+          }
+        }
       }
     },
 
@@ -141,53 +172,53 @@
      * @param x coordenada de la fila
      * @param y coordenada de la columna
      */
-    obtenerBanderasColindantes(x,y){
+    obtenerBanderasColindantes(x, y) {
       let banderas = 0;
-      if (buscaMinas.tableroPulsaciones[x][y] === "p"){
-        if (x > 0 && y > 0){
-          if (buscaMinas.tableroVisible[x - 1][ y - 1] === "!"){
-            banderas++;
-          }
-        } 
-        
-        if ( y > 0){
-          if (buscaMinas.tableroVisible[x][y - 1] === "!"){
-            banderas++;
-          }
-        } 
-
-        if (y > 0 && x < buscaMinas.filas - 1){
-          if (buscaMinas.tableroVisible[x + 1][y - 1] === "!"){
-            banderas++;
-          }
-        } 
-
-        if (x > 0){
-          if (buscaMinas.tableroVisible[x - 1][y] === "!"){
-            banderas++;
-          }
-        }
-        
-        if (x < buscaMinas.filas - 1 ){
-          if (buscaMinas.tableroVisible[x + 1][y] === "!"){
+      if (buscaMinas.tableroPulsaciones[x][y] === "p") {
+        if (x > 0 && y > 0) {
+          if (buscaMinas.tableroVisible[x - 1][y - 1] === "!") {
             banderas++;
           }
         }
 
-        if (y < buscaMinas.columnas - 1){
-          if (buscaMinas.tableroVisible[x][y + 1] === "!"){
+        if (y > 0) {
+          if (buscaMinas.tableroVisible[x][y - 1] === "!") {
             banderas++;
           }
         }
 
-        if (x < buscaMinas.filas - 1  && y < buscaMinas.columnas - 1){
-          if (buscaMinas.tableroVisible[x + 1][y + 1] === "!"){
+        if (y > 0 && x < buscaMinas.filas - 1) {
+          if (buscaMinas.tableroVisible[x + 1][y - 1] === "!") {
             banderas++;
           }
         }
 
-        if (x > 0  && y < buscaMinas.columnas - 1){
-          if (buscaMinas.tableroVisible[x - 1][y + 1] === "!"){
+        if (x > 0) {
+          if (buscaMinas.tableroVisible[x - 1][y] === "!") {
+            banderas++;
+          }
+        }
+
+        if (x < buscaMinas.filas - 1) {
+          if (buscaMinas.tableroVisible[x + 1][y] === "!") {
+            banderas++;
+          }
+        }
+
+        if (y < buscaMinas.columnas - 1) {
+          if (buscaMinas.tableroVisible[x][y + 1] === "!") {
+            banderas++;
+          }
+        }
+
+        if (x < buscaMinas.filas - 1 && y < buscaMinas.columnas - 1) {
+          if (buscaMinas.tableroVisible[x + 1][y + 1] === "!") {
+            banderas++;
+          }
+        }
+
+        if (x > 0 && y < buscaMinas.columnas - 1) {
+          if (buscaMinas.tableroVisible[x - 1][y + 1] === "!") {
             banderas++;
           }
         }
@@ -210,19 +241,22 @@
 
       switch (nivel.toLowerCase()) {
         case "facil":
-          buscaMinas.filas = 8;
-          buscaMinas.columnas = 8;
-          buscaMinas.numMinas = 10;
+          buscaMinas.filas = 2;
+          buscaMinas.columnas = 2;
+          buscaMinas.numMinas = 1;
+          buscaMinas.numBanderas = 1;
           break;
         case "intermedio":
           buscaMinas.filas = 16;
           buscaMinas.columnas = 16;
           buscaMinas.numMinas = 40;
+          buscaMinas.numBanderas = 40;
           break;
         case "experto":
           buscaMinas.filas = 16;
           buscaMinas.columnas = 20;
           buscaMinas.numMinas = 99;
+          buscaMinas.numBanderas = 99;
           break;
         default:
           break;
@@ -243,6 +277,20 @@
     },
 
     /**
+     * Obtiene las banderas que hay en el tablero
+     */
+    obtenerNumeroBanderasTablero() {
+      let numBanderas = 0;
+      for (let i = 0; i < buscaMinas.filas; i++) {
+        for (let j = 0; j < buscaMinas.columnas; j++) {
+          if (buscaMinas.tableroVisible[i][j] === "!") {
+            numBanderas++;
+          }
+        }
+      }
+      return numBanderas;
+    },
+    /**
      * Genera los tableros y los inicializa
      */
     generarTableros() {
@@ -261,28 +309,40 @@
     },
 
     /**
+     * TODO:
+     * GANAR CON BANDERAS SOLO CUANDO ESTEN TODAS LAS CASILLAS DEPEJADAS MENOS LAS
+     * CASILLAS CON MINAS Y BANDERAS
+     */
+    /**
      * Comprueba si ganaste la partida, mediante el uso de banderas
      */
     comprobarGanadorBanderas() {
-      let contadorBanderasMinas = 0;
+      let casillasSinPulsar = 0;
+      let casillasGanar = 0;
+      let casillasPulsadas = 0;
       for (let i = 0; i < buscaMinas.filas; i++) {
         for (let j = 0; j < buscaMinas.columnas; j++) {
-          if (
-            buscaMinas.tableroVisible[i][j] === "!" &&
-            buscaMinas.tableroMaster[i][j] === "x"
-          ) {
-            contadorBanderasMinas++;
+          if (buscaMinas.tableroPulsaciones[i][j] === "p") {
+            casillasPulsadas++;
+          }
+          if (buscaMinas.tableroPulsaciones[i][j] !== "p") {
+            casillasSinPulsar++;
+            if (
+              (casillasSinPulsar === buscaMinas.numMinas) &&
+              (buscaMinas.tableroMaster[i][j] === "x" && buscaMinas.tableroVisible[i][j] === "!")
+            ) {
+              casillasGanar++
+            }
           }
         }
       }
-      try{
-        if (contadorBanderasMinas === buscaMinas.numMinas) {
+      try {
+        if (casillasPulsadas > 1 && (casillasGanar === buscaMinas.numMinas)) {
           throw new Error("Has ganado la partida");
         }
-      }catch(e){
+      } catch (e) {
         buscaMinas.volverAjugar(e.message);
       }
-      
     },
 
     /**
@@ -410,7 +470,8 @@
      * Descubre casillas, de manera recursiva
      * @param x coordenada para la fila
      * @param y coordenada para la columna
-     */ 
+     */
+
     abrirCeros(x, y) {
       if (buscaMinas.tableroCopiaMaster[x][y] === 0) {
         buscaMinas.tableroCopiaMaster[x][y] = -1;
@@ -435,13 +496,16 @@
      * pica una casilla y realiza las acciones correspondientes
      * @param i coordenada fila
      * @param j coordenada columna
-     */ 
+     */
+
     picar(i, j) {
       try {
         if (buscaMinas.tableroMaster[i][j] === "x") {
           throw new Error("Pulsaste una mina");
         } else if (buscaMinas.tableroPulsaciones[i][j] === "p") {
-          throw new Error("Esta casilla ya fue pulsada, por favor pulsa otra casilla");
+          throw new Error(
+            "Esta casilla ya fue pulsada, por favor pulsa otra casilla"
+          );
         } else {
           buscaMinas.abrirCeros(i, j);
           buscaMinas.cargarPulsacion(i, j);
@@ -457,7 +521,7 @@
         }
       } catch (e) {
         if (e.message === "Pulsaste una mina") {
-          buscaMinas.volverAjugar(e.message)
+          buscaMinas.volverAjugar(e.message);
         } else {
           console.error(e.message);
         }
@@ -466,7 +530,8 @@
 
     /**
      * Comprueba si ganas las partida de manera normal
-     */ 
+     */
+
     comprobarSiGana() {
       try {
         if (
@@ -476,7 +541,7 @@
           throw new Error("¡¡¡ Felicidades has ganado !!!");
         }
       } catch (e) {
-        buscaMinas.volverAjugar(e.message)
+        buscaMinas.volverAjugar(e.message);
       }
     },
 
@@ -484,38 +549,36 @@
      * Pregunta si deseas volver a jugar, es caso verdadero inicia el juego
      * @param msg mensaje para mostrar al usuario
      */
-    volverAjugar(msg){
+    volverAjugar(msg) {
       let volverAjugar = "";
       do {
         volverAjugar = prompt(msg + ", ¿deseas volver a jugar? (s/n)");
       } while (
         volverAjugar.toLowerCase() === "s" &&
-        volverAjugar.toLowerCase() === "n" 
+        volverAjugar.toLowerCase() === "n"
       );
-      if (volverAjugar.toLowerCase() === "s"){
+      if (volverAjugar.toLowerCase() === "s") {
         buscaMinas.init();
-      }else{
+      } else {
         return;
       }
     }
   };
 
-
   /**
    * Funciones publicas
    */
-  var publicar = (function() {
+  buscaminas = (function() {
     return {
       init: () => buscaMinas.init(),
       picar: (x, y) => buscaMinas.picar(x, y),
       marcar: (x, y) => buscaMinas.marcar(x, y),
-      descubrirMinas: () => buscaMinas.descubrirMinas(),
-      despejar: (x,y)=> buscaMinas.despejar(x,y)
+      despejar: (x, y) => buscaMinas.despejar(x, y)
     };
   })();
 
   function init() {
-    publicar.init(); // iniciamos el juego
+    buscaminas.init(); // iniciamos el juego
   }
 
   window.addEventListener("load", init);
