@@ -1,4 +1,8 @@
 /**
+ * TODO 
+ * GANAR CON BANDERAS SOLO CUANDO ESTEN TODAS LAS CASILLAS DEPEJADAS MENOS LAS CASILLAS CON MINAS Y BANDERAS
+ */
+/**
  * Buscaminas consola
  * @author Jesús Mejías Leiva
  */

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Demo1-JesúsMejiasLeiva</title>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"
+    ></script>
+    <script type="text/javascript" src="demo1.js" charset="UTF-8"></script>
+  </head>
+  <body>
+    <noscript>
+      Por favor, comprueba que tu navegador es compatible con javascript, o bien
+      comprueba si lo tienes activado
+    </noscript>
+    <h1>Funciones CSS en jQuery de dimensiones y posición</h1>
+    <p>Probando funciones de localización de elementos en la página...</p>
+    <div
+      id="capa1"
+      style="padding: 24px; background-color: #ffccdd; float: left; border: 2px dotted
+    #666;"
+    >
+      <h2>capa1:</h2>
+      Voy a crear esta capa para ver lo que mide y donde está posicionada.
+    </div>
+    <br style="clear: both;" />
+    <div style="margin: 10px;">
+      <button id="botondimensiones" type="button">Dimensiones de capa1</button>
+      <button id="botonposicion" type="button">Posicion de capa1</button>
+      <button id="botontamano" type="button">Cambiar tamaño capa1</button>
+      <button id="botonmargen" type="button">Cambiar margen capa1</button>
+    </div>
+    <div style="margin: 10px;">
+      <button id="botondimensionesc2" type="button">
+        Dimensiones de capa2
+      </button>
+      <button id="botonposicionc2" type="button">Posicion de capa2</button>
+    </div>
+    <br />
+    Desplaza la página hacia abajo para ver la capa2... <br />
+    <br />
+    ... <br />
+    <div
+      id="capa2"
+      style="background-color:#ccc; border-bottom: 5px solid #999; margin-left: 10px;"
+    >
+      Esta capa está muy hacia abajo!!
+    </div>
+
+    <span id="msgDimension"></span> <span id="msgPosicion"></span>
+  </body>
+</html>
