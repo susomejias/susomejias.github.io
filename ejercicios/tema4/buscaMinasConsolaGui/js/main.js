@@ -56,8 +56,7 @@ export let buscaMinas = {
           console.clear();
           console.table(buscaMinas.tableroMaster);
           console.table(buscaMinas.tableroVisible);
-        } else {
-          throw new Error("No puedes colocar más banderas");
+          console.log(buscaMinas.numBanderas);
         }
       } else if (
         buscaMinas.tableroPulsaciones[x][y] !== "p" &&
@@ -68,6 +67,7 @@ export let buscaMinas = {
         console.clear();
         console.table(buscaMinas.tableroMaster);
         console.table(buscaMinas.tableroVisible);
+        console.log(buscaMinas.numBanderas);
       }
       buscaMinas.comprobarGanadorBanderas();
   },
@@ -218,16 +218,19 @@ export let buscaMinas = {
         buscaMinas.filas = 2;
         buscaMinas.columnas = 2;
         buscaMinas.numMinas = 1;
+        buscaMinas.numBanderas = 1;
         break;
       case "intermedio":
         buscaMinas.filas = 16;
         buscaMinas.columnas = 16;
         buscaMinas.numMinas = 40;
+        buscaMinas.numBanderas = 40;
         break;
       case "experto":
         buscaMinas.filas = 20;
         buscaMinas.columnas = 24;
         buscaMinas.numMinas = 99;
+        buscaMinas.numBanderas = 99;
         break;
       default:
         break;

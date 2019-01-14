@@ -39,6 +39,7 @@ function init() {
     buscaMinasGUI.generarTableroGui();
     buscaMinasGUI.crearDivRecord();
     buscaMinasGUI.crearDivNumBombas();
+    buscaMinasGUI.crearDivNumBanderas();
     buscaMinasGUI.mostrarTiempoPartida();
     buscaMinasGUI.volverAjugar();
     buscaMinasGUI.cssAlEmpezar();
@@ -229,10 +230,14 @@ function init() {
    */
   marcarGui(ev, i, j) {
     buscaMinasGUI.disableContextMenu();
+    
+    
     try {
       if (ev.buttons === 2) {
         buscaMinas.marcar(i, j);
         buscaMinasGUI.actualizarGui();
+        // actualizo el numero de banderas
+        document.getElementById("numBanderas").innerHTML = `<img src="images/flag.svg" height="30px"/> ${buscaMinas.numBanderas}`;
         if (buscaMinas.flagGanado) {
           buscaMinasGUI.comprobarRecord();
         }
@@ -364,7 +369,16 @@ function init() {
     div.innerHTML = `<img src="images/bomb.svg"/> ${buscaMinas.numMinas}`;
     container.appendChild(div);
   },
-
+/**
+   * Crear div numero de bombas
+   */
+  crearDivNumBanderas() {
+    let container = document.getElementById("container");
+    let div = document.createElement("div");
+    div.id = "numBanderas";
+    div.innerHTML = `<img src="images/flag.svg" height="30px"/> ${buscaMinas.numBanderas}`;
+    container.appendChild(div);
+  },
   /**
    * Crear div para el timer
    */

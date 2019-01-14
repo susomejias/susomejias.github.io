@@ -182,10 +182,22 @@ body main h1 {
   font-weight: bold;
   font-size: 1.3rem;
   color: #FFF;
-  margin-right: 5px;
+  margin-right: 20px;
 }
 
 #numBombas img {
+  height: 30px;
+  margin-right: 5px;
+}
+
+#numBanderas {
+  font-weight: bold;
+  font-size: 1.3rem;
+  color: #FFF;
+  margin-right: 15px;
+}
+
+#numBanderas img {
   height: 30px;
   margin-right: 5px;
 }
