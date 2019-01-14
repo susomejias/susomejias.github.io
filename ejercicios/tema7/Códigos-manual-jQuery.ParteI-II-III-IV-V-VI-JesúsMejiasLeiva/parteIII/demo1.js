@@ -8,9 +8,8 @@ function init() {
     if (selectorEscrito == "") {
       alert("Escribe algo en el campo de texto");
     } else {
-      elementosSeleccionados = $(selectorEscrito);
-      elementosSeleccionados.fadeOut("slow", function() {
-        elementosSeleccionados.fadeIn("slow");
+      $(selectorEscrito).fadeOut("slow", function() {
+        $(selectorEscrito).fadeIn("slow");
       });
     }
   });
