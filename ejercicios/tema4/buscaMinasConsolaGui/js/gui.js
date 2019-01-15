@@ -55,9 +55,8 @@ function init() {
     container.style.width = "100%";
     container.style.borderBottom = "2px solid #6A1B9A";
 
-    document
-      .getElementById("btnVolverAjugar")
-      .classList.add("shadowMaterialButton");
+    document.getElementById("btnVolverAjugar").classList.add("shadowMaterialButton");
+    document.getElementById("timer").style.minWidth= "50px";
 
     containerTablero.classList.add("shadowMaterial");
   },
@@ -109,7 +108,7 @@ function init() {
       buscaMinasGUI.descubrirMinas();
       if (e.message === "¡¡¡ Felicidades has ganado !!!") {
         console.log(buscaMinasGUI.flagRecord);
-        
+
         // buscaMinasGUI.swalVolverAJugar(buscaMinasGUI.messageIsRecord(e.message), "success");
 
         buscaMinasGUI.swalVolverAJugar(e.message, "success");
@@ -197,20 +196,20 @@ function init() {
     } else {
       try {
         if (ev.buttons === 0) {
-          
+
           buscaMinas.picar(i, j);
           if (buscaMinas.flagGanado) {
             buscaMinasGUI.comprobarRecord();
           }
-          
+
           buscaMinasGUI.actualizarGui();
-          
+
         }
       } catch (e) {
         buscaMinasGUI.descubrirMinas();
         if (e.message === "¡¡¡ Felicidades has ganado !!!") {
           console.log(buscaMinasGUI.flagRecord);
-          
+
           // buscaMinasGUI.swalVolverAJugar(buscaMinasGUI.messageIsRecord(e.message), "success");
 
           buscaMinasGUI.swalVolverAJugar(e.message, "success");
@@ -230,8 +229,8 @@ function init() {
    */
   marcarGui(ev, i, j) {
     buscaMinasGUI.disableContextMenu();
-    
-    
+
+
     try {
       if (ev.buttons === 2) {
         buscaMinas.marcar(i, j);
@@ -272,7 +271,7 @@ function init() {
     if (icon === "success" && (recordNivel === 0 || tiempoPartida < recordNivel)){
       title = `${msg} \n además has establecido el record de este nivel en ${tiempoPartida} segundo/s. \n\n`;
     }
-    
+
     swal({
       className: "buttons-Swal",
       title: title,
@@ -283,7 +282,7 @@ function init() {
         No: true
       }
     }).then((result) => {
-      
+
       if(result === "Si"){
         location.reload();
       }
