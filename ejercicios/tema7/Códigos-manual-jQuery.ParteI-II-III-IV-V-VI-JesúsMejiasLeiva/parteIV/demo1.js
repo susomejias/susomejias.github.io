@@ -4,7 +4,7 @@
  */
 function init() {
   let msg = "";
-  $("a").each(i => {
+  $("a").each(function(i){
     msg +=
       "<span>Atributo title del enlace " +
       (i + 1) +
