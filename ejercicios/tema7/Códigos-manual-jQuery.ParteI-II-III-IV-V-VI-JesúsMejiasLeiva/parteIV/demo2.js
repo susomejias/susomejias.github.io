@@ -3,8 +3,6 @@
  * @author Jesús Mejías Leiva
  */
 function init() {
-  $("input.fecha").val()
-  .hide(speed)
   $("input.fecha").val(setFecha());
 }
 
