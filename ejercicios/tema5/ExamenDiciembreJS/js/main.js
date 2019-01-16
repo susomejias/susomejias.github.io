@@ -9,7 +9,7 @@
   let spanError;
   let allinputs;
 
-  function init() {
+  let init = function() {
     form = document.getElementsByTagName("form")[0];
     inputsText = Array.from(document.querySelectorAll("input[type='text']"));
     inputsMail = Array.from(document.querySelectorAll("input[type='email']"));
@@ -30,7 +30,7 @@
     });
 
     validarAction("blur"); // valida inputs cuando se active el evento blur
-  }
+  };
 
   /*
    * Objeto para reutilizar los patrones para las regex
@@ -183,6 +183,7 @@
           }
           break;
         default:
+          break;
       }
     });
   };

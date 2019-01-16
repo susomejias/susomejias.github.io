@@ -1,3 +1,14 @@
+/*
+ * Contructor de la clase, asigna los valores
+ * @param nombreCompleto nombre completo
+ * @param correo correo
+ * @param fechaLlegada fecha llegada
+ * @param horaLlegada hora llegada
+ * @param numeroNoches numero de noches
+ * @param numeroPersonas numero de personas
+ * @param servicioRestaurante servicio de restaurante
+ * @pram edadCliente edad de cliente
+ */
 function Reserva(
   nombreCompleto,
   correo,
@@ -19,6 +30,9 @@ function Reserva(
   this.id = this.incrementarId();
 }
 
+/*
+ * Incrementa el id cada vez que creemos una reserva.
+ */
 Reserva.prototype.incrementarId = (function() {
   let id = 1;
   return function() {
@@ -26,6 +40,10 @@ Reserva.prototype.incrementarId = (function() {
   };
 })();
 
+/*
+ * Asigna un valor a servicioRestaurante.
+ * @param servicioRestaurante array de valores de los checkbox checked.
+ */
 Reserva.prototype.setServicioRestaurante = function(servicioRestaurante) {
   if (servicioRestaurante.length > 1) {
     let salida = "";
@@ -42,10 +60,9 @@ Reserva.prototype.setServicioRestaurante = function(servicioRestaurante) {
   }
 };
 
-Reserva.prototype.autoIncrementableId = function() {
-  this.id++;
-};
-
+/*
+ * Muestra los datos de la clase en una ventana nueva.
+ */
 Reserva.prototype.mostrar = function() {
   let html = `<!DOCTYPE html>
     <html lang="es">
@@ -87,6 +104,10 @@ Reserva.prototype.mostrar = function() {
   ventana.document.close();
 };
 
+/*
+ * Asigna un valor a fechaLlegada.
+ * @param fechaLlegada valor de tipo date.
+ */
 Reserva.prototype.setFecha = function(fechaLlegada) {
   if (!(fechaLlegada instanceof Date)) {
     throw new Error("Fecha no valida");
@@ -94,6 +115,9 @@ Reserva.prototype.setFecha = function(fechaLlegada) {
   return fechaLlegada;
 };
 
+/*
+ * Devuelve la fechaLlegada con el formato español.
+ */
 Reserva.prototype.formatoFecha = function() {
   let opciones = {
     weekday: "long",
@@ -104,6 +128,9 @@ Reserva.prototype.formatoFecha = function() {
   return this.fechaLlegada.toLocaleDateString("es-ES", opciones);
 };
 
+/*
+ * Calcula los dias hasta una fecha
+ */
 Reserva.prototype.calcularDias = function() {
   let fechaActualEnMs = Date.now();
   let fechaLlegada = Date.parse(this.fechaLlegada);
