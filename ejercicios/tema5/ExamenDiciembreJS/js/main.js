@@ -48,13 +48,25 @@
       /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
       "Formato de correo no válido"
     ],
-    numbers: [/^[1-9]{1,}$/, "El valor debe de ser mayor que 0"]
+    numbers: [/^[1-9]{1,}$/]
   };
 
   /*
    * Objeto que valida mediante las expresiones regulares.
    */
   let validador = {
+    testNumber(campo, elementoMostrarMensaje) {
+      if (campo.value <= 0 || campo.value === "") {
+        if (campo.value <= 0) {
+          elementoMostrarMensaje.textContent = "Valor no válido";
+        }
+        if (campo.value === "") {
+          elementoMostrarMensaje.textContent = "Rellene este campo";
+        }
+      } else {
+        validador.limpiar(elementoMostrarMensaje, spanError);
+      }
+    },
     test(patron, campo, elementoMostrarMensaje) {
       let regex = new RegExp(patron[0]);
       if (!regex.test(campo.value)) {
@@ -84,18 +96,26 @@
    * @param element elemento del DOM con el que trabajaremos.
    * @param spanIndex indice del elemento span donde mostraremos los mensajes.
    */
-  let validateInputs = function(element, spanIndex, pPattern) {
+  let validateInputs = function(element, spanIndex) {
     if (element.getAttribute("id")) {
-      let pattern = pPattern || patrones[element.getAttribute("id")];
-      console.log(pattern);
       validador.test(
-        pattern,
+        patrones[element.getAttribute("id")],
         element,
         spans[spanIndex],
         element.getAttribute("id")
       );
     }
   };
+
+  /*
+   * Valida los inputs numbers.
+   * @param element elemento del DOM con el que trabajaremos.
+   * @param spanIndex indice del elemento span donde mostraremos los mensajes.
+   */
+  let validateInputsNumber = function(element, spanIndex) {
+    validador.testNumber(element, spans[spanIndex]);
+  };
+
   /*
    * Valida los inputs date.
    * @param element elemento del DOM con el que trabajaremos.
@@ -137,10 +157,10 @@
           if (action === "blur") {
             element.addEventListener(
               "blur",
-              validateInputs.bind(null, element, index, patrones.numbers)
+              validateInputsNumber.bind(null, element, index)
             );
           } else {
-            validateInputs(element, index, patrones.numbers);
+            validateInputsNumber(element, index);
           }
           break;
         case "date":
