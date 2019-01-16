@@ -27,7 +27,7 @@
       validar();
     });
 
-    validaBlur(true);
+    validarAction("blur");
   }
 
   let patrones = {
@@ -101,11 +101,11 @@
     validador.testFecha(element, spans[spanIndex]);
   };
 
-  let validaBlur = function validaBlur(isBlur) {
+  let validarAction = function validaBlur(action) {
     allinputs.forEach(function(element, index) {
       switch (element.getAttribute("type")) {
         case "text":
-          if (isBlur) {
+          if (action === "blur") {
             element.addEventListener(
               "blur",
               validateInputs.bind(null, element, index)
@@ -115,7 +115,7 @@
           }
           break;
         case "email":
-          if (isBlur) {
+          if (action === "blur") {
             element.addEventListener(
               "blur",
               validateInputs.bind(null, element, index)
@@ -125,7 +125,7 @@
           }
           break;
         case "number":
-          if (isBlur) {
+          if (action === "blur") {
             element.addEventListener(
               "blur",
               validateInputsNumber.bind(null, element, index)
@@ -135,7 +135,7 @@
           }
           break;
         case "date":
-          if (isBlur) {
+          if (action === "blur") {
             element.addEventListener(
               "blur",
               validateInputsDate.bind(null, element, index)
@@ -145,7 +145,7 @@
           }
           break;
         case "time":
-          if (isBlur) {
+          if (action === "blur") {
             element.addEventListener(
               "blur",
               validateInputs.bind(null, element, index)
@@ -186,10 +186,9 @@
   };
 
   let validar = function() {
-    validaBlur(false);
+    validarAction("submitAction");
     try {
       spans.forEach((element, index) => {
-        console.log(element.textContent);
         if (element.textContent !== "") {
           allinputs[index].focus();
           throw false;
