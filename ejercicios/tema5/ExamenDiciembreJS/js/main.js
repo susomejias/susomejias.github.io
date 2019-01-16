@@ -188,7 +188,7 @@
   };
 
   /*
-   * Devuelve el input radio seleccionado
+   * Devuelve el input radio seleccionado.
    */
   let radioPulsado = function() {
     return Array.from(
@@ -197,7 +197,7 @@
   };
 
   /*
-   * Devuelve el input radio seleccionado
+   * Devuelve el input checkbox seleccionado.
    */
   let checkPulsado = function() {
     return Array.from(
@@ -206,10 +206,10 @@
   };
 
   /*
-   * Valida los inputs al hacer submit del formulario
+   * Valida los inputs al hacer submit del formulario.
    */
   let validaSubmit = function() {
-    validarAction("submitAction"); // valida los inputs
+    validarAction("submitAction"); // valida todos los inputs
     try {
       spans.forEach((element, index) => {
         if (element.textContent !== "") {
@@ -229,7 +229,7 @@
           checkPulsado(),
           radioPulsado()
         );
-        reserva.mostrar();
+        reserva.mostrar(); // muestro los datos de la clase reserva en otra ventana
       } catch (e) {
         spanError.textContent = e.message;
       }
