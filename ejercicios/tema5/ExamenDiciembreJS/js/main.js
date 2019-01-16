@@ -18,18 +18,23 @@
     );
     inputsTime = Array.from(document.querySelectorAll("input[type='time']"));
     inputsDate = Array.from(document.querySelectorAll("input[type='date']"));
-    spans = Array.from(document.querySelectorAll(".spanMsgError"));
     allinputs = Array.from(document.querySelectorAll("input"));
     spanError = document.getElementById("spanError");
 
+    // obtenemos los span que contengan una clase propia, para evitar span de extensiones etc
+    spans = Array.from(document.querySelectorAll(".spanMsgError"));
+
     form.addEventListener("submit", ev => {
       ev.preventDefault();
-      validar();
+      validaSubmit();
     });
 
-    validarAction("blur");
+    validarAction("blur"); // valida inputs cuando se active el evento blur
   }
 
+  /*
+   * Objeto para reutilizar los patrones para las regex
+   */
   let patrones = {
     nombreCompleto: [
       /^([A-Za-zÁÉÍÓÚñáéíóúÑ]{0}?[A-Za-zÁÉÍÓÚñáéíóúÑ]+[/\s])+([A-Za-zÁÉÍÓÚñáéíóúÑ]{0}?[A-Za-zÁÉÍÓÚñáéíóúÑ])+[/\s]?([A-Za-zÁÉÍÓÚñáéíóúÑ]{0}?[A-Za-zÁÉÍÓÚñáéíóúÑ])?$/g,
@@ -45,6 +50,9 @@
     ]
   };
 
+  /*
+   * Objeto que valida mediante las expresiones regulares.
+   */
   let validador = {
     testNumber(campo, elementoMostrarMensaje) {
       if (campo.value <= 0 || campo.value === "") {
@@ -82,6 +90,11 @@
     }
   };
 
+  /*
+   * Valida los inputs genéricos.
+   * @param element elemento del DOM con el que trabajaremos.
+   * @param spanIndex indice del elemento span donde mostraremos los mensajes.
+   */
   let validateInputs = function(element, spanIndex) {
     if (element.getAttribute("id")) {
       validador.test(
@@ -93,15 +106,30 @@
     }
   };
 
+  /*
+   * Valida los inputs numbers.
+   * @param element elemento del DOM con el que trabajaremos.
+   * @param spanIndex indice del elemento span donde mostraremos los mensajes.
+   */
   let validateInputsNumber = function(element, spanIndex) {
     validador.testNumber(element, spans[spanIndex]);
   };
 
+  /*
+   * Valida los inputs date.
+   * @param element elemento del DOM con el que trabajaremos.
+   * @param spanIndex indice del elemento span donde mostraremos los mensajes.
+   */
   let validateInputsDate = function(element, spanIndex) {
     validador.testFecha(element, spans[spanIndex]);
   };
 
-  let validarAction = function validaBlur(action) {
+  /*
+   * valida todos los inputs, según la acción que se le pase y según su type.
+   * @param action especifica la acción que realiza, el valor "blur" activa las validaciones sobre un evento blur,
+   * cualquier otro valor activa las validaciones directamente.
+   */
+  let validarAction = function(action) {
     allinputs.forEach(function(element, index) {
       switch (element.getAttribute("type")) {
         case "text":
@@ -158,35 +186,30 @@
       }
     });
   };
+
+  /*
+   * Devuelve el input radio seleccionado
+   */
   let radioPulsado = function() {
     return Array.from(
       document.querySelectorAll("input[type='radio']:checked")
     )[0].value;
   };
 
+  /*
+   * Devuelve el input radio seleccionado
+   */
   let checkPulsado = function() {
     return Array.from(
       document.querySelectorAll("input[type='checkbox']:checked")
     );
   };
 
-  let isEmptySpan = function() {
-    let emptySpan = 0;
-    spans.forEach(element => {
-      if (element.textContent === "") {
-        emptySpan++;
-      }
-    });
-
-    if (emptySpan === 0) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  let validar = function() {
-    validarAction("submitAction");
+  /*
+   * Valida los inputs al hacer submit del formulario
+   */
+  let validaSubmit = function() {
+    validarAction("submitAction"); // valida los inputs
     try {
       spans.forEach((element, index) => {
         if (element.textContent !== "") {
@@ -210,7 +233,7 @@
       } catch (e) {
         spanError.textContent = e.message;
       }
-    } catch (e) {}
+    } catch (e) {} // capturo la exception trow false, para terminar el foreach cuando haga foco sobre un elemento
   };
   window.addEventListener("load", init);
 }
