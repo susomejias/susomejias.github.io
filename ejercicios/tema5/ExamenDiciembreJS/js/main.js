@@ -137,66 +137,54 @@
     validador.test(patrones.hora, horaLlegada, spanHoraLlegada, "horaLlegada");
 
   let radioPulsado = function() {
-    let radios = Array.from(document.querySelectorAll("input[type='radio']"));
-    let radioPulsado = [];
-    radios.forEach(element => {
-      if (element.checked) {
-        radioPulsado.push(element.value);
-      }
-    });
-
-    return radioPulsado[0];
+    return Array.from(
+      document.querySelectorAll("input[type='radio']:checked")
+    )[0].value;
   };
 
   let checkPulsado = function() {
-    let checkboxs = Array.from(
-      document.querySelectorAll("input[type='checkbox']")
+    console.log(
+      Array.from(document.querySelectorAll("input[type='checkbox']:checked"))
     );
-    let checkboxChecked = [];
-
-    checkboxs.forEach(element => {
-      if (element.checked) {
-        checkboxChecked.push(element.value);
-      }
-    });
-    return checkboxChecked;
+    return Array.from(
+      document.querySelectorAll("input[type='checkbox']:checked")
+    );
   };
 
   let validar = function() {
-    try {
-      collectionNoValidos.clear();
-      validarNombre();
-      validarCorreo();
-      validarFecha();
-      validarHoraLlegada();
-      validarNumNoches();
-      validarNumPersonas();
+    collectionNoValidos.clear();
+    validarNombre();
+    validarCorreo();
+    validarFecha();
+    validarHoraLlegada();
+    validarNumNoches();
+    validarNumPersonas();
 
-      if (collectionNoValidos.size > 0) {
-        spanError.textContent = "";
-        collectionNoValidos.forEach(element => {
-          element.focus();
-          throw false;
-        });
-      } else if (collectionNoValidos.size === 0) {
-        spanError.textContent = "";
-        try {
-          let reserva = new Reserva(
-            inputNombreCompleto.value,
-            inputCorreoElectronico.value,
-            new Date(fechaLlegada.value),
-            horaLlegada.value,
-            numNoches.value,
-            numPersonas.value,
-            checkPulsado(),
-            radioPulsado()
-          );
-          reserva.mostrar();
-        } catch (e) {
-          spanError.textContent = e.message;
-        }
-      }
-    } catch (e) {}
+    if (collectionNoValidos.size > 0) {
+      spanError.textContent = "";
+      collectionNoValidos.forEach(element => {
+        element.focus();
+        return false;
+      });
+    }
+    if (collectionNoValidos.size === 0) {
+      spanError.textContent = "";
+      //try {
+      let reserva = new Reserva(
+        inputNombreCompleto.value,
+        inputCorreoElectronico.value,
+        new Date(fechaLlegada.value),
+        horaLlegada.value,
+        numNoches.value,
+        numPersonas.value,
+        checkPulsado(),
+        radioPulsado()
+      );
+      reserva.mostrar();
+      // } catch (e) {
+      //   spanError.textContent = e.message;
+      // }
+    }
   };
   window.addEventListener("load", init);
 }

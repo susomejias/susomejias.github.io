@@ -31,8 +31,8 @@ Reserva.prototype.setServicioRestaurante = function(servicioRestaurante) {
     let salida = "";
     servicioRestaurante.forEach((element, index) => {
       index === servicioRestaurante.length - 1
-        ? (salida += element)
-        : (salida += element + ", ");
+        ? (salida += element.value)
+        : (salida += element.value + ", ");
     });
     return salida;
   } else if (servicioRestaurante.length === 1) {
@@ -55,7 +55,7 @@ Reserva.prototype.mostrar = function() {
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" href="css/animaciones.css" />
         <link rel="stylesheet" href="css/estilos.min.css" />
-        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
         <title>Ejercicio-JesúsMejiasLeiva</title>
     </head>
     <body>
@@ -78,7 +78,7 @@ Reserva.prototype.mostrar = function() {
             <p><b>Días para la reserva:</b> ${this.calcularDias()}  dia/s.</p>
           </div>
           </main>
-        
+
     </body>
     </html>`;
   let ventana = window.open("", "", "width=300px,height=200px");
