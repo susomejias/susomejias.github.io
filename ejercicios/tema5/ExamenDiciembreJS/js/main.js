@@ -1,37 +1,25 @@
 {
-  let inputNombreCompleto;
-  let inputCorreoElectronico;
-  let fechaLlegada;
-  let horaLlegada;
-  let numNoches;
-  let numPersonas;
-  let spanNombre;
-  let spanCorreo;
-  let spanFllegada;
-  let spanHoraLlegada;
-  let spanNumNoches;
-  let spanNumPersonas;
+  let inputsText;
+  let inputsMail;
+  let inputsNumber;
+  let inputsTime;
+  let inputsDate;
+  let spans;
+  let form;
   let spanError;
-  let collectionNoValidos;
+  let allinputs;
 
   function init() {
-    collectionNoValidos = new Map();
-    let form = document.getElementsByTagName("form")[0];
-    inputNombreCompleto = document.getElementById("inputNombreCompleto");
-    inputCorreoElectronico = document.getElementById("inputCorreoElectrónico");
-    fechaLlegada = document.getElementById("inputFechaLlegada");
-    horaLlegada = document.getElementById("inputHoraLlegada");
-    numNoches = document.getElementById("inputNumeroNoches");
-    numPersonas = document.getElementById("inputNumeroPersonas");
-    radioMenos20 = document.getElementById("menosDe20");
-    radio20y40 = document.getElementById("entre20y40");
-    radioMasDe40 = document.getElementById("masDe40");
-    spanNombre = document.getElementById("spanNombre");
-    spanCorreo = document.getElementById("spanCorreo");
-    spanFllegada = document.getElementById("spanFllegada");
-    spanHoraLlegada = document.getElementById("spanHoraLlegada");
-    spanNumNoches = document.getElementById("spanNumNoches");
-    spanNumPersonas = document.getElementById("spanNumPersonas");
+    form = document.getElementsByTagName("form")[0];
+    inputsText = Array.from(document.querySelectorAll("input[type='text']"));
+    inputsMail = Array.from(document.querySelectorAll("input[type='email']"));
+    inputsNumber = Array.from(
+      document.querySelectorAll("input[type='number']")
+    );
+    inputsTime = Array.from(document.querySelectorAll("input[type='time']"));
+    inputsDate = Array.from(document.querySelectorAll("input[type='date']"));
+    spans = Array.from(document.querySelectorAll("body span"));
+    allinputs = Array.from(document.getElementsByTagName("input"));
     spanError = document.getElementById("spanError");
 
     form.addEventListener("submit", ev => {
@@ -39,16 +27,11 @@
       validar();
     });
 
-    inputNombreCompleto.addEventListener("blur", validarNombre);
-    inputCorreoElectronico.addEventListener("blur", validarCorreo);
-    fechaLlegada.addEventListener("blur", validarFecha);
-    numNoches.addEventListener("blur", validarNumNoches);
-    numPersonas.addEventListener("blur", validarNumPersonas);
-    horaLlegada.addEventListener("blur", validarHoraLlegada);
+    validaBlur(true);
   }
 
   let patrones = {
-    nombre: [
+    nombreCompleto: [
       /^([A-Za-zÁÉÍÓÚñáéíóúÑ]{0}?[A-Za-zÁÉÍÓÚñáéíóúÑ]+[/\s])+([A-Za-zÁÉÍÓÚñáéíóúÑ]{0}?[A-Za-zÁÉÍÓÚñáéíóúÑ])+[/\s]?([A-Za-zÁÉÍÓÚñáéíóúÑ]{0}?[A-Za-zÁÉÍÓÚñáéíóúÑ])?$/g,
       "Al menos nombre y apellido"
     ],
@@ -63,9 +46,8 @@
   };
 
   let validador = {
-    testNumber(campo, elementoMostrarMensaje, mapKey) {
+    testNumber(campo, elementoMostrarMensaje) {
       if (campo.value <= 0 || campo.value === "") {
-        collectionNoValidos.set(mapKey, campo);
         if (campo.value <= 0) {
           elementoMostrarMensaje.textContent = "Valor no válido";
         }
@@ -73,69 +55,109 @@
           elementoMostrarMensaje.textContent = "Rellene este campo";
         }
       } else {
-        validador.limpiar(mapKey, elementoMostrarMensaje, spanError);
+        validador.limpiar(elementoMostrarMensaje, spanError);
       }
     },
-    test(patron, campo, elementoMostrarMensaje, mapKey) {
+    test(patron, campo, elementoMostrarMensaje) {
       let regex = new RegExp(patron[0]);
       if (!regex.test(campo.value)) {
-        collectionNoValidos.set(mapKey, campo);
         elementoMostrarMensaje.textContent = patron[1];
       } else {
-        validador.limpiar(mapKey, elementoMostrarMensaje, spanError);
+        validador.limpiar(elementoMostrarMensaje, spanError);
       }
     },
-    testFecha(campo, elementoMostrarMensaje, mapKey) {
+    testFecha(campo, elementoMostrarMensaje) {
       let valorFecha = Date.parse(campo.value);
 
       if (isNaN(valorFecha)) {
         elementoMostrarMensaje.textContent =
           "La fecha de llegada no puede estar vacía";
-        collectionNoValidos.set(mapKey, campo);
       } else {
-        validador.limpiar(mapKey, elementoMostrarMensaje, spanError);
+        validador.limpiar(elementoMostrarMensaje, spanError);
       }
     },
-    limpiar(mapKey, spanElemento, spanError) {
-      if (collectionNoValidos.has(mapKey)) {
-        collectionNoValidos.delete(mapKey);
-      }
+    limpiar(spanElemento, spanError) {
       spanElemento.textContent = "";
       spanError.textContent = "";
     }
   };
 
-  let validarNombre = function() {
-    validador.test(
-      patrones.nombre,
-      inputNombreCompleto,
-      spanNombre,
-      "nombreCompleto"
-    );
+  let validateInputs = function(element, spanIndex) {
+    if (element.getAttribute("id")) {
+      validador.test(
+        patrones[element.getAttribute("id")],
+        element,
+        spans[spanIndex],
+        element.getAttribute("id")
+      );
+    }
   };
 
-  let validarCorreo = function() {
-    validador.test(
-      patrones.correo,
-      inputCorreoElectronico,
-      spanCorreo,
-      "correoElectronico"
-    );
+  let validateInputsNumber = function(element, spanIndex) {
+    validador.testNumber(element, spans[spanIndex]);
   };
 
-  let validarFecha = () =>
-    validador.testFecha(fechaLlegada, spanFllegada, "fechaLlegada");
-
-  let validarNumNoches = () => {
-    validador.testNumber(numNoches, spanNumNoches, "numNoches");
+  let validateInputsDate = function(element, spanIndex) {
+    validador.testFecha(element, spans[spanIndex]);
   };
 
-  let validarNumPersonas = () =>
-    validador.testNumber(numPersonas, spanNumPersonas, "numPersonas");
-
-  let validarHoraLlegada = () =>
-    validador.test(patrones.hora, horaLlegada, spanHoraLlegada, "horaLlegada");
-
+  let validaBlur = function validaBlur(isBlur) {
+    allinputs.forEach(function(element, index) {
+      switch (element.getAttribute("type")) {
+        case "text":
+          if (isBlur) {
+            element.addEventListener(
+              "blur",
+              validateInputs.bind(null, element, index)
+            );
+          } else {
+            validateInputs(element, index);
+          }
+          break;
+        case "email":
+          if (isBlur) {
+            element.addEventListener(
+              "blur",
+              validateInputs.bind(null, element, index)
+            );
+          } else {
+            validateInputs(element, index);
+          }
+          break;
+        case "number":
+          if (isBlur) {
+            element.addEventListener(
+              "blur",
+              validateInputsNumber.bind(null, element, index)
+            );
+          } else {
+            validateInputsNumber(element, index);
+          }
+          break;
+        case "date":
+          if (isBlur) {
+            element.addEventListener(
+              "blur",
+              validateInputsDate.bind(null, element, index)
+            );
+          } else {
+            validateInputsDate(element, index);
+          }
+          break;
+        case "time":
+          if (isBlur) {
+            element.addEventListener(
+              "blur",
+              validateInputs.bind(null, element, index)
+            );
+          } else {
+            validateInputs(element, index);
+          }
+          break;
+        default:
+      }
+    });
+  };
   let radioPulsado = function() {
     return Array.from(
       document.querySelectorAll("input[type='radio']:checked")
@@ -143,40 +165,45 @@
   };
 
   let checkPulsado = function() {
-    console.log(
-      Array.from(document.querySelectorAll("input[type='checkbox']:checked"))
-    );
     return Array.from(
       document.querySelectorAll("input[type='checkbox']:checked")
     );
   };
 
-  let validar = function() {
-    collectionNoValidos.clear();
-    validarNombre();
-    validarCorreo();
-    validarFecha();
-    validarHoraLlegada();
-    validarNumNoches();
-    validarNumPersonas();
+  let isEmptySpan = function() {
+    let emptySpan = 0;
+    spans.forEach(element => {
+      if (element.textContent === "") {
+        emptySpan++;
+      }
+    });
 
-    if (collectionNoValidos.size > 0) {
-      spanError.textContent = "";
-      collectionNoValidos.forEach(element => {
-        element.focus();
-        return false;
-      });
+    if (emptySpan === 0) {
+      return true;
+    } else {
+      return false;
     }
-    if (collectionNoValidos.size === 0) {
+  };
+
+  let validar = function() {
+    validaBlur(false);
+    try {
+      spans.forEach((element, index) => {
+        console.log(element.textContent);
+        if (element.textContent !== "") {
+          allinputs[index].focus();
+          throw false;
+        }
+      });
       spanError.textContent = "";
       try {
         let reserva = new Reserva(
-          inputNombreCompleto.value,
-          inputCorreoElectronico.value,
-          new Date(fechaLlegada.value),
-          horaLlegada.value,
-          numNoches.value,
-          numPersonas.value,
+          inputsText[0].value,
+          inputsMail[0].value,
+          new Date(inputsDate[0].value),
+          inputsTime[0].value,
+          inputsNumber[0].value,
+          inputsNumber[1].value,
           checkPulsado(),
           radioPulsado()
         );
@@ -184,7 +211,7 @@
       } catch (e) {
         spanError.textContent = e.message;
       }
-    }
+    } catch (e) {}
   };
   window.addEventListener("load", init);
 }

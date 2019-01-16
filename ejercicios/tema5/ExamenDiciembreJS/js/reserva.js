@@ -36,7 +36,7 @@ Reserva.prototype.setServicioRestaurante = function(servicioRestaurante) {
     });
     return salida;
   } else if (servicioRestaurante.length === 1) {
-    return servicioRestaurante[0];
+    return servicioRestaurante[0].value;
   } else {
     return "Ninguno";
   }
