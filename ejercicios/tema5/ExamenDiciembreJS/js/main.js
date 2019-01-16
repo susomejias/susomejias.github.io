@@ -18,8 +18,8 @@
     );
     inputsTime = Array.from(document.querySelectorAll("input[type='time']"));
     inputsDate = Array.from(document.querySelectorAll("input[type='date']"));
-    spans = Array.from(document.querySelectorAll("body span"));
-    allinputs = Array.from(document.getElementsByTagName("input"));
+    spans = Array.from(document.querySelectorAll(".spanMsgError"));
+    allinputs = Array.from(document.querySelectorAll("input"));
     spanError = document.getElementById("spanError");
 
     form.addEventListener("submit", ev => {

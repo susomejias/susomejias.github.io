@@ -21,31 +21,32 @@
         <div class="campo">
           <label for="inputNombreCompleto">Nombre completo</label>
           <input type="text" name="nombre" id="nombreCompleto" />
-          <span id="spanNombre"></span>
+          <span id="spanNombre" class="spanMsgError"></span>
         </div>
         <div class="campo">
           <label for="inputCorreoElectrónico">Correo electrónico</label>
           <input type="email" name="correo" id="correo" />
-          <span id="spanCorreo"></span>
+          <span id="spanCorreo" class="spanMsgError"></span>
         </div>
         <div class="campo">
           <label for="inputFechaLlegada">Fecha llegada</label>
-          <input type="date" id="fecha" /> <span id="spanFllegada"></span>
+          <input type="date" id="fecha" />
+          <span id="spanFllegada" class="spanMsgError"></span>
         </div>
         <div class="campo">
           <label for="inputHoraLlegada">Hora llegada</label>
           <input type="time" name="hora" id="hora" />
-          <span id="spanHoraLlegada"></span>
+          <span id="spanHoraLlegada" class="spanMsgError"></span>
         </div>
         <div class="campo">
           <label for="inputNumeroNoches">Número de noches</label>
           <input type="number" min="1" id="inputNumeroNoches" />
-          <span id="spanNumNoches"></span>
+          <span id="spanNumNoches" class="spanMsgError"></span>
         </div>
         <div class="campo">
           <label for="inputNumeroPersonas">Número de personas</label>
           <input type="number" min="1" id="inputNumeroPersonas" />
-          <span id="spanNumPersonas"></span>
+          <span id="spanNumPersonas" class="spanMsgError"></span>
         </div>
 
         <label>Servicio de restaurante</label>
@@ -105,7 +106,7 @@
             <label for="masDe40">Más de 40</label>
           </div>
         </div>
-        <span id="spanError"></span>
+        <span id="spanError" class="spanMsgError"></span>
         <input
           type="submit"
           name="enviarReserva"
