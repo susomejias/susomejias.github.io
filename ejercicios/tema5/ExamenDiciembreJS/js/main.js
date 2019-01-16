@@ -169,21 +169,21 @@
     }
     if (collectionNoValidos.size === 0) {
       spanError.textContent = "";
-      //try {
-      let reserva = new Reserva(
-        inputNombreCompleto.value,
-        inputCorreoElectronico.value,
-        new Date(fechaLlegada.value),
-        horaLlegada.value,
-        numNoches.value,
-        numPersonas.value,
-        checkPulsado(),
-        radioPulsado()
-      );
-      reserva.mostrar();
-      // } catch (e) {
-      //   spanError.textContent = e.message;
-      // }
+      try {
+        let reserva = new Reserva(
+          inputNombreCompleto.value,
+          inputCorreoElectronico.value,
+          new Date(fechaLlegada.value),
+          horaLlegada.value,
+          numNoches.value,
+          numPersonas.value,
+          checkPulsado(),
+          radioPulsado()
+        );
+        reserva.mostrar();
+      } catch (e) {
+        spanError.textContent = e.message;
+      }
     }
   };
   window.addEventListener("load", init);
