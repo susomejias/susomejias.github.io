@@ -27,7 +27,7 @@ function init() {
   container.classList.add("shadowMaterialButton");
 }
 
-  let buscaMinasGUI = {
+let buscaMinasGUI = {
   flagRecord: false,
   /**
    * Inicia el juego GUI
@@ -55,8 +55,10 @@ function init() {
     container.style.width = "100%";
     container.style.borderBottom = "2px solid #6A1B9A";
 
-    document.getElementById("btnVolverAjugar").classList.add("shadowMaterialButton");
-    document.getElementById("timer").style.minWidth= "50px";
+    document
+      .getElementById("btnVolverAjugar")
+      .classList.add("shadowMaterialButton");
+    document.getElementById("timer").style.minWidth = "50px";
 
     containerTablero.classList.add("shadowMaterial");
   },
@@ -196,14 +198,12 @@ function init() {
     } else {
       try {
         if (ev.buttons === 0) {
-
           buscaMinas.picar(i, j);
           if (buscaMinas.flagGanado) {
             buscaMinasGUI.comprobarRecord();
           }
 
           buscaMinasGUI.actualizarGui();
-
         }
       } catch (e) {
         buscaMinasGUI.descubrirMinas();
@@ -220,7 +220,6 @@ function init() {
     }
   },
 
-
   /**
    * Realiza la accion de picar y actualiza la GUI
    * @param ev evento
@@ -230,13 +229,16 @@ function init() {
   marcarGui(ev, i, j) {
     buscaMinasGUI.disableContextMenu();
 
-
     try {
       if (ev.buttons === 2) {
         buscaMinas.marcar(i, j);
         buscaMinasGUI.actualizarGui();
         // actualizo el numero de banderas
-        document.getElementById("numBanderas").innerHTML = `<img src="images/flag.svg" height="30px"/> ${buscaMinas.numBanderas}`;
+        document.getElementById(
+          "numBanderas"
+        ).innerHTML = `<img src="images/flag.svg" height="30px"/> ${
+          buscaMinas.numBanderas
+        }`;
         if (buscaMinas.flagGanado) {
           buscaMinasGUI.comprobarRecord();
         }
@@ -244,7 +246,6 @@ function init() {
     } catch (e) {
       buscaMinasGUI.descubrirMinas();
       if (e.message === "¡¡¡ Felicidades has ganado !!!") {
-
         // buscaMinasGUI.swalVolverAJugar(buscaMinasGUI.messageIsRecord(e.message), "success");
         buscaMinasGUI.swalVolverAJugar(e.message, "success");
       } else {
@@ -257,18 +258,22 @@ function init() {
    * @param msg mensaje a mostra
    * @param icon icono que mostrará la ventana
    */
-  swalVolverAJugar(msg,icon){
-
-    let tiempoPartida = parseInt(document.querySelector("#timer #time").textContent);
+  swalVolverAJugar(msg, icon) {
+    let tiempoPartida = parseInt(
+      document.querySelector("#timer #time").textContent
+    );
     let recordNivel = buscaMinasGUI.obtenerRecordActualNivel();
 
     let message = "";
     let title = msg;
 
-    if (icon === "success"){
+    if (icon === "success") {
       message = `Tu tiempo en esta partida a sido ${tiempoPartida} segundo/s. \n \n El record actual es de ${recordNivel} segundo/s.\n \n`;
     }
-    if (icon === "success" && (recordNivel === 0 || tiempoPartida < recordNivel)){
+    if (
+      icon === "success" &&
+      (recordNivel === 0 || tiempoPartida < recordNivel)
+    ) {
       title = `${msg} \n además has establecido el record de este nivel en ${tiempoPartida} segundo/s. \n\n`;
     }
 
@@ -281,18 +286,16 @@ function init() {
         Si: true,
         No: true
       }
-    }).then((result) => {
-
-      if(result === "Si"){
+    }).then(result => {
+      if (result === "Si") {
         location.reload();
       }
     });
   },
-  obtenerRecordActualNivel(){
-
-    if (localStorage.getItem(buscaMinas.nivel) !== null){
+  obtenerRecordActualNivel() {
+    if (localStorage.getItem(buscaMinas.nivel) !== null) {
       return parseInt(localStorage.getItem(buscaMinas.nivel));
-    }else{
+    } else {
       return 0;
     }
   },
@@ -368,14 +371,16 @@ function init() {
     div.innerHTML = `<img src="images/bomb.svg"/> ${buscaMinas.numMinas}`;
     container.appendChild(div);
   },
-/**
+  /**
    * Crear div numero de bombas
    */
   crearDivNumBanderas() {
     let container = document.getElementById("container");
     let div = document.createElement("div");
     div.id = "numBanderas";
-    div.innerHTML = `<img src="images/flag.svg" height="30px"/> ${buscaMinas.numBanderas}`;
+    div.innerHTML = `<img src="images/flag.svg" height="30px"/> ${
+      buscaMinas.numBanderas
+    }`;
     container.appendChild(div);
   },
   /**
@@ -399,13 +404,13 @@ function init() {
     div.id = "record";
     time.innerHTML = `<div id="record"></div>`;
 
-      if (localStorage.getItem(buscaMinas.nivel) !== null) {
-        div.innerHTML = `<img src="images/record.svg" height="30px"/> ${localStorage.getItem(
-          buscaMinas.nivel
-        )}`;
-      } else {
-        div.innerHTML = `<img src="images/record.svg" height="30px"/> 0`;
-      }
+    if (localStorage.getItem(buscaMinas.nivel) !== null) {
+      div.innerHTML = `<img src="images/record.svg" height="30px"/> ${localStorage.getItem(
+        buscaMinas.nivel
+      )}`;
+    } else {
+      div.innerHTML = `<img src="images/record.svg" height="30px"/> 0`;
+    }
 
     container.appendChild(div);
   },
@@ -416,15 +421,15 @@ function init() {
   comprobarRecord() {
     let tiempo = parseInt(document.querySelector("#timer p").textContent);
 
-      if (localStorage.getItem(buscaMinas.nivel) === null) {
-        localStorage.setItem(buscaMinas.nivel, tiempo);
-      } else {
-        if (
-          localStorage.getItem(buscaMinas.nivel) === 0 ||
-          localStorage.getItem(buscaMinas.nivel) > tiempo
-        ) {
-        }
+    if (localStorage.getItem(buscaMinas.nivel) === null) {
+      localStorage.setItem(buscaMinas.nivel, tiempo);
+    } else {
+      if (
+        localStorage.getItem(buscaMinas.nivel) === 0 ||
+        localStorage.getItem(buscaMinas.nivel) > tiempo
+      ) {
       }
+    }
   },
 
   /**
