@@ -3,7 +3,7 @@
  * @author Jesús Mejías Leiva
  */
 {
-  
+
   let init = function() {
     $("input.fecha").val(setFecha());
   }
