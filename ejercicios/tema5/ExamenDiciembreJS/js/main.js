@@ -22,7 +22,7 @@
     spanError = document.getElementById("spanError");
 
     // obtenemos los span que contengan una clase propia, para evitar span de extensiones etc
-    spans = Array.from(document.querySelectorAll(".spanMsgError"));
+    spans = Array.from(document.querySelectorAll("body form span"));
 
     form.addEventListener("submit", ev => {
       ev.preventDefault();
@@ -48,39 +48,22 @@
       /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
       "Formato de correo no válido"
     ],
-    numbers: [/^[1-9]{1,}$/]
+    number: [/^[1-9]{1,}$/, "El número tiene que ser mayor que 0."],
+
+    fecha: [
+      /^\\d{2}([\/])\\d{2}\\1\\d{4}$/,
+      "El formato de fecha es dd/mm/yyyy."
+    ]
   };
 
   /*
    * Objeto que valida mediante las expresiones regulares.
    */
   let validador = {
-    testNumber(campo, elementoMostrarMensaje) {
-      if (campo.value <= 0 || campo.value === "") {
-        if (campo.value <= 0) {
-          elementoMostrarMensaje.textContent = "Valor no válido";
-        }
-        if (campo.value === "") {
-          elementoMostrarMensaje.textContent = "Rellene este campo";
-        }
-      } else {
-        validador.limpiar(elementoMostrarMensaje, spanError);
-      }
-    },
     test(patron, campo, elementoMostrarMensaje) {
       let regex = new RegExp(patron[0]);
       if (!regex.test(campo.value)) {
         elementoMostrarMensaje.textContent = patron[1];
-      } else {
-        validador.limpiar(elementoMostrarMensaje, spanError);
-      }
-    },
-    testFecha(campo, elementoMostrarMensaje) {
-      let valorFecha = Date.parse(campo.value);
-
-      if (isNaN(valorFecha)) {
-        elementoMostrarMensaje.textContent =
-          "La fecha de llegada no puede estar vacía";
       } else {
         validador.limpiar(elementoMostrarMensaje, spanError);
       }
@@ -97,34 +80,15 @@
    * @param spanIndex indice del elemento span donde mostraremos los mensajes.
    */
   let validateInputs = function(element, spanIndex) {
-    if (element.getAttribute("id")) {
+    //element.getAttribute("class") obtenemos la clase de cada input con la cuál identificaremos el patron con el que se validará.
+    if (element.getAttribute("class")) {
       validador.test(
-        patrones[element.getAttribute("id")],
+        patrones[element.getAttribute("class")],
         element,
-        spans[spanIndex],
-        element.getAttribute("id")
+        spans[spanIndex]
       );
     }
   };
-
-  /*
-   * Valida los inputs numbers.
-   * @param element elemento del DOM con el que trabajaremos.
-   * @param spanIndex indice del elemento span donde mostraremos los mensajes.
-   */
-  let validateInputsNumber = function(element, spanIndex) {
-    validador.testNumber(element, spans[spanIndex]);
-  };
-
-  /*
-   * Valida los inputs date.
-   * @param element elemento del DOM con el que trabajaremos.
-   * @param spanIndex indice del elemento span donde mostraremos los mensajes.
-   */
-  let validateInputsDate = function(element, spanIndex) {
-    validador.testFecha(element, spans[spanIndex]);
-  };
-
   /*
    * valida todos los inputs, según la acción que se le pase y según su type.
    * @param action especifica la acción que realiza, el valor "blur" activa las validaciones sobre un evento blur,
@@ -132,59 +96,13 @@
    */
   let validarAction = function(action) {
     allinputs.forEach(function(element, index) {
-      switch (element.getAttribute("type")) {
-        case "text":
-          if (action === "blur") {
-            element.addEventListener(
-              "blur",
-              validateInputs.bind(null, element, index)
-            );
-          } else {
-            validateInputs(element, index);
-          }
-          break;
-        case "email":
-          if (action === "blur") {
-            element.addEventListener(
-              "blur",
-              validateInputs.bind(null, element, index)
-            );
-          } else {
-            validateInputs(element, index);
-          }
-          break;
-        case "number":
-          if (action === "blur") {
-            element.addEventListener(
-              "blur",
-              validateInputsNumber.bind(null, element, index)
-            );
-          } else {
-            validateInputsNumber(element, index);
-          }
-          break;
-        case "date":
-          if (action === "blur") {
-            element.addEventListener(
-              "blur",
-              validateInputsDate.bind(null, element, index)
-            );
-          } else {
-            validateInputsDate(element, index);
-          }
-          break;
-        case "time":
-          if (action === "blur") {
-            element.addEventListener(
-              "blur",
-              validateInputs.bind(null, element, index)
-            );
-          } else {
-            validateInputs(element, index);
-          }
-          break;
-        default:
-          break;
+      if (action === "blur") {
+        element.addEventListener(
+          "blur",
+          validateInputs.bind(null, element, index)
+        );
+      } else {
+        validateInputs(element, index);
       }
     });
   };
