@@ -51,7 +51,7 @@
     number: [/^[1-9]{1,}$/, "El número tiene que ser mayor que 0."],
 
     fecha: [
-      /^\\d{2}([\/])\\d{2}\\1\\d{4}$/,
+      /^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/,
       "El formato de fecha es dd/mm/yyyy."
     ]
   };
@@ -88,6 +88,7 @@
         spans[spanIndex]
       );
     }
+    console.log(inputsDate[0].value);
   };
   /*
    * valida todos los inputs, según la acción que se le pase y según su type.
