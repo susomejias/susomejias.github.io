@@ -88,7 +88,6 @@
         spans[spanIndex]
       );
     }
-    console.log(inputsDate[0].value);
   };
   /*
    * valida todos los inputs, según la acción que se le pase y según su type.
