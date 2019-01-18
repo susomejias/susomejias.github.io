@@ -99,40 +99,18 @@ let buscaMinasGUI = {
   claseSegunNivel(classs, input) {
     switch (buscaMinas.nivel) {
       case "facil":
-        if (!input.hasClass(classs)){
-            if (classs === "violet"){
               input.addClass(classs);
               input.addClass("inputFacil");
-            }else {
-              input.addClass(classs,300,"easeInOutBounce");
-              input.addClass("inputFacil");
-            }
-        }
         break;
 
       case "intermedio":
-        if (!input.hasClass(classs) && !input.hasClass("inputIntermedio")){
-            if (classs === "violet"){
               input.addClass(classs);
               input.addClass("inputIntermedio");
-            }else {
-              input.addClass(classs,300,"easeInOutBounce");
-              input.addClass("inputIntermedio");
-            }
-        }
         break;
 
       case "experto":
-        if (!input.hasClass(classs) && !input.hasClass("inputExperto")){
-          if (classs === "violet"){
             input.addClass(classs);
             input.addClass("inputExperto");
-          }else {
-            input.addClass(classs,300,"easeInOutBounce");
-            input.addClass("inputExperto");
-          }
-        }
-
         break;
 
       default:
