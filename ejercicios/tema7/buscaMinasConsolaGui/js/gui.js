@@ -104,7 +104,7 @@ let buscaMinasGUI = {
               input.addClass(classs);
               input.addClass("inputFacil");
             }else {
-              input.addClass(classs,1000,"easeOutBounce");
+              input.addClass(classs,300,"easeInOutBounce");
               input.addClass("inputFacil");
             }
         }
@@ -116,7 +116,7 @@ let buscaMinasGUI = {
               input.addClass(classs);
               input.addClass("inputIntermedio");
             }else {
-              input.addClass(classs,1000,"easeOutBounce");
+              input.addClass(classs,300,"easeInOutBounce");
               input.addClass("inputIntermedio");
             }
         }
@@ -128,7 +128,7 @@ let buscaMinasGUI = {
             input.addClass(classs);
             input.addClass("inputExperto");
           }else {
-            input.addClass(classs,1000,"easeOutBounce");
+            input.addClass(classs,300,"easeInOutBounce");
             input.addClass("inputExperto");
           }
         }
