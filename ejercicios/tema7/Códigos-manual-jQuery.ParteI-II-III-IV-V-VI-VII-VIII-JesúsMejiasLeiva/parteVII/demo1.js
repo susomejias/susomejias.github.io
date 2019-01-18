@@ -15,9 +15,10 @@
   };
 
   let init = function() {
-    $(".parpadear").parpadea();
     //añado evento clic para un botón. Al pulsar parpadearán los elementos de clase parpadear
-    $("#botonparpadear").click(() => $(".parpadear").parpadea());
+    $("#botonparpadear")
+      .click(() => $(".parpadear").parpadea())
+      .click(); // activo trigger
   };
 
   $(init);

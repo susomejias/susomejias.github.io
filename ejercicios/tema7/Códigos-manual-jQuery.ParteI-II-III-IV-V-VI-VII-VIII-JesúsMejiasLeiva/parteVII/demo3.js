@@ -1,5 +1,5 @@
 /**
- * Demo 1, parte 7
+ * Demo 3, parte 7
  * @author Jesús Mejías Leiva
  */
 {

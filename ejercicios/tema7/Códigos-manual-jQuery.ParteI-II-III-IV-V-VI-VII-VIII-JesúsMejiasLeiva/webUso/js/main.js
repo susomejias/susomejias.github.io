@@ -4,7 +4,9 @@
     checkedAccess();
 
     // desactiva dos checkbox
-    $(":checkbox").click(disabledTwo.bind(this));
+    $(":checkbox")
+      .change(toogleDeshabilitar)
+      .change();
 
     // name del checkb
     eventOn();
@@ -16,20 +18,18 @@
   }
 
   let checkedAccess = function() {
-    $("checkbox").prop("checked");
+    console.log($("checkbox").prop("checked"));
     $("checkbox").attr("checked");
     $(":checked").val();
-    $("checkbox").val();
+    $(":checkbox").val();
   };
 
-  let disabledTwo = function(element) {
-    $(":checkbox").each(function() {
-      if ($(element.currentTarget).prop("name") === $(this).prop("name")) {
-        $(this).prop("checked", true);
-      } else {
-        $(this).prop("checked", false);
-      }
-    });
+  let toogleDeshabilitar = function() {
+    if ($(this).prop("checked")) {
+      $(":checkbox:not(:checked)").prop("disabled", true);
+    } else {
+      $(":checkbox:not(:checked)").prop("disabled", false);
+    }
   };
 
   let eventOn = function() {
