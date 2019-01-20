@@ -227,8 +227,6 @@ let buscaMinasGUI = {
    * @param j coordenada para la columna
    */
   marcarGui(ev, i, j) {
-    buscaMinasGUI.disableContextMenu();
-
     try {
       if (ev.buttons === 2) {
         buscaMinas.marcar(i, j);

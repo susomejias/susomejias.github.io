@@ -46,7 +46,7 @@ export let buscaMinas = {
   marcar(x, y) {
       if (
         buscaMinas.tableroPulsaciones[x][y] !== "p" &&
-        buscaMinas.tableroVisible[x][y] !== "!"
+        buscaMinas.tableroVisible[x][y] !== "!" && !buscaMinas.flagFinPartida
       ) {
         if (buscaMinas.numBanderas > 0) {
           buscaMinas.tableroVisible[x][y] = "!";
