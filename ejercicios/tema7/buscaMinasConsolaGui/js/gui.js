@@ -30,7 +30,7 @@ let buscaMinasGUI = {
    * Inicia el juego GUI
    */
   initJuego() {
-    buscaMinas.nivel = this[this.selectedIndex].value;
+    buscaMinas.nivel = $(this).val();
     buscaMinas.init();
     this.disabled = true;
     buscaMinasGUI.generarTableroGui();
@@ -236,8 +236,8 @@ let buscaMinasGUI = {
 
         // actualizo el numero de banderas
         $("#numBanderas").html(`<img src="images/flag.svg" height="30px"/><p id="pNumBanderas"></p>`);
-        if ($("#numBanderas")){
-           $("#pNumBanderas").text(`${buscaMinas.numBanderas}`)
+        if ($("#pNumBanderas")){
+           $("pNumBanderas").text(`${buscaMinas.numBanderas}`)
         }
 
 
@@ -324,7 +324,7 @@ let buscaMinasGUI = {
 
     $("#btnVolverAjugar").click(()=> {
       // reseteamos el select
-      $("#elegirNivel").prop("selectedIndex",0);
+      $("#elegirNivel").val("");
       location.reload();
     });
   },
