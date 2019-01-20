@@ -235,12 +235,10 @@ let buscaMinasGUI = {
         buscaMinasGUI.actualizarGui();
 
         // actualizo el numero de banderas
-        $("#numBanderas").html(`<img src="images/flag.svg" height="30px"/><p id="pNumBanderas"></p>`);
+
         if ($("#pNumBanderas")){
-           $("pNumBanderas").text(`${buscaMinas.numBanderas}`)
+           $("#pNumBanderas").text(`${buscaMinas.numBanderas}`)
         }
-
-
 
         if (buscaMinas.flagGanado) {
           buscaMinasGUI.comprobarRecord();
@@ -372,9 +370,9 @@ let buscaMinasGUI = {
   crearDivNumBanderas() {
     let $div = $("<div></div>");
     $div.prop("id","numBanderas" );
-    $div.html(`<img src="images/flag.svg" height="30px"/> ${
+    $div.html(`<img src="images/flag.svg" height="30px"/><p id="pNumBanderas">${
       buscaMinas.numBanderas
-    }`);
+    }</p>`);
     $container.append($div);
   },
   /**
