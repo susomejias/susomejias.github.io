@@ -91,6 +91,13 @@ let buscaMinasGUI = {
       }
     }
   },
+  animationInput(input,classs,animationViolet,animationOthers, nivel){
+    if (classs === "violet"){
+      input.addClass('animated ' + animationViolet).addClass(nivel).addClass(classs);
+    }else{
+        input.addClass('animated ' + animationOthers).addClass(nivel).addClass(classs);
+    }
+  },
   /**
    * Clases según el nivel
    * @param classs clase que se le añadirá al input
@@ -99,18 +106,15 @@ let buscaMinasGUI = {
   claseSegunNivel(classs, input) {
     switch (buscaMinas.nivel) {
       case "facil":
-              input.addClass(classs);
-              input.addClass("inputFacil");
+          buscaMinasGUI.animationInput(input,classs,"zoomIn", "jello", "inputFacil")
         break;
 
       case "intermedio":
-              input.addClass(classs);
-              input.addClass("inputIntermedio");
+              buscaMinasGUI.animationInput(input,classs,"zoomIn", "jello", "inputIntermedio")
         break;
 
       case "experto":
-            input.addClass(classs);
-            input.addClass("inputExperto");
+            buscaMinasGUI.animationInput(input,classs,"zoomIn", "jello", "inputExperto")
         break;
 
       default:
@@ -152,33 +156,35 @@ let buscaMinasGUI = {
           let $element = $("#" + i + "-" + j);
           buscaMinasGUI.limpiarClasesCss($element);
           if (buscaMinas.tableroVisible[i][j] === "#") {
-            buscaMinasGUI.claseSegunNivel(
-              "violet",
-              $element
-            );
+
+              buscaMinasGUI.claseSegunNivel(
+                "violet",
+                $element
+             );
+
           } else if (buscaMinas.tableroVisible[i][j] === "!") {
             buscaMinasGUI.claseSegunNivel(
               "rojo",
               $element
-            );
+           );
+
           } else if (
             buscaMinas.tableroVisible[i][j] !== "!" &&
             buscaMinas.tableroVisible[i][j] !== "#"
           ) {
             if (buscaMinas.tableroVisible[i][j] === 0) {
               $element.val("");
-            } else {
-              $element.val(buscaMinas.tableroVisible[i][j]);
-            }
-
               buscaMinasGUI.claseSegunNivel(
                 "blanco",
                 $element
-              );
-
-
-
-
+             );
+            } else {
+              $element.val(buscaMinas.tableroVisible[i][j]);
+              buscaMinasGUI.claseSegunNivel(
+                "blanco",
+                $element
+             );
+            }
           }
         }
       }
