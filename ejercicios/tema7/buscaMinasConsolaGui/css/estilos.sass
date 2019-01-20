@@ -88,6 +88,9 @@ body
                 height: auto
                 border: 0px
                 position: relative
+                input
+                  &:hover
+                    background: #BA68C8
         h1
             text-align: center
             font-size: 3rem
@@ -159,6 +162,7 @@ body
         margin-right: 5px
 
 #numBanderas
+    min-width: 70px
     font-weight: bold
     font-size: 1.3rem
     color: #FFF
@@ -190,7 +194,7 @@ body
 // estilos del input según el nivel
 
 .inputFacil
-    +tile(60px,60px, 1.7rem)
+    +tile(70px,70px, 1.7rem)
 
 .inputIntermedio
     +tile(40px,40px, 1.3rem)

@@ -10,7 +10,7 @@ let $timer;
 let $time;
 
 let init = function() {
-  $("document").contextmenu(() => false);
+  $("window").contextmenu(() => false);
   $("#elegirNivel").change(buscaMinasGUI.initJuego);
   $("#silenciarAudio").click(buscaMinasGUI.audioFunctionality);
   $("#instrucciones").click(buscaMinasGUI.abrirInstrucciones);
@@ -52,9 +52,9 @@ let buscaMinasGUI = {
     $container.css("border-bottom", "2px solid #6A1B9A");
 
     $("#btnVolverAjugar").addClass("shadowMaterialButton");
-    $("#timer").css("min-width", "50px");
+    $("#timer").css("min-width", "80px");
 
-    $containerTablero.addClass("shadowMaterial");
+    $containerTablero.addClass("shadowMaterial").css("min-width", "100%");
   },
   /**
    * Genera el tablero GUI
@@ -106,7 +106,7 @@ let buscaMinasGUI = {
   claseSegunNivel(classs, input) {
     switch (buscaMinas.nivel) {
       case "facil":
-          buscaMinasGUI.animationInput(input,classs,"zoomIn", "jello", "inputFacil")
+          buscaMinasGUI.animationInput(input,classs,"zoomIn", "jackInTheBox", "inputFacil")
         break;
 
       case "intermedio":
@@ -235,7 +235,12 @@ let buscaMinasGUI = {
         buscaMinasGUI.actualizarGui();
 
         // actualizo el numero de banderas
-        $("#numBanderas").html(`<img src="images/flag.svg" height="30px"/> ${buscaMinas.numBanderas}`)
+        $("#numBanderas").html(`<img src="images/flag.svg" height="30px"/><p id="pNumBanderas"></p>`);
+        if ($("#numBanderas")){
+           $("#pNumBanderas").text(`${buscaMinas.numBanderas}`)
+        }
+
+
 
         if (buscaMinas.flagGanado) {
           buscaMinasGUI.comprobarRecord();
