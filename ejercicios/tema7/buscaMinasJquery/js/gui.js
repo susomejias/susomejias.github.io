@@ -10,7 +10,7 @@ let $timer;
 let $time;
 
 let init = function() {
-  $("window").contextmenu(() => false);
+  $(window).contextmenu(() => false);
   $("#elegirNivel").change(buscaMinasGUI.initJuego);
   $("#silenciarAudio").click(buscaMinasGUI.audioFunctionality);
   $("#instrucciones").click(buscaMinasGUI.abrirInstrucciones);
@@ -75,16 +75,16 @@ let buscaMinasGUI = {
 
         buscaMinasGUI.claseSegunNivel("violet", $input);
 
-        $input.click(function(ev) {
-          buscaMinasGUI.picarGui(ev, i, j);
+        $input.click(function(ev,) {
+          buscaMinasGUI.picarGui(ev,$(this));
         });
 
         $input.mousedown(function(ev) {
-          buscaMinasGUI.marcarGui(ev, i, j);
+          buscaMinasGUI.marcarGui(ev,$(this));
         });
 
         $input.mousedown(function(ev) {
-          buscaMinasGUI.despejarGui(ev, i, j);
+          buscaMinasGUI.despejarGui(ev,$(this));
         });
 
         $containerTablero.append($input);
@@ -92,10 +92,13 @@ let buscaMinasGUI = {
     }
   },
   animationInput(input,classs,animationViolet,animationOthers, nivel){
+
     if (classs === "violet"){
+      buscaMinasGUI.limpiarClasesCss(input)
       input.addClass('animated ' + animationViolet).addClass(nivel).addClass(classs);
     }else{
-        input.addClass('animated ' + animationOthers).addClass(nivel).addClass(classs);
+      buscaMinasGUI.limpiarClasesCss(input)
+      input.addClass('animated ' + animationOthers).addClass(nivel).addClass(classs);
     }
   },
   /**
@@ -110,11 +113,11 @@ let buscaMinasGUI = {
         break;
 
       case "intermedio":
-              buscaMinasGUI.animationInput(input,classs,"zoomIn", "jello", "inputIntermedio")
+              buscaMinasGUI.animationInput(input,classs,"zoomIn", "jackInTheBox", "inputIntermedio")
         break;
 
       case "experto":
-            buscaMinasGUI.animationInput(input,classs,"zoomIn", "jello", "inputExperto")
+            buscaMinasGUI.animationInput(input,classs,"zoomIn", "jackInTheBox", "inputExperto")
         break;
 
       default:
@@ -127,10 +130,12 @@ let buscaMinasGUI = {
    * @param i coordenada para fila
    * @param j coordenada para columna
    */
-  despejarGui(ev, i, j) {
+  despejarGui(ev,element) {
+    let $fila = element.prop("id").split("-")[0];
+    let $columna = element.prop("id").split("-")[1];
     try {
       if (ev.buttons === 3) {
-        buscaMinas.despejar(i, j);
+        buscaMinas.despejar($fila, $columna);
         buscaMinasGUI.actualizarGui();
       }
     } catch (e) {
@@ -150,59 +155,54 @@ let buscaMinasGUI = {
   actualizarGui() {
     if (buscaMinas.flagFinPartida || buscaMinas.flagGanado) {
       buscaMinasGUI.descubrirMinas();
-    } else {
-      for (let i = 0; i < buscaMinas.filas; i++) {
-        for (let j = 0; j < buscaMinas.columnas; j++) {
-          let $element = $("#" + i + "-" + j);
-          buscaMinasGUI.limpiarClasesCss($element);
-          if (buscaMinas.tableroVisible[i][j] === "#") {
-
-              buscaMinasGUI.claseSegunNivel(
-                "violet",
-                $element
-             );
-
-          } else if (buscaMinas.tableroVisible[i][j] === "!") {
-            buscaMinasGUI.claseSegunNivel(
-              "rojo",
-              $element
-           );
-
-          } else if (
-            buscaMinas.tableroVisible[i][j] !== "!" &&
-            buscaMinas.tableroVisible[i][j] !== "#"
-          ) {
-            if (buscaMinas.tableroVisible[i][j] === 0) {
-              $element.val("");
-              buscaMinasGUI.claseSegunNivel(
-                "blanco",
-                $element
-             );
-            } else {
-              $element.val(buscaMinas.tableroVisible[i][j]);
-              buscaMinasGUI.claseSegunNivel(
-                "blanco",
-                $element
-             );
-            }
-          }
-        }
-      }
+      return;
     }
-  },
+
+
+      for (const item of buscaMinas.aperturaCasillas) {
+        let fila = item.split("-")[0];
+        let columna = item.split("-")[1];
+
+        let $element = $("#" + fila +"-"+ columna)
+        buscaMinasGUI.limpiarClasesCss($element);
+            if (
+              buscaMinas.tableroVisible[fila][columna] !== "!" &&
+              buscaMinas.tableroVisible[fila][columna] !== "#"
+            ) {
+              if (buscaMinas.tableroVisible[fila][columna] === 0) {
+                $element.val("");
+                buscaMinasGUI.claseSegunNivel(
+                  "blanco",
+                  $element,
+               );
+              } else {
+                $element.val(buscaMinas.tableroVisible[fila][columna]);
+                buscaMinasGUI.claseSegunNivel(
+                  "blanco",
+                  $element,
+               );
+              }
+            }
+      }
+   },
   /**
    * Realiza la accion de picar y actualiza la GUI
    * @param ev evento
    * @param i coordenada para la fila
    * @param j coordenada para la columna
    */
-  picarGui(ev, i, j) {
+  picarGui(ev, element) {
+
+    let $fila = element.prop("id").split("-")[0];
+    let $columna = element.prop("id").split("-")[1];
+
     if (buscaMinas.flagGanado || buscaMinas.flagFinPartida) {
       ev.preventDefault;
     } else {
       try {
         if (ev.buttons === 0) {
-          buscaMinas.picar(i, j);
+          buscaMinas.picar($fila, $columna);
+          console.log(buscaMinas.aperturaCasillas);
           if (buscaMinas.flagGanado) {
             buscaMinasGUI.comprobarRecord();
           }
@@ -226,12 +226,24 @@ let buscaMinasGUI = {
    * @param i coordenada para la fila
    * @param j coordenada para la columna
    */
-  marcarGui(ev, i, j) {
+  marcarGui(ev,element) {
+    let $fila = element.prop("id").split("-")[0];
+    let $columna = element.prop("id").split("-")[1];
+
     try {
       if (ev.buttons === 2) {
-        buscaMinas.marcar(i, j);
-        buscaMinasGUI.actualizarGui();
-
+        buscaMinas.marcar($fila, $columna);
+        if (buscaMinas.tableroVisible[$fila][$columna] === "!"){
+          buscaMinasGUI.claseSegunNivel(
+            "amarillo",
+            element
+          )
+        }else{
+              buscaMinasGUI.claseSegunNivel(
+                "violet",
+                      element
+              )
+        }
         // actualizo el numero de banderas
 
         if ($("#pNumBanderas")){
@@ -245,7 +257,6 @@ let buscaMinasGUI = {
     } catch (e) {
       buscaMinasGUI.descubrirMinas();
       if (e.message === "¡¡¡ Felicidades has ganado !!!") {
-        // buscaMinasGUI.swalVolverAJugar(buscaMinasGUI.messageIsRecord(e.message), "success");
         buscaMinasGUI.swalVolverAJugar(e.message, "success");
       } else {
         buscaMinasGUI.swalVolverAJugar(e.message, "error");
@@ -258,6 +269,7 @@ let buscaMinasGUI = {
    * @param icon icono que mostrará la ventana
    */
   swalVolverAJugar(msg, icon) {
+
     let tiempoPartida = parseInt($("#timer #time").text());
     let recordNivel = buscaMinasGUI.obtenerRecordActualNivel();
 
@@ -304,7 +316,7 @@ let buscaMinasGUI = {
       for (let j = 0; j < buscaMinas.columnas; j++) {
         if (buscaMinas.tableroMaster[i][j] === "x") {
           buscaMinasGUI.claseSegunNivel(
-            "amarillo",
+            "rojo",
             $("#" + i + "-" + j)
           );
         }

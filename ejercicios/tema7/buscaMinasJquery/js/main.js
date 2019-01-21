@@ -15,6 +15,8 @@ export let buscaMinas = {
   flagFinPartida: false,
   flagRecord: false,
   numBanderas: 0,
+  aperturaCasillas: new Set(),
+
 
   /**
    * Genera la funcionalidad
@@ -304,6 +306,7 @@ export let buscaMinas = {
    */
   cargarPulsacion(x, y) {
     buscaMinas.tableroPulsaciones[x][y] = "p";
+    buscaMinas.aperturaCasillas.add("" + x + "-" + y+"");
   },
 
   /**
@@ -436,6 +439,7 @@ export let buscaMinas = {
         buscaMinas.flagFinPartida = true;
         throw new Error("Pulsaste una mina");
       } else {
+
         buscaMinas.abrirCeros(i, j);
         buscaMinas.cargarPulsacion(i, j);
         buscaMinas.actualizaCambios();
