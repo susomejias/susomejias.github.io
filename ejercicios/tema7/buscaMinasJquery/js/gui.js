@@ -135,8 +135,8 @@ let buscaMinasGUI = {
    * @param element elemento DOM
    */
   despejarGui(ev,element) {
-    let $fila = element.prop("id").split("-")[0];
-    let $columna = element.prop("id").split("-")[1];
+    let $fila = parseInt(element.prop("id").split("-")[0]);
+    let $columna = parseInt(element.prop("id").split("-")[1]);
     try {
       if (ev.buttons === 3) {
         buscaMinas.despejar($fila, $columna);
