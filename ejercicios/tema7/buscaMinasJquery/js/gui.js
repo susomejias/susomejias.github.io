@@ -68,10 +68,7 @@ let buscaMinasGUI = {
 
     for (let i = 0; i < buscaMinas.filas; i++) {
       for (let j = 0; j < buscaMinas.columnas; j++) {
-        let $input = $("<input type='text'></input>");
-
-        $input.prop("id", "" + i + "-" + j + "");
-        $input.prop("readOnly", true);
+        let $input = $("<input type='text' id=" + i + "-" + j+" readOnly></input>");
 
         buscaMinasGUI.claseSegunNivel("violet", $input);
 
@@ -91,14 +88,22 @@ let buscaMinasGUI = {
       }
     }
   },
+  /*
+  * Añade animaciones al input pasado por parámetro.
+  * @param input elemento DOM.
+  * @param classs clase css que contiene la animación.
+  * @param animationViolet animación que se le añadirá a los input violet.
+  * @param animationOthers animación que se le añadirá a los input que no sean violet.
+  * @param nivel nivel actual de la partida.
+  */
   animationInput(input,classs,animationViolet,animationOthers, nivel){
 
     if (classs === "violet"){
       buscaMinasGUI.limpiarClasesCss(input)
-      input.addClass('animated ' + animationViolet).addClass(nivel).addClass(classs);
+      input.addClass('animated ' + animationViolet + ' faster').addClass(nivel).addClass(classs);
     }else{
       buscaMinasGUI.limpiarClasesCss(input)
-      input.addClass('animated ' + animationOthers).addClass(nivel).addClass(classs);
+      input.addClass('animated ' + animationOthers + ' faster').addClass(nivel).addClass(classs);
     }
   },
   /**
@@ -106,10 +111,10 @@ let buscaMinasGUI = {
    * @param classs clase que se le añadirá al input
    * @param input elemento al cuál se le añadirá la clase
    */
-  claseSegunNivel(classs, input) {
+  claseSegunNivel(classs, input, delay) {
     switch (buscaMinas.nivel) {
       case "facil":
-          buscaMinasGUI.animationInput(input,classs,"zoomIn", "jackInTheBox", "inputFacil")
+          buscaMinasGUI.animationInput(input,classs,"zoomIn", "jackInTheBox " + delay, "inputFacil")
         break;
 
       case "intermedio":
@@ -127,8 +132,7 @@ let buscaMinasGUI = {
   /**
    * Despeja las casilla colindantes si el numero de banderas coincide con el valor de la casilla
    * @param ev evento
-   * @param i coordenada para fila
-   * @param j coordenada para columna
+   * @param element elemento DOM
    */
   despejarGui(ev,element) {
     let $fila = element.prop("id").split("-")[0];
@@ -141,7 +145,6 @@ let buscaMinasGUI = {
     } catch (e) {
       buscaMinasGUI.descubrirMinas();
       if (e.message === "¡¡¡ Felicidades has ganado !!!") {
-        console.log(buscaMinasGUI.flagRecord);
 
         buscaMinasGUI.swalVolverAJugar(e.message, "success");
       } else {
@@ -158,38 +161,38 @@ let buscaMinasGUI = {
       return;
     }
 
-
+      let cont = 0;
       for (const item of buscaMinas.aperturaCasillas) {
+        cont++;
         let fila = item.split("-")[0];
         let columna = item.split("-")[1];
 
         let $element = $("#" + fila +"-"+ columna)
         buscaMinasGUI.limpiarClasesCss($element);
+
             if (
               buscaMinas.tableroVisible[fila][columna] !== "!" &&
               buscaMinas.tableroVisible[fila][columna] !== "#"
             ) {
               if (buscaMinas.tableroVisible[fila][columna] === 0) {
                 $element.val("");
-                buscaMinasGUI.claseSegunNivel(
-                  "blanco",
-                  $element,
-               );
-              } else {
-                $element.val(buscaMinas.tableroVisible[fila][columna]);
-                buscaMinasGUI.claseSegunNivel(
-                  "blanco",
-                  $element,
-               );
-              }
+              }else{
+                 $element.val(buscaMinas.tableroVisible[fila][columna]);
+               };
             }
+            buscaMinasGUI.claseSegunNivel(
+              "blanco",
+              $element,
+              "delay-" + cont + "s"
+            )
       }
+
+      buscaMinas.aperturaCasillas.clear(); // vacío la collection con las coordenadas
    },
   /**
    * Realiza la accion de picar y actualiza la GUI
    * @param ev evento
-   * @param i coordenada para la fila
-   * @param j coordenada para la columna
+   * @param element elemento DOM
    */
   picarGui(ev, element) {
 
@@ -202,7 +205,6 @@ let buscaMinasGUI = {
       try {
         if (ev.buttons === 0) {
           buscaMinas.picar($fila, $columna);
-          console.log(buscaMinas.aperturaCasillas);
           if (buscaMinas.flagGanado) {
             buscaMinasGUI.comprobarRecord();
           }
@@ -212,7 +214,6 @@ let buscaMinasGUI = {
       } catch (e) {
         buscaMinasGUI.descubrirMinas();
         if (e.message === "¡¡¡ Felicidades has ganado !!!") {
-          console.log(buscaMinasGUI.flagRecord);
           buscaMinasGUI.swalVolverAJugar(e.message, "success");
         } else {
           buscaMinasGUI.swalVolverAJugar(e.message, "error");

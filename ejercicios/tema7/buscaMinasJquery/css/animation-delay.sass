@@ -1,0 +1,9 @@
+
+$i: 0;
+$j: 0;
+@while $i < 500
+  .animated.delay-#{$j}s
+    -webkit-animation-delay: #{$i}s;
+    animation-delay: #{$i}s;
+  $i: $i + 0.1;
+  $j: $j + 1;
