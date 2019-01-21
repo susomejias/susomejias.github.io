@@ -52,7 +52,7 @@
 
     fecha: [
       /^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/,
-      "El formato de fecha es dd/mm/yyyy."
+      "El formato de fecha es yyyy-mm-dd."
     ]
   };
 
