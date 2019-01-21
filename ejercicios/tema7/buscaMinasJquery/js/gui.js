@@ -172,19 +172,22 @@ let buscaMinasGUI = {
 
             if (
               buscaMinas.tableroVisible[fila][columna] !== "!" &&
-              buscaMinas.tableroVisible[fila][columna] !== "#"
+              buscaMinas.tableroVisible[fila][columna] !== "#" &&
+              buscaMinas.tableroVisible[fila][columna] !== "x"
             ) {
               if (buscaMinas.tableroVisible[fila][columna] === 0) {
                 $element.val("");
               }else{
                  $element.val(buscaMinas.tableroVisible[fila][columna]);
                };
+
+               buscaMinasGUI.claseSegunNivel(
+                 "blanco",
+                 $element,
+                 "delay-" + cont + "s"
+               )
             }
-            buscaMinasGUI.claseSegunNivel(
-              "blanco",
-              $element,
-              "delay-" + cont + "s"
-            )
+
       }
 
       buscaMinas.aperturaCasillas.clear(); // vacío la collection con las coordenadas
