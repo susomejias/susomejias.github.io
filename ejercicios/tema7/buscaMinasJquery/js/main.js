@@ -436,7 +436,7 @@ export let buscaMinas = {
   picar(i, j) {
       if (buscaMinas.tableroMaster[i][j] === "x") {
         buscaMinas.flagFinPartida = true;
-        throw new Error("Pulsaste una mina");
+        throw new Error("Has perdido, pulsaste una mina");
       } else {
 
         buscaMinas.abrirCeros(i, j);
@@ -447,8 +447,6 @@ export let buscaMinas = {
         console.table(buscaMinas.tableroMaster);
         console.log("Tablero Visible \n");
         console.table(buscaMinas.tableroVisible);
-        // console.log("Tablero pulsaciones \n");
-        // console.table(buscaMinas.tableroPulsaciones);
         buscaMinas.comprobarSiGana();
       }
   },
