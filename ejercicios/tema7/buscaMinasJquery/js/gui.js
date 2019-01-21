@@ -118,11 +118,11 @@ let buscaMinasGUI = {
         break;
 
       case "intermedio":
-              buscaMinasGUI.animationInput(input,classs,"zoomIn", "jackInTheBox", "inputIntermedio")
+              buscaMinasGUI.animationInput(input,classs,"zoomIn", "jackInTheBox " + delay, "inputIntermedio")
         break;
 
       case "experto":
-            buscaMinasGUI.animationInput(input,classs,"zoomIn", "jackInTheBox", "inputExperto")
+            buscaMinasGUI.animationInput(input,classs,"zoomIn", "jackInTheBox " + delay, "inputExperto")
         break;
 
       default:
@@ -228,6 +228,7 @@ let buscaMinasGUI = {
    * @param j coordenada para la columna
    */
   marcarGui(ev,element) {
+    buscaMinasGUI.disableContextMenu();
     let $fila = element.prop("id").split("-")[0];
     let $columna = element.prop("id").split("-")[1];
 
@@ -451,7 +452,16 @@ let buscaMinasGUI = {
     }, 1000);
   },
   disableContextMenu() {
-    $("document").contextmenu((e)=> e.preventDefault())
+    if ($(document).on()) {
+      $(document).contextmenu(function(e) {
+        e.preventDefault();
+      },
+      false);
+    } else {
+      $(document).attachEvent("oncontextmenu", function() {
+        $(window).event.returnValue = false;
+      });
+    }
   }
 
 };

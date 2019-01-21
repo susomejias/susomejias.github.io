@@ -56,7 +56,6 @@ export let buscaMinas = {
           console.clear();
           console.table(buscaMinas.tableroMaster);
           console.table(buscaMinas.tableroVisible);
-          console.log(buscaMinas.numBanderas);
         }
       } else if (
         buscaMinas.tableroPulsaciones[x][y] !== "p" &&
