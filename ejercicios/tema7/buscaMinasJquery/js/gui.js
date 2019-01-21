@@ -10,7 +10,6 @@ let $timer;
 let $time;
 
 let init = function() {
-  $(window).contextmenu(() => false);
   $("#elegirNivel").change(buscaMinasGUI.initJuego);
   $("#silenciarAudio").click(buscaMinasGUI.audioFunctionality);
   $("#instrucciones").click(buscaMinasGUI.abrirInstrucciones);
