@@ -437,19 +437,25 @@ export let buscaMinas = {
       if (buscaMinas.tableroMaster[i][j] === "x") {
         buscaMinas.flagFinPartida = true;
         throw new Error("Has perdido, pulsaste una mina");
-      } else {
-
-        buscaMinas.abrirCeros(i, j);
-        buscaMinas.cargarPulsacion(i, j);
-        buscaMinas.actualizaCambios();
-        console.clear();
-        console.log("Tablero Master \n");
-        console.table(buscaMinas.tableroMaster);
-        console.log("Tablero Visible \n");
-        console.table(buscaMinas.tableroVisible);
-        buscaMinas.comprobarSiGana();
       }
-  },
+
+      if (buscaMinas.flagGanado || buscaMinas.flagFinPartida || buscaMinas.tableroPulsaciones[i][j] === "p") {
+        return;
+      }
+
+      buscaMinas.abrirCeros(i, j);
+      buscaMinas.cargarPulsacion(i, j);
+      buscaMinas.actualizaCambios();
+      console.clear();
+      console.log("Tablero Master \n");
+      console.table(buscaMinas.tableroMaster);
+      console.log("Tablero Visible \n");
+      console.table(buscaMinas.tableroVisible);
+      console.table(buscaMinas.tableroPulsaciones);
+      buscaMinas.comprobarSiGana();
+
+
+    },
 
   /**
    * Comprueba si ganas las partida de manera normal

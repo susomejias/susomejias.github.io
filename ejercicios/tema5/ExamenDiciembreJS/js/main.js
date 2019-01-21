@@ -11,11 +11,8 @@
 
   let init = function() {
     form = document.getElementsByTagName("form")[0];
-
     allinputs = Array.from(document.querySelectorAll("input"));
     spanError = document.getElementById("spanError");
-
-
     spans = Array.from(document.querySelectorAll("body form span"));
 
     form.addEventListener("submit", ev => {
@@ -119,6 +116,9 @@
     );
   };
 
+  /*
+  * Devuelve un array con los indices de los span llenos.
+  */
   let obtenerIndiceLlenos = function (){
     let indiceSpanLlenos = [];
     spans.forEach((element, index)=>{
@@ -135,12 +135,14 @@
   let validaSubmit = function() {
     validarAction("submitAction"); // valida todos los inputs
 
+    // hacemos focus del input
     if (obtenerIndiceLlenos().length > 0){
       allinputs[obtenerIndiceLlenos()[0]].focus();
       return;
     }
 
       spanError.textContent = "";
+      
       try {
         let reserva = new Reserva(
           allinputs[0].value,

@@ -159,8 +159,7 @@ let buscaMinasGUI = {
     if (buscaMinas.flagFinPartida || buscaMinas.flagGanado) {
       buscaMinasGUI.descubrirMinas();
       return;
-    }
-
+    }else{
       let cont = 0;
       for (const item of buscaMinas.aperturaCasillas) {
         cont++;
@@ -168,29 +167,34 @@ let buscaMinasGUI = {
         let columna = item.split("-")[1];
 
         let $element = $("#" + fila +"-"+ columna)
-        buscaMinasGUI.limpiarClasesCss($element);
+        console.log($element);
 
-            if (
-              buscaMinas.tableroVisible[fila][columna] !== "!" &&
-              buscaMinas.tableroVisible[fila][columna] !== "#" &&
-              buscaMinas.tableroVisible[fila][columna] !== "x"
-            ) {
-              if (buscaMinas.tableroVisible[fila][columna] === 0) {
-                $element.val("");
-              }else{
-                 $element.val(buscaMinas.tableroVisible[fila][columna]);
-               };
+          buscaMinasGUI.limpiarClasesCss($element);
 
-               buscaMinasGUI.claseSegunNivel(
-                 "blanco",
-                 $element,
-                 "delay-" + cont + "s"
-               )
-            }
+              if (
+                buscaMinas.tableroVisible[fila][columna] !== "!" &&
+                buscaMinas.tableroVisible[fila][columna] !== "#"
+              ) {
+                if (buscaMinas.tableroVisible[fila][columna] === 0) {
+                  $element.val("");
+                }else{
+                   $element.val(buscaMinas.tableroVisible[fila][columna]);
+                 };
+
+                 buscaMinasGUI.claseSegunNivel(
+                   "blanco",
+                   $element,
+                   "delay-" + cont + "s"
+                 )
+              }
+
 
       }
 
       buscaMinas.aperturaCasillas.clear(); // vacío la collection con las coordenadas
+    }
+
+
    },
   /**
    * Realiza la accion de picar y actualiza la GUI
@@ -202,9 +206,6 @@ let buscaMinasGUI = {
     let $fila = element.prop("id").split("-")[0];
     let $columna = element.prop("id").split("-")[1];
 
-    if (buscaMinas.flagGanado || buscaMinas.flagFinPartida) {
-      ev.preventDefault;
-    } else {
       try {
         if (ev.buttons === 0) {
           buscaMinas.picar($fila, $columna);
@@ -222,7 +223,6 @@ let buscaMinasGUI = {
           buscaMinasGUI.swalVolverAJugar(e.message, "error");
         }
       }
-    }
   },
   /**
    * Realiza la accion de picar y actualiza la GUI
@@ -238,12 +238,12 @@ let buscaMinasGUI = {
     try {
       if (ev.buttons === 2) {
         buscaMinas.marcar($fila, $columna);
-        if (buscaMinas.tableroVisible[$fila][$columna] === "!"){
+        if (buscaMinas.tableroVisible[$fila][$columna] === "!" ){
           buscaMinasGUI.claseSegunNivel(
             "amarillo",
             element
           )
-        }else{
+        }else if (buscaMinas.tableroPulsaciones[$fila][$columna] !== "p"){
               buscaMinasGUI.claseSegunNivel(
                 "violet",
                       element
