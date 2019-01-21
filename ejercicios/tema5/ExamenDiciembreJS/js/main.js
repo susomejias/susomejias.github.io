@@ -11,17 +11,11 @@
 
   let init = function() {
     form = document.getElementsByTagName("form")[0];
-    inputsText = Array.from(document.querySelectorAll("input[type='text']"));
-    inputsMail = Array.from(document.querySelectorAll("input[type='email']"));
-    inputsNumber = Array.from(
-      document.querySelectorAll("input[type='number']")
-    );
-    inputsTime = Array.from(document.querySelectorAll("input[type='time']"));
-    inputsDate = Array.from(document.querySelectorAll("input[type='date']"));
+
     allinputs = Array.from(document.querySelectorAll("input"));
     spanError = document.getElementById("spanError");
 
-    // obtenemos los span que contengan una clase propia, para evitar span de extensiones etc
+
     spans = Array.from(document.querySelectorAll("body form span"));
 
     form.addEventListener("submit", ev => {
@@ -125,27 +119,36 @@
     );
   };
 
+  let obtenerIndiceLlenos = function (){
+    let indiceSpanLlenos = [];
+    spans.forEach((element, index)=>{
+      if (element.textContent !== ""){
+        indiceSpanLlenos.push(index)
+      }
+    });
+
+    return indiceSpanLlenos;
+  }
   /*
    * Valida los inputs al hacer submit del formulario.
    */
   let validaSubmit = function() {
     validarAction("submitAction"); // valida todos los inputs
-    try {
-      spans.forEach((element, index) => {
-        if (element.textContent !== "") {
-          allinputs[index].focus();
-          throw false;
-        }
-      });
+
+    if (obtenerIndiceLlenos().length > 0){
+      allinputs[obtenerIndiceLlenos()[0]].focus();
+      return;
+    }
+
       spanError.textContent = "";
       try {
         let reserva = new Reserva(
-          inputsText[0].value,
-          inputsMail[0].value,
-          new Date(inputsDate[0].value),
-          inputsTime[0].value,
-          inputsNumber[0].value,
-          inputsNumber[1].value,
+          allinputs[0].value,
+          allinputs[1].value,
+          new Date(allinputs[2].value),
+          allinputs[3].value,
+          allinputs[4].value,
+          allinputs[5].value,
           checkPulsado(),
           radioPulsado()
         );
@@ -153,7 +156,6 @@
       } catch (e) {
         spanError.textContent = e.message;
       }
-    } catch (e) {} // capturo la exception trow false, para terminar el foreach cuando haga foco sobre un elemento
   };
   window.addEventListener("load", init);
 }
