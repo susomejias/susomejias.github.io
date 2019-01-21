@@ -434,7 +434,7 @@ export let buscaMinas = {
    */
 
   picar(i, j) {
-      if (buscaMinas.tableroMaster[i][j] === "x") {
+      if (buscaMinas.tableroMaster[i][j] === "x" && buscaMinas.tableroPulsaciones[i][j] === "p") {
         buscaMinas.flagFinPartida = true;
         throw new Error("Has perdido, pulsaste una mina");
       }
