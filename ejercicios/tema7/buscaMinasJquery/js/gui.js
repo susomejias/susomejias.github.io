@@ -65,9 +65,10 @@ let buscaMinasGUI = {
       "with": "100%"
     });
 
+    let $fragment = $(document.createDocumentFragment());
     for (let i = 0; i < buscaMinas.filas; i++) {
       for (let j = 0; j < buscaMinas.columnas; j++) {
-        let $input = $("<input type='text' id=" + i + "-" + j+" readOnly></input>");
+        let $input = $(`<input type='text' id='${i}-${j}' readOnly></input>`);
 
         buscaMinasGUI.claseSegunNivel("violet", $input);
 
@@ -76,16 +77,24 @@ let buscaMinasGUI = {
         });
 
         $input.mousedown(function(ev) {
-          buscaMinasGUI.marcarGui(ev,$(this));
-        });
+          switch (ev.buttons) {
+            case 2:
+                buscaMinasGUI.marcarGui(ev,$(this));
+              break;
+            case 3:
+                buscaMinasGUI.despejarGui(ev,$(this));
+              break;
+            default:
 
-        $input.mousedown(function(ev) {
-          buscaMinasGUI.despejarGui(ev,$(this));
-        });
+          }
 
-        $containerTablero.append($input);
+        });
+        $fragment.append($input)
+
       }
     }
+
+    $containerTablero.append($fragment);
   },
   /*
   * Añade animaciones al input pasado por parámetro.
@@ -99,7 +108,9 @@ let buscaMinasGUI = {
 
     if (classs === "violet"){
       buscaMinasGUI.limpiarClasesCss(input)
-      input.addClass('animated ' + animationViolet + ' faster').addClass(nivel).addClass(classs);
+      input.addClass('animated ' + animationViolet + ' faster ' + nivel + ' ' + classs )
+        // .addClass(nivel)
+        // .addClass(classs);
     }else{
       buscaMinasGUI.limpiarClasesCss(input)
       input.addClass('animated ' + animationOthers + ' faster').addClass(nivel).addClass(classs);
@@ -137,10 +148,8 @@ let buscaMinasGUI = {
     let $fila = parseInt(element.prop("id").split("-")[0]);
     let $columna = parseInt(element.prop("id").split("-")[1]);
     try {
-      if (ev.buttons === 3) {
         buscaMinas.despejar($fila, $columna);
         buscaMinasGUI.actualizarGui();
-      }
     } catch (e) {
       buscaMinasGUI.descubrirMinas();
       if (e.message === "¡¡¡ Felicidades has ganado !!!") {
@@ -206,14 +215,12 @@ let buscaMinasGUI = {
     let $columna = parseInt(element.prop("id").split("-")[1]);
 
       try {
-        if (ev.buttons === 0) {
           buscaMinas.picar($fila, $columna);
           if (buscaMinas.flagGanado) {
             buscaMinasGUI.comprobarRecord();
           }
 
           buscaMinasGUI.actualizarGui();
-        }
       } catch (e) {
         buscaMinasGUI.descubrirMinas();
         if (e.message === "¡¡¡ Felicidades has ganado !!!") {
@@ -235,7 +242,6 @@ let buscaMinasGUI = {
     let $columna = parseInt(element.prop("id").split("-")[1]);
 
     try {
-      if (ev.buttons === 2) {
         buscaMinas.marcar($fila, $columna);
         if (buscaMinas.tableroVisible[$fila][$columna] === "!" ){
           buscaMinasGUI.claseSegunNivel(
@@ -257,7 +263,6 @@ let buscaMinasGUI = {
         if (buscaMinas.flagGanado) {
           buscaMinasGUI.comprobarRecord();
         }
-      }
     } catch (e) {
       buscaMinasGUI.descubrirMinas();
       if (e.message === "¡¡¡ Felicidades has ganado !!!") {

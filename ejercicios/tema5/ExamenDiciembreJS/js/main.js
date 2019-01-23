@@ -11,8 +11,8 @@
 
   let init = function() {
     form = document.getElementsByTagName("form")[0];
-    allinputs = Array.from(document.querySelectorAll("input"));
-    spanError = document.getElementById("spanError");
+    allinputs = Array.from(document.querySelectorAll("input:not([type='submit']):not([type='checkbox']):not([type='radio'])"));
+    spanError = Array.from(document.getElementById("spanError"));
     spans = Array.from(document.querySelectorAll("body form span"));
 
     form.addEventListener("submit", ev => {
@@ -20,7 +20,7 @@
       validaSubmit();
     });
 
-    validarAction("blur"); // valida inputs cuando se active el evento blur
+    validarAction(); // valida inputs cuando se active el evento blur
   };
 
   /*
@@ -70,7 +70,7 @@
    * @param element elemento del DOM con el que trabajaremos.
    * @param spanIndex indice del elemento span donde mostraremos los mensajes.
    */
-  let validateInputs = function(element, spanIndex) {
+  let validateInputs = function(element,spanIndex) {
     //element.getAttribute("class") obtenemos la clase de cada input con la cuál identificaremos el patron con el que se validará.
     if (element.getAttribute("class")) {
       validador.test(
@@ -87,15 +87,21 @@
    */
   let validarAction = function(action) {
     allinputs.forEach(function(element, index) {
-      if (action === "blur") {
-        element.addEventListener(
-          "blur",
-          validateInputs.bind(null, element, index)
-        );
-      } else {
-        validateInputs(element, index);
-      }
-    });
+        if (action === "trigger"){
+          element.addEventListener(
+            "blur",
+            function(){
+              validateInputs(element,index);
+            }());
+        }else{
+          element.addEventListener(
+            "blur",
+            function(){
+              validateInputs(element,index);
+            });
+        }
+      });
+
   };
 
   /*
@@ -133,7 +139,8 @@
    * Valida los inputs al hacer submit del formulario.
    */
   let validaSubmit = function() {
-    validarAction("submitAction"); // valida todos los inputs
+    validarAction("trigger")
+   // valida todos los inputs
 
     // hacemos focus del input
     if (obtenerIndiceLlenos().length > 0){
@@ -142,7 +149,7 @@
     }
 
       spanError.textContent = "";
-      
+
       try {
         let reserva = new Reserva(
           allinputs[0].value,
