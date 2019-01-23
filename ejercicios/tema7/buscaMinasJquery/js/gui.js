@@ -11,7 +11,6 @@ let $time;
 
 let init = function() {
   $("#elegirNivel").change(buscaMinasGUI.initJuego);
-  $("#silenciarAudio").click(buscaMinasGUI.audioFunctionality);
   $("#instrucciones").click(buscaMinasGUI.abrirInstrucciones);
 
   $container = $("#container");
@@ -151,10 +150,14 @@ let buscaMinasGUI = {
     } catch (e) {
       buscaMinasGUI.descubrirMinas();
       if (e.message === "¡¡¡ Felicidades has ganado !!!") {
-
-        buscaMinasGUI.swalVolverAJugar(e.message, "success");
+        setTimeout(function(){
+          buscaMinasGUI.swalVolverAJugar(e.message, "success");
+        }, 4000);
       } else {
-        buscaMinasGUI.swalVolverAJugar(e.message, "error");
+        setTimeout(function(){
+          buscaMinasGUI.swalVolverAJugar(e.message, "error");
+        }, 4000);
+
       }
     }
   },
@@ -173,7 +176,6 @@ let buscaMinasGUI = {
         let columna = item.split("-")[1];
 
         let $element = $("#" + fila +"-"+ columna)
-        console.log($element);
 
           buscaMinasGUI.limpiarClasesCss($element);
 
@@ -191,7 +193,13 @@ let buscaMinasGUI = {
                    "blanco",
                    $element,
                    "delay-" + cont + "s"
-                 )
+                 );
+
+
+                 if (cont === 1){
+                   buscaMinasGUI.reproducirAudio("abrir.mp3");
+                 }
+
               }
 
 
@@ -222,9 +230,17 @@ let buscaMinasGUI = {
       } catch (e) {
         buscaMinasGUI.descubrirMinas();
         if (e.message === "¡¡¡ Felicidades has ganado !!!") {
-          buscaMinasGUI.swalVolverAJugar(e.message, "success");
+          setTimeout(function(){
+            buscaMinasGUI.swalVolverAJugar(e.message, "success");
+          }, 4000);
         } else {
-          buscaMinasGUI.swalVolverAJugar(e.message, "error");
+          buscaMinasGUI.reproducirAudio("explosion.mp3");
+
+          setTimeout(function(){
+            buscaMinasGUI.swalVolverAJugar(e.message, "error");
+          }, 4000);
+
+
         }
       }
   },
@@ -266,6 +282,7 @@ let buscaMinasGUI = {
       if (e.message === "¡¡¡ Felicidades has ganado !!!") {
         buscaMinasGUI.swalVolverAJugar(e.message, "success");
       } else {
+        buscaMinasGUI.reproducirAudio("explosion.mp3");
         buscaMinasGUI.swalVolverAJugar(e.message, "error");
       }
     }
@@ -319,15 +336,17 @@ let buscaMinasGUI = {
    * Descubre las minas
    */
   descubrirMinas() {
-    for (let i = 0; i < buscaMinas.filas; i++) {
-      for (let j = 0; j < buscaMinas.columnas; j++) {
-        if (buscaMinas.tableroMaster[i][j] === "x") {
-          buscaMinasGUI.claseSegunNivel(
-            "rojo",
-            $("#" + i + "-" + j)
-          );
-        }
-      }
+    buscaMinas.descubrirMinas();
+    let cont = 0;
+
+    for (let mina of buscaMinas.apeturaMinas) {
+      cont++;
+      let $element = $("#" + mina);
+      buscaMinasGUI.claseSegunNivel(
+        "rojo",
+        $element,
+        "delay-" + cont + "s"
+      );
     }
   },
   /**
@@ -342,19 +361,6 @@ let buscaMinasGUI = {
       $("#elegirNivel").val("");
       location.reload();
     });
-  },
-  /**
-   * Maneja la funcionalidad del audio
-   */
-  audioFunctionality() {
-    let $audio = $("#audio");
-    let $silenciarAudio = $("#silenciarAudio");
-    $audio.prop("muted", !$audio.prop("muted"));
-    if ($audio.prop("muted")) {
-      $silenciarAudio.prop("src","./images/volumenOff.svg");
-    } else {
-      $silenciarAudio.prop("src","./images/volumenOn.svg");
-    }
   },
   /**
    * Limpia las clases del elemento pasado por parametro
@@ -467,6 +473,11 @@ let buscaMinasGUI = {
         $(window).event.returnValue = false;
       });
     }
+  },
+  reproducirAudio(file){
+    let $reproducir = new Audio();
+    $reproducir.src = "./sounds/" + file;
+    $reproducir.play();
   }
 
 };
