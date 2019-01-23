@@ -108,12 +108,10 @@ let buscaMinasGUI = {
 
     if (classs === "violet"){
       buscaMinasGUI.limpiarClasesCss(input)
-      input.addClass('animated ' + animationViolet + ' faster ' + nivel + ' ' + classs )
-        // .addClass(nivel)
-        // .addClass(classs);
+      input.addClass('animated ' + animationViolet + ' faster ' + nivel + ' ' + classs );
     }else{
       buscaMinasGUI.limpiarClasesCss(input)
-      input.addClass('animated ' + animationOthers + ' faster').addClass(nivel).addClass(classs);
+      input.addClass('animated ' + animationOthers + ' faster ' + nivel + ' ' + classs);
     }
   },
   /**
