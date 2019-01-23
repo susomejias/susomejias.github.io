@@ -258,6 +258,7 @@ let buscaMinasGUI = {
     try {
         buscaMinas.marcar($fila, $columna);
         if (buscaMinas.tableroVisible[$fila][$columna] === "!" ){
+          buscaMinasGUI.reproducirAudio("flag.mp3");
           buscaMinasGUI.claseSegunNivel(
             "amarillo",
             element
