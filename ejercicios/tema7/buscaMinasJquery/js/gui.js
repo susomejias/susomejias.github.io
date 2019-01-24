@@ -154,10 +154,8 @@ let buscaMinasGUI = {
           buscaMinasGUI.swalVolverAJugar(e.message, "success");
         }, 4000);
       } else {
-        setTimeout(function(){
-          buscaMinasGUI.swalVolverAJugar(e.message, "error");
-        }, 4000);
-
+        buscaMinasGUI.reproducirAudio("explosion.mp3");
+        buscaMinasGUI.animacionAbrirMinasNivel(e.message);
       }
     }
   },
@@ -236,9 +234,7 @@ let buscaMinasGUI = {
         } else {
           buscaMinasGUI.reproducirAudio("explosion.mp3");
 
-          setTimeout(function(){
-            buscaMinasGUI.swalVolverAJugar(e.message, "error");
-          }, 4000);
+          buscaMinasGUI.animacionAbrirMinasNivel(e.message);
 
 
         }
@@ -284,7 +280,7 @@ let buscaMinasGUI = {
         buscaMinasGUI.swalVolverAJugar(e.message, "success");
       } else {
         buscaMinasGUI.reproducirAudio("explosion.mp3");
-        buscaMinasGUI.swalVolverAJugar(e.message, "error");
+        buscaMinasGUI.animacionAbrirMinasNivel(e.message);
       }
     }
   },
@@ -302,7 +298,10 @@ let buscaMinasGUI = {
     let title = msg;
 
     if (icon === "success") {
+      buscaMinasGUI.reproducirAudio("win.mp3");
       message = `Tu tiempo en esta partida a sido ${tiempoPartida} segundo/s. \n \n El record actual es de ${recordNivel} segundo/s.\n \n`;
+    }else if (icon === "error"){
+      buscaMinasGUI.reproducirAudio("lost.mp3");
     }
     if (
       icon === "success" &&
@@ -322,6 +321,7 @@ let buscaMinasGUI = {
       }
     }).then(result => {
       if (result === "Si") {
+        $("#elegirNivel").val("");
         location.reload();
       }
     });
@@ -333,21 +333,53 @@ let buscaMinasGUI = {
       return 0;
     }
   },
+  animacionAbrirMinasNivel(message){
+    switch (buscaMinas.nivel) {
+      case "facil":
+          setTimeout(function(){
+            buscaMinasGUI.swalVolverAJugar(message, "error");
+          }, 4000);
+        break;
+      case "intermedio":
+            setTimeout(function(){
+              buscaMinasGUI.swalVolverAJugar(message, "error");
+            }, 8000);
+        break;
+      case "experto":
+            setTimeout(function(){
+              buscaMinasGUI.swalVolverAJugar(message, "error");
+            }, 15000);
+        break;
+      default:
+        return;
+    }
+
+  },
   /**
    * Descubre las minas
    */
   descubrirMinas() {
     buscaMinas.descubrirMinas();
+    let arrClassColores = ["gray", "marine","sky", "pink", "green-light", "lime", "teal-light", "lime-strong"]
     let cont = 0;
 
     for (let mina of buscaMinas.apeturaMinas) {
       cont++;
       let $element = $("#" + mina);
-      buscaMinasGUI.claseSegunNivel(
-        "rojo",
-        $element,
-        "delay-" + cont + "s"
-      );
+      if (buscaMinas.flagGanado){
+        buscaMinasGUI.claseSegunNivel(
+          "verde",
+          $element,
+          "delay-" + cont + "s"
+        );
+      }else{
+        buscaMinasGUI.claseSegunNivel(
+          arrClassColores[Math.floor(Math.random() * ((arrClassColores.length - 1) - 0)) + 0],
+          $element,
+          "delay-" + cont + "s"
+        );
+      }
+
     }
   },
   /**
@@ -445,6 +477,7 @@ let buscaMinasGUI = {
       }
     }
   },
+
   /**
    * Muestra el tiempo de partida
    */
