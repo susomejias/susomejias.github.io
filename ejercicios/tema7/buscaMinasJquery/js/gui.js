@@ -142,10 +142,9 @@ let buscaMinasGUI = {
    * @param element elemento DOM
    */
   despejarGui(ev,element) {
-    let $fila = parseInt(element.prop("id").split("-")[0]);
-    let $columna = parseInt(element.prop("id").split("-")[1]);
+    let coordenada = buscaMinasGUI.extraerCoordenada(element);
     try {
-        buscaMinas.despejar($fila, $columna);
+        buscaMinas.despejar(coordenada.fila, coordenada.columna);
         buscaMinasGUI.actualizarGui();
     } catch (e) {
       buscaMinasGUI.descubrirMinas();
@@ -208,6 +207,17 @@ let buscaMinasGUI = {
 
 
    },
+
+   /*
+   * Extrae la coordenada de la casilla pasada por parámetro y devuelve un objeto con las coordenadas.
+   * @param element casilla del DOM.
+   */
+   extraerCoordenada(element){
+     return {
+       fila: parseInt(element.prop("id").split("-")[0]),
+       columna: parseInt(element.prop("id").split("-")[1])
+     }
+   },
   /**
    * Realiza la accion de picar y actualiza la GUI
    * @param ev evento
@@ -215,11 +225,10 @@ let buscaMinasGUI = {
    */
   picarGui(ev, element) {
 
-    let $fila = parseInt(element.prop("id").split("-")[0]);
-    let $columna = parseInt(element.prop("id").split("-")[1]);
+    let coordenada = buscaMinasGUI.extraerCoordenada(element);
 
       try {
-          buscaMinas.picar($fila, $columna);
+          buscaMinas.picar(coordenada.fila, coordenada.columna);
           if (buscaMinas.flagGanado) {
             buscaMinasGUI.comprobarRecord();
           }
@@ -248,18 +257,18 @@ let buscaMinasGUI = {
    */
   marcarGui(ev,element) {
     buscaMinasGUI.disableContextMenu();
-    let $fila = parseInt(element.prop("id").split("-")[0]);
-    let $columna = parseInt(element.prop("id").split("-")[1]);
+
+    let coordenada = buscaMinasGUI.extraerCoordenada(element);
 
     try {
-        buscaMinas.marcar($fila, $columna);
-        if (buscaMinas.tableroVisible[$fila][$columna] === "!" ){
+        buscaMinas.marcar(coordenada.fila, coordenada.columna);
+        if (buscaMinas.tableroVisible[coordenada.fila][coordenada.columna] === "!" ){
           buscaMinasGUI.reproducirAudio("flag.mp3");
           buscaMinasGUI.claseSegunNivel(
             "amarillo",
             element
           )
-        }else if (buscaMinas.tableroPulsaciones[$fila][$columna] !== "p"){
+        }else if (buscaMinas.tableroPulsaciones[coordenada.fila][coordenada.columna] !== "p"){
               buscaMinasGUI.claseSegunNivel(
                 "violet",
                       element
@@ -326,6 +335,9 @@ let buscaMinasGUI = {
       }
     });
   },
+  /*
+  * Obtiene el record actual del nivel actual.
+  */
   obtenerRecordActualNivel() {
     if (localStorage.getItem(buscaMinas.nivel) !== null) {
       return parseInt(localStorage.getItem(buscaMinas.nivel));
@@ -333,6 +345,9 @@ let buscaMinasGUI = {
       return 0;
     }
   },
+  /*
+  * Abre el modal, según el nivel asignará un delay para abrirlo dado que el numero de minas por abrir cambian con el nivel.
+  */
   animacionAbrirMinasNivel(message){
     switch (buscaMinas.nivel) {
       case "facil":
@@ -360,7 +375,7 @@ let buscaMinasGUI = {
    */
   descubrirMinas() {
     buscaMinas.descubrirMinas();
-    let arrClassColores = ["gray", "marine","sky", "pink", "green-light", "lime", "teal-light", "lime-strong"]
+    let arrClassColores = ["gray", "marine","sky", "pink", "green-light", "lime", "teal-light", "lime-strong", "light-green-dark", "orange"]
     let cont = 0;
 
     for (let mina of buscaMinas.apeturaMinas) {
