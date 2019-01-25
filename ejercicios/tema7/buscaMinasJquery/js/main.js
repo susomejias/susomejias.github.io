@@ -1,4 +1,4 @@
-/**
+  /**
  * Buscaminas consola
  * @author Jesús Mejías Leiva
  */

@@ -38,6 +38,7 @@ let buscaMinasGUI = {
     buscaMinasGUI.mostrarTiempoPartida();
     buscaMinasGUI.volverAjugar();
     buscaMinasGUI.cssAlEmpezar();
+    buscaMinasGUI.disableContextMenu();
   },
   abrirInstrucciones() {
     window.open("./instrucciones.html", "", "");
@@ -60,34 +61,43 @@ let buscaMinasGUI = {
   generarTableroGui() {
     $containerTablero.css({
       "display": "grid",
-      "grid-template-columns": "repeat(" + buscaMinas.columnas + ", 1fr)",
-      "with": "100%"
+      "grid-template-columns": "repeat(" + buscaMinas.columnas + ", 1fr)"
     });
 
     let $fragment = $(document.createDocumentFragment());
+
+
     for (let i = 0; i < buscaMinas.filas; i++) {
       for (let j = 0; j < buscaMinas.columnas; j++) {
         let $input = $(`<input type='text' id='${i}-${j}' readOnly></input>`);
 
         buscaMinasGUI.claseSegunNivel("violet", $input);
 
-        $input.click(function(ev,) {
-          buscaMinasGUI.picarGui(ev,$(this));
+
+          // $input.on("touchstart", function(ev){
+          //   console.log(ev.touches);
+          // });
+
+          $input.mousedown(function(ev) {
+            switch (ev.buttons) {
+              case 2:
+                  buscaMinasGUI.marcarGui($(this));
+                break;
+              case 3:
+                  buscaMinasGUI.despejarGui($(this));
+                break;
+              default:
+
+            }
+
+          });
+
+
+        $input.click(function(ev) {
+          buscaMinasGUI.picarGui($(this));
         });
 
-        $input.mousedown(function(ev) {
-          switch (ev.buttons) {
-            case 2:
-                buscaMinasGUI.marcarGui(ev,$(this));
-              break;
-            case 3:
-                buscaMinasGUI.despejarGui(ev,$(this));
-              break;
-            default:
 
-          }
-
-        });
         $fragment.append($input)
 
       }
@@ -138,10 +148,9 @@ let buscaMinasGUI = {
   },
   /**
    * Despeja las casilla colindantes si el numero de banderas coincide con el valor de la casilla
-   * @param ev evento
    * @param element elemento DOM
    */
-  despejarGui(ev,element) {
+  despejarGui(element) {
     let coordenada = buscaMinasGUI.extraerCoordenada(element);
     try {
         buscaMinas.despejar(coordenada.fila, coordenada.columna);
@@ -165,7 +174,9 @@ let buscaMinasGUI = {
     if (buscaMinas.flagFinPartida || buscaMinas.flagGanado) {
       buscaMinasGUI.descubrirMinas();
       return;
-    }else{
+    }
+
+
       let cont = 0;
       for (const item of buscaMinas.aperturaCasillas) {
         cont++;
@@ -198,12 +209,9 @@ let buscaMinasGUI = {
                  }
 
               }
-
-
       }
 
       buscaMinas.aperturaCasillas.clear(); // vacío la collection con las coordenadas
-    }
 
 
    },
@@ -220,23 +228,20 @@ let buscaMinasGUI = {
    },
   /**
    * Realiza la accion de picar y actualiza la GUI
-   * @param ev evento
    * @param element elemento DOM
    */
-  picarGui(ev, element) {
+  picarGui(element) {
 
     let coordenada = buscaMinasGUI.extraerCoordenada(element);
 
       try {
           buscaMinas.picar(coordenada.fila, coordenada.columna);
-          if (buscaMinas.flagGanado) {
-            buscaMinasGUI.comprobarRecord();
-          }
 
           buscaMinasGUI.actualizarGui();
       } catch (e) {
         buscaMinasGUI.descubrirMinas();
         if (e.message === "¡¡¡ Felicidades has ganado !!!") {
+          buscaMinasGUI.comprobarRecord();
           setTimeout(function(){
             buscaMinasGUI.swalVolverAJugar(e.message, "success");
           }, 4000);
@@ -251,13 +256,10 @@ let buscaMinasGUI = {
   },
   /**
    * Realiza la accion de picar y actualiza la GUI
-   * @param ev evento
    * @param i coordenada para la fila
    * @param j coordenada para la columna
    */
-  marcarGui(ev,element) {
-    buscaMinasGUI.disableContextMenu();
-
+  marcarGui(element) {
     let coordenada = buscaMinasGUI.extraerCoordenada(element);
 
     try {
@@ -280,12 +282,10 @@ let buscaMinasGUI = {
            $("#pNumBanderas").text(`${buscaMinas.numBanderas}`)
         }
 
-        if (buscaMinas.flagGanado) {
-          buscaMinasGUI.comprobarRecord();
-        }
     } catch (e) {
       buscaMinasGUI.descubrirMinas();
       if (e.message === "¡¡¡ Felicidades has ganado !!!") {
+        buscaMinasGUI.comprobarRecord();
         buscaMinasGUI.swalVolverAJugar(e.message, "success");
       } else {
         buscaMinasGUI.reproducirAudio("explosion.mp3");

@@ -1,6 +1,15 @@
 // Mixings
 
 // Estilo para cada casilla
+
+
+// Estilo para centrar en horizontal o vertical
+=flex-center($direction)
+    display: flex
+    flex-direction: $direction
+    justify-content: center
+    align-items: center
+
 =tile($height, $width, $fontSize)
     display: flex
     flex-direction: column
@@ -15,14 +24,6 @@
     border-width: 0px
     *color: #fff
     border: 2px solid $accent-color
-
-// Estilo para centrar en horizontal o vertical
-=flex-center($direction)
-    display: flex
-    flex-direction: $direction
-    justify-content: center
-    align-items: center
-
 //
 
 =mostrar-span($color)
