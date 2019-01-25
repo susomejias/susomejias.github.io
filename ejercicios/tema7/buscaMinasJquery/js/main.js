@@ -296,6 +296,7 @@ export let buscaMinas = {
 
       buscaMinas.tableroMaster[fila][columna] = "x";
       buscaMinas.tableroCopiaMaster[fila][columna] = "x";
+      buscaMinas.apeturaMinas.add(fila+ "-"+columna)
     }
   },
 
@@ -399,20 +400,6 @@ export let buscaMinas = {
       }
     }
     return contador;
-  },
-
-  /**
-   * Descubre las minas
-   */
-  descubrirMinas() {
-    for (let i = 0; i < buscaMinas.filas; i++) {
-      for (let j = 0; j < buscaMinas.columnas; j++) {
-        if (buscaMinas.tableroMaster[i][j] === "x") {
-
-          buscaMinas.apeturaMinas.add(i + "-" + j);
-        }
-      }
-    }
   },
 
   /**

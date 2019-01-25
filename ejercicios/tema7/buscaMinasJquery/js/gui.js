@@ -194,6 +194,7 @@ let buscaMinasGUI = {
                 if (buscaMinas.tableroVisible[fila][columna] === 0) {
                   $element.val("");
                 }else{
+                  // cada número de un color, array y un switch
                    $element.val(buscaMinas.tableroVisible[fila][columna]);
                  };
 
@@ -374,7 +375,6 @@ let buscaMinasGUI = {
    * Descubre las minas
    */
   descubrirMinas() {
-    buscaMinas.descubrirMinas();
     let arrClassColores = ["gray", "marine","sky", "pink", "green-light", "lime", "teal-light", "lime-strong", "light-green-dark", "orange"]
     let cont = 0;
 
