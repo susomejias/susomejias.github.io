@@ -96,6 +96,7 @@
     return this;
   };
   let init = function() {
+    $(".ch").checkboxPersonalizado();
     $("#otro").checkboxPersonalizado({
       activo: false,
       colorTextos: {
