@@ -128,7 +128,7 @@ let buscaMinasGUI = {
    * @param classs clase que se le añadirá al input
    * @param input elemento al cuál se le añadirá la clase
    */
-  claseSegunNivel(classs, input, delay) {
+  claseSegunNivel(classs, input, delay = "") {
     switch (buscaMinas.nivel) {
       case "facil":
           buscaMinasGUI.animationInput(input,classs,"zoomIn", "jackInTheBox " + delay, "inputFacil")
