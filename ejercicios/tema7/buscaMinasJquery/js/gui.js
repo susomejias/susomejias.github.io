@@ -111,7 +111,7 @@ let buscaMinasGUI = {
   animationInput(input,classs,animationViolet,animationOthers, nivel){
 
     if (classs === "violet"){
-      //buscaMinasGUI.limpiarClasesCss(input)
+      buscaMinasGUI.limpiarClasesCss(input)
       input.addClass('animated ' + animationViolet + ' faster ' + nivel + ' ' + classs );
     }else{
       buscaMinasGUI.limpiarClasesCss(input)
@@ -373,6 +373,7 @@ let buscaMinasGUI = {
    * Descubre las minas
    */
   descubrirMinas() {
+    buscaMinasGUI.eliminarBanderasGui();
     let arrClassColores = ["gray", "marine","sky", "pink", "green-light", "lime", "teal-light", "lime-strong", "light-green-dark", "orange"]
     let cont = 0;
 
@@ -385,6 +386,18 @@ let buscaMinasGUI = {
         $element,
         "delay-" + cont + "s"
       );
+    }
+  },
+  eliminarBanderasGui(){
+    buscaMinas.eliminarBanderas();
+    for (const coordenada of buscaMinas.coordenadasBanderas) {
+      let $input = $("#"+ coordenada);
+
+      if ($input.hasClass("amarillo")){
+        $input.removeClass("amarillo");
+        $input.addClass("violet");
+      }
+
     }
   },
   /**

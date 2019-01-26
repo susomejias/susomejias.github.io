@@ -17,6 +17,7 @@ export let buscaMinas = {
   numBanderas: 0,
   aperturaCasillas: new Set(),
   apeturaMinas: new Set(),
+  coordenadasBanderas: new Set(),
 
 
   /**
@@ -75,7 +76,7 @@ export let buscaMinas = {
     for (let i = 0; i < buscaMinas.filas; i++) {
       for (let j = 0; j < buscaMinas.columnas; j++) {
         if (buscaMinas.tableroVisible[i][j] === "!"){
-          buscaMinas.tableroVisible[i][j] = "#";
+          buscaMinas.coordenadasBanderas.add(i +"-"+j);
         }
       }
     }
