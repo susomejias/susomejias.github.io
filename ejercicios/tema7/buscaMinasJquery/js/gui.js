@@ -73,11 +73,6 @@ let buscaMinasGUI = {
 
         buscaMinasGUI.claseSegunNivel("violet", $input);
 
-
-          // $input.on("touchstart", function(ev){
-          //   console.log(ev.touches);
-          // });
-
           $input.mousedown(function(ev) {
             switch (ev.buttons) {
               case 2:
@@ -116,7 +111,7 @@ let buscaMinasGUI = {
   animationInput(input,classs,animationViolet,animationOthers, nivel){
 
     if (classs === "violet"){
-      buscaMinasGUI.limpiarClasesCss(input)
+      //buscaMinasGUI.limpiarClasesCss(input)
       input.addClass('animated ' + animationViolet + ' faster ' + nivel + ' ' + classs );
     }else{
       buscaMinasGUI.limpiarClasesCss(input)
@@ -129,17 +124,18 @@ let buscaMinasGUI = {
    * @param input elemento al cuál se le añadirá la clase
    */
   claseSegunNivel(classs, input, delay = "") {
+
     switch (buscaMinas.nivel) {
       case "facil":
-          buscaMinasGUI.animationInput(input,classs,"zoomIn", "jackInTheBox " + delay + "inputFacil")
+          buscaMinasGUI.animationInput(input,classs,"zoomIn", "jackInTheBox " + delay, " inputFacil")
         break;
 
       case "intermedio":
-              buscaMinasGUI.animationInput(input,classs,"zoomIn", "jackInTheBox " + delay + "inputIntermedio")
+              buscaMinasGUI.animationInput(input,classs,"zoomIn", "jackInTheBox " + delay , " inputIntermedio")
         break;
 
       case "experto":
-            buscaMinasGUI.animationInput(input,classs,"zoomIn", "jackInTheBox " + delay, "inputExperto")
+            buscaMinasGUI.animationInput(input,classs,"zoomIn", "jackInTheBox " + delay , " inputExperto")
         break;
 
       default:
@@ -387,7 +383,7 @@ let buscaMinasGUI = {
       buscaMinasGUI.claseSegunNivel(
         arrClassColores[Math.floor(Math.random() * ((arrClassColores.length - 1) - 0)) + 0],
         $element,
-        "delay-" + cont + "s "
+        "delay-" + cont + "s"
       );
     }
   },
@@ -411,10 +407,7 @@ let buscaMinasGUI = {
   limpiarClasesCss(element) {
     if (element) {
       if (
-        element.hasClass("violet") ||
-        element.hasClass("rojo") ||
-        element.hasClass("blanco") ||
-        element.hasClass("amarillo")
+        element.prop("class") !== ""
       ) {
         element.prop("class", "");
       }
