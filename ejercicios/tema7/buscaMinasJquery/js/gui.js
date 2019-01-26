@@ -131,11 +131,11 @@ let buscaMinasGUI = {
   claseSegunNivel(classs, input, delay = "") {
     switch (buscaMinas.nivel) {
       case "facil":
-          buscaMinasGUI.animationInput(input,classs,"zoomIn", "jackInTheBox " + delay, "inputFacil")
+          buscaMinasGUI.animationInput(input,classs,"zoomIn", "jackInTheBox " + delay + "inputFacil")
         break;
 
       case "intermedio":
-              buscaMinasGUI.animationInput(input,classs,"zoomIn", "jackInTheBox " + delay, "inputIntermedio")
+              buscaMinasGUI.animationInput(input,classs,"zoomIn", "jackInTheBox " + delay + "inputIntermedio")
         break;
 
       case "experto":
@@ -276,7 +276,7 @@ let buscaMinasGUI = {
         }else if (buscaMinas.tableroPulsaciones[coordenada.fila][coordenada.columna] !== "p"){
               buscaMinasGUI.claseSegunNivel(
                 "violet",
-                      element
+                element
               )
         }
         // actualizo el numero de banderas
@@ -387,7 +387,7 @@ let buscaMinasGUI = {
       buscaMinasGUI.claseSegunNivel(
         arrClassColores[Math.floor(Math.random() * ((arrClassColores.length - 1) - 0)) + 0],
         $element,
-        "delay-" + cont + "s"
+        "delay-" + cont + "s "
       );
     }
   },
