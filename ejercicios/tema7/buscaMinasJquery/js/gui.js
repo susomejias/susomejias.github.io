@@ -237,8 +237,10 @@ let buscaMinasGUI = {
 
       try {
           buscaMinas.picar(coordenada.fila, coordenada.columna);
+          if (!buscaMinas.flagGanado && !buscaMinas.flagFinPartida ){
+              buscaMinasGUI.actualizarGui();
+          }
 
-          buscaMinasGUI.actualizarGui();
       } catch (e) {
         buscaMinasGUI.descubrirMinas();
         if (e.message === "¡¡¡ Felicidades has ganado !!!") {
@@ -381,20 +383,12 @@ let buscaMinasGUI = {
     for (let mina of buscaMinas.apeturaMinas) {
       cont++;
       let $element = $("#" + mina);
-      if (buscaMinas.flagGanado){
-        buscaMinasGUI.claseSegunNivel(
-          "verde",
-          $element,
-          "delay-" + cont + "s"
-        );
-      }else{
-        buscaMinasGUI.claseSegunNivel(
-          arrClassColores[Math.floor(Math.random() * ((arrClassColores.length - 1) - 0)) + 0],
-          $element,
-          "delay-" + cont + "s"
-        );
-      }
 
+      buscaMinasGUI.claseSegunNivel(
+        arrClassColores[Math.floor(Math.random() * ((arrClassColores.length - 1) - 0)) + 0],
+        $element,
+        "delay-" + cont + "s"
+      );
     }
   },
   /**

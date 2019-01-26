@@ -71,6 +71,15 @@ export let buscaMinas = {
       }
       buscaMinas.comprobarGanadorBanderas();
   },
+  eliminarBanderas(){
+    for (let i = 0; i < buscaMinas.filas; i++) {
+      for (let j = 0; j < buscaMinas.columnas; j++) {
+        if (buscaMinas.tableroVisible[i][j] === "!"){
+          buscaMinas.tableroVisible[i][j] = "#";
+        }
+      }
+    }
+  },
     /**
      * intenta destapar las casillas colindantes, sólo si el número de banderas
      * se corresponden con las que indica la casilla. Entonces muestra el campo
@@ -276,6 +285,7 @@ export let buscaMinas = {
         }
       }
         if (casillasPulsadas > 1 && (casillasGanar === buscaMinas.numMinas)) {
+          buscaMinas.eliminarBanderas();
           throw new Error("Has ganado la partida");
         }
   },
@@ -436,13 +446,14 @@ export let buscaMinas = {
    */
 
   picar(i, j) {
+    if (buscaMinas.flagGanado || buscaMinas.flagFinPartida || buscaMinas.tableroPulsaciones[i][j] === "p") {
+      return;
+    }
+
       if (buscaMinas.tableroMaster[i][j] === "x") {
         buscaMinas.flagFinPartida = true;
+        buscaMinas.eliminarBanderas();
         throw new Error("Has perdido, pulsaste una mina");
-      }
-
-      if (buscaMinas.flagGanado || buscaMinas.flagFinPartida || buscaMinas.tableroPulsaciones[i][j] === "p") {
-        return;
       }
 
       buscaMinas.abrirCeros(i, j);
@@ -470,6 +481,7 @@ export let buscaMinas = {
         buscaMinas.obtenerNumeroCasillasParaGanar()
       ) {
         buscaMinas.flagGanado = true;
+        buscaMinas.eliminarBanderas();
         throw new Error("¡¡¡ Felicidades has ganado !!!");
       }
   },
