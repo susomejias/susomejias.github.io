@@ -181,7 +181,7 @@ let buscaMinasGUI = {
 
         let $element = $("#" + fila +"-"+ columna)
 
-          buscaMinasGUI.limpiarClasesCss($element);
+          //buscaMinasGUI.limpiarClasesCss($element);
 
               if (
                 buscaMinas.tableroVisible[fila][columna] !== "!" &&
