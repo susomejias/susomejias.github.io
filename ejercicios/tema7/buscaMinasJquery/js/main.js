@@ -456,7 +456,9 @@ export let buscaMinas = {
         buscaMinas.eliminarBanderas();
         throw new Error("Has perdido, pulsaste una mina");
       }
-
+      if (buscaMinas.tableroVisible[i][j] === "!"){
+        buscaMinas.tableroVisible[i][j] = buscaMinas.tableroMaster[i][j];
+      }
       buscaMinas.abrirCeros(i, j);
       buscaMinas.cargarPulsacion(i, j);
       buscaMinas.actualizaCambios();
