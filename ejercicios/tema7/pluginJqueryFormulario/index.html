@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+ <html lang='es'>
+ <head>
+   <meta charset='UTF-8'>
+   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+   <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+   <script
+     src="https://code.jquery.com/jquery-3.3.1.min.js"
+     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+     crossorigin="anonymous"
+   ></script>
+   <script type='text/javascript' src='js/jqForm.js'></script>
+   <script type='text/javascript' src='js/main.js'></script>
+   <link
+     href="https://fonts.googleapis.com/css?family=Lato"
+     rel="stylesheet"
+   />
+   <link rel="stylesheet" href="css/styles.min.css">
+ </head>
+ <body>
+   <noscript>
+     Por favor, comprueba que tu navegador es compatible con javascrip, o bien', 'comprueba si lo tienes activado
+   </noscript>
+   <main>
+     <h1>Plugin validación de formularios Jquery y AJAX</h1>
+     <form method="post" action="data.php">
+       <label for="nombre">Nombre</label>
+       <input type="text" name="nombre" tipo="nombre" id="nombre">
+       <label for="apellidos">Apellidos</label>
+       <input type="text" name="apellidos" tipo="apellidos" id="apellidos">
+       <label for="correo">Correo</label>
+       <input type="text" name="correo" tipo="correo" id="correo">
+       <label for="textarea">Descripción</label>
+       <textarea name="textarea" tipo="textarea" rows="8" cols="60"></textarea>
+       <input type="submit" name="enviar" value="Enviar">
+     </form>
+     <div id="mostrarDatos">
+
+     </div>
+   </main>
+ </body>
+ </html>
