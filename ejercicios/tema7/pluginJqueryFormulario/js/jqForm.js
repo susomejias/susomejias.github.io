@@ -42,6 +42,7 @@
 
           if ($inputs.length > 0){
 
+            // cuando se haga submit
             $(this).submit(function(ev) {
               ev.preventDefault();
               $inputs.trigger("blur");
