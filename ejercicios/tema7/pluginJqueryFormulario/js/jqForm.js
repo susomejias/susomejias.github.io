@@ -62,7 +62,7 @@
                 );
 
             });
-            // cuando se haga focus
+            // cuando se haga blur
             $inputs.blur(function(){
               let $input = $(this);
               let regexIndex = $(this).attr("tipo");
@@ -88,6 +88,8 @@
               }
             });
 
+
+            // cuando se haga focus
             $inputs.focus(function(){
               $(this).css({
                 color: "",
