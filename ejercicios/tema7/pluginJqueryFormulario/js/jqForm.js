@@ -26,7 +26,7 @@
         let ajax = function(data){
           return new Promise(function(resolve,reject){
             $.ajax({
-                type:'post',
+                type: infAjax.type,
                 url: infAjax.url,
                 data: data,
             })
@@ -39,6 +39,7 @@
         // valida inputs y textarea que no sean tipo submit, cuando existan.
 
           let $inputs = $(":input:not([type='submit'])", $(this));
+          let $mapInpErr = new Map();
 
           if ($inputs.length > 0){
 
@@ -46,22 +47,18 @@
             $(this).submit(function(ev) {
               ev.preventDefault();
               $inputs.trigger("blur");
-              let data = $(this).serializeArray();
-                 ajax(data).then(
-                      function resolve(d){
-                        let html = ``;
-                        $.each(d, function(index, value) {
-                          if (index !== "" && value !== ""){
-                            html += `<p><b>${index.toUpperCase()}</b>:</br> ${value}</p><br/>`;
-                            infAjax.element.html(html);
-                          }
-                        });
-                      },
-                      function reject(d){
-                        console.error(d);
-                      }
-                );
-
+              // cuando no existan errores se realiza la petición ajax
+              if ($mapInpErr.size === 0){
+                let data = $(this).serializeArray();
+                   ajax(data).then(
+                        function resolve(d){
+                          infAjax.element.html(d)
+                        },
+                        function reject(d){
+                          console.error(d);
+                        }
+                  );
+              }
             });
             // cuando se haga blur
             $inputs.blur(function(){
@@ -76,8 +73,9 @@
                 });
                 if (toastr){
                   toastr.warning(settings.patternsObj[regexIndex][1], 'Formato ' + regexIndex + ' no válido .')
-
                 }
+
+                $mapInpErr.set(regexIndex,$input);
 
               }else{
                 $(this).css({
@@ -86,6 +84,7 @@
                   border: "0px"
                 });
                 $(this).addClass(classs);
+                $mapInpErr.delete(regexIndex);
               }
             });
 

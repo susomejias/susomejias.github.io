@@ -18,6 +18,7 @@ let init = function(){
 
   // pasamos un objeto con los parámetros para el uso de ajax.
   {
+    type: 'POST',
     url: './data.php',
     element: $('#mostrarDatos')
   });
