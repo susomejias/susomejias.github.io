@@ -1,21 +1,20 @@
 (function ( $ ) {
 
-    $.fn.validar = function( options, classs ) {
+    $.fn.validar = function( options, classs, infAjax ) {
 
         // patrones por defecto
         let patternsDefault = {
-            nombre: /([a-zA-Z]{1,}\s?){1,3}/,
-            apellidos: /([a-zA-Z]{1,}\s?){1,3}/,
-            correo: /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
-            textarea: /[a-zA-Z]{10,}/
+            nombre: [/([a-zA-Z]{1,}\s?){1,3}/,"Mínimo un nombre."],
+            apellidos: [/([a-zA-Z]{1,}\s?){1,3}/, "Mínimo un apellido."],
+            correo: [/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i, "Formato correo no válido."],
+            textarea: [/(\w\s?.?\s?){10,}/, "Mínimo 10 caractéres."]
         }
         // opciones por defecto
         let settings = $.extend({
-            // por defecto.
-
             css: {
               color: "#fff",
-              backgroundcolor: "rgba(244, 67, 54, .5)"
+              backgroundcolor: "rgba(244, 67, 54, .5)",
+              border: "1px solid rgba(255,255,255,0.4)"
             },
 
             patternsObj: patternsDefault,
@@ -23,6 +22,19 @@
 
         }, options );
 
+
+        let ajax = function(data){
+          return new Promise(function(resolve,reject){
+            $.ajax({
+                type:'post',
+                url: infAjax.url,
+                data: data,
+            })
+            .done(resolve)
+            .fail(reject);
+          });
+
+        }
 
         // valida inputs y textarea que no sean tipo submit, cuando existan.
 
@@ -33,37 +45,44 @@
             $(this).submit(function(ev) {
               ev.preventDefault();
               $inputs.trigger("blur");
-                let data = $(this).serializeArray();
-                $.ajax({
-                    type:'post',
-                    url: './data.php',
-                    data: data,
-                    success: function(d){
-                      let html = ``;
-                      $.each(d, function(index, value) {
-                        if (index !== "" && value !== ""){
-                          html += `<p><b>${index.toUpperCase()}</b>:</br> ${value}</p><br/>`;
-                          $("#mostrarDatos").html(html);
-                        }
-
-                      });
-                    }
-                });
+              let data = $(this).serializeArray();
+                 ajax(data).then(
+                      function resolve(d){
+                        let html = ``;
+                        $.each(d, function(index, value) {
+                          if (index !== "" && value !== ""){
+                            html += `<p><b>${index.toUpperCase()}</b>:</br> ${value}</p><br/>`;
+                            infAjax.element.html(html);
+                          }
+                        });
+                      },
+                      function reject(d){
+                        console.error(d);
+                      }
+                );
 
             });
             // cuando se haga focus
             $inputs.blur(function(){
+              let $input = $(this);
               let regexIndex = $(this).attr("tipo");
               //console.log(settings.patternsObj[regexIndex].test($(this).val()));
-              if (!settings.patternsObj[regexIndex].test($(this).val())){
+              if (!settings.patternsObj[regexIndex][0].test($(this).val())){
                 $(this).css({
                   color: settings.css.color,
-                  background: settings.css.backgroundcolor
+                  background: settings.css.backgroundcolor,
+                  border: settings.css.border
                 });
+                if (toastr){
+                  toastr.warning(settings.patternsObj[regexIndex][1], 'Formato ' + regexIndex + ' no válido .')
+
+                }
+
               }else{
                 $(this).css({
                   color: "",
-                  background: ""
+                  background: "",
+                  border: "0px"
                 });
                 $(this).addClass(classs);
               }
@@ -72,12 +91,17 @@
             $inputs.focus(function(){
               $(this).css({
                 color: "",
-                background: ""
+                background: "",
+                border: "0px"
               });
 
               $(this).addClass(classs);
             });
+
           }
+
+
     };
+
 
 }( jQuery ));
