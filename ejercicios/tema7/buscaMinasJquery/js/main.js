@@ -433,6 +433,9 @@ export let buscaMinas = {
             k <= Math.min(y + 1, buscaMinas.columnas - 1);
             k++
           ) {
+            if (buscaMinas.tableroVisible[x][y] === "!"){
+              buscaMinas.tableroVisible[x][y] = buscaMinas.tableroMaster[x][y];
+            }
             buscaMinas.cargarPulsacion(j, k);
             buscaMinas.abrirCeros(j, k);
           }

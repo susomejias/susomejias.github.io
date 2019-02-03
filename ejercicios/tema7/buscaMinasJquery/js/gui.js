@@ -482,7 +482,9 @@ let buscaMinasGUI = {
   comprobarRecord() {
     let tiempo = parseInt($("#timer p").text());
 
-    if (localStorage.getItem(buscaMinas.nivel) === null) {
+    console.log(localStorage.getItem(buscaMinas.nivel));
+    console.log(tiempo);
+    if (localStorage.getItem(buscaMinas.nivel) === null || localStorage.getItem(buscaMinas.nivel) > tiempo ) {
       localStorage.setItem(buscaMinas.nivel, tiempo);
     } else {
       if (
