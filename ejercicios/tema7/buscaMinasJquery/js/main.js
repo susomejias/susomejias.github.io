@@ -433,13 +433,27 @@ export let buscaMinas = {
             k <= Math.min(y + 1, buscaMinas.columnas - 1);
             k++
           ) {
-            if (buscaMinas.tableroVisible[x][y] === "!"){
-              buscaMinas.tableroVisible[x][y] = buscaMinas.tableroMaster[x][y];
-            }
             buscaMinas.cargarPulsacion(j, k);
             buscaMinas.abrirCeros(j, k);
           }
       }
+    }else{
+      console.log("hola");
+      for (
+        let j = Math.max(x - 1, 0);
+        j <= Math.min(x + 1, buscaMinas.filas - 1);
+        j++
+      )
+        for (
+          let k = Math.max(y - 1, 0);
+          k <= Math.min(y + 1, buscaMinas.columnas - 1);
+          k++
+        ) {
+          if (buscaMinas.tableroVisible[x][y] === "!"){
+            buscaMinas.numBanderas = buscaMinas.numBanderas + 1;
+            buscaMinas.tableroVisible[x][y] = buscaMinas.tableroMaster[x][y];
+          }
+        }
     }
   },
 

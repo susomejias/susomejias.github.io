@@ -163,6 +163,11 @@ let buscaMinasGUI = {
       }
     }
   },
+  actualizaNumBanderas(){
+      if ($("#pNumBanderas")){
+         $("#pNumBanderas").text(`${buscaMinas.numBanderas}`)
+      }
+  },
   /**
    * Actualiza la GUI con los valores del tablero visible interno
    */
@@ -172,6 +177,7 @@ let buscaMinasGUI = {
       return;
     }
 
+      buscaMinasGUI.actualizaNumBanderas();
 
       let cont = 0;
       for (const item of buscaMinas.aperturaCasillas) {
@@ -231,6 +237,7 @@ let buscaMinasGUI = {
 
     let coordenada = buscaMinasGUI.extraerCoordenada(element);
 
+
       try {
           buscaMinas.picar(coordenada.fila, coordenada.columna);
           if (!buscaMinas.flagGanado && !buscaMinas.flagFinPartida ){
@@ -241,6 +248,7 @@ let buscaMinasGUI = {
         buscaMinasGUI.descubrirMinas();
         if (e.message === "¡¡¡ Felicidades has ganado !!!") {
           buscaMinasGUI.comprobarRecord();
+          buscaMinasGUI.claseSegunNivel("blanco", element);
           setTimeout(function(){
             buscaMinasGUI.swalVolverAJugar(e.message, "success");
           }, 4000);
@@ -252,6 +260,7 @@ let buscaMinasGUI = {
 
         }
       }
+
   },
   /**
    * Realiza la accion de picar y actualiza la GUI
@@ -277,9 +286,7 @@ let buscaMinasGUI = {
         }
         // actualizo el numero de banderas
 
-        if ($("#pNumBanderas")){
-           $("#pNumBanderas").text(`${buscaMinas.numBanderas}`)
-        }
+        buscaMinasGUI.actualizaNumBanderas();
 
     } catch (e) {
       buscaMinasGUI.descubrirMinas();
