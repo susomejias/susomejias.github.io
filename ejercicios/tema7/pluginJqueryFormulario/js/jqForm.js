@@ -119,7 +119,6 @@
                         }
                   );
               }else{
-                  console.log($mapInpErr);
                   $inputFocus = $mapInpErr.values().next().value;
                   $inputFocus.focus();
               }
@@ -131,7 +130,6 @@
 
               let $input = $(this);
               let regexIndex = $input.attr("tipo");
-              //console.log(settings.patternsObj[regexIndex].test($(this).val()));
               if (!settings.patternsObj[regexIndex][0].test($input.val())){
                 $(this).css({
                   color: settings.css.color,
