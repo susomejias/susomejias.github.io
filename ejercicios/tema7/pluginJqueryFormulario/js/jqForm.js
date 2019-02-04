@@ -1,6 +1,6 @@
 (function ( $ ) {
 
-    $.fn.validar = function( options, infAjax ) {
+    $.fn.validar = function( options, classs, infAjax ) {
 
         // patrones por defecto
         let patternsDefault = {
@@ -14,13 +14,16 @@
         let stylesDefaultTextarea = {};
         // opciones por defecto
         let settings = $.extend({
+            patternsObj: patternsDefault,
+
             css: {
               color: "#fff",
               backgroundcolor: "rgba(244, 67, 54, .5)",
               border: "1px solid rgba(255,255,255,0.4)"
             },
 
-            patternsObj: patternsDefault,
+
+
 
 
         }, options );
@@ -64,7 +67,7 @@
               return returns;
           };
           return element.css();
-        }
+        };
 
         // guarda u obtiene los estilos de un elemento en el DOM
         let saveOrSetStyles = function(action, element){
@@ -84,14 +87,14 @@
             }
               break;
           }
-        }
+        };
 
         // guarda los estilos por defecto de los elementos del formulario
         let saveDefaultStyles = function(inputs){
           inputs.each(function(index, element) {
             saveOrSetStyles("save", $(element))
           });
-        }
+        };
 
         // valida inputs y textarea que no sean tipo submit, cuando existan.
 
