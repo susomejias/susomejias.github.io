@@ -2,6 +2,7 @@
 
 let init = function(){
 
+
   $("form").validar({
 
   // añadiendo un objeto con las regexs y los mensajes que queremos mostrar.

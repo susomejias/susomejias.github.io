@@ -9,6 +9,9 @@
             correo: [/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i, "Formato correo no válido."],
             textarea: [/(\w\s?.?\s?){10,}/, "Mínimo 10 caractéres."]
         }
+
+        let stylesDefaultInput = {};
+        let stylesDefaultTextarea = {};
         // opciones por defecto
         let settings = $.extend({
             css: {
@@ -36,9 +39,66 @@
 
         }
 
+        // devuelve el css de un elemento del DOM
+        let getStyleObject = function(element){
+          var dom = element.get(0);
+          var style;
+          var returns = {};
+          if(window.getComputedStyle){
+              var camelize = function(a,b){
+                  return b.toUpperCase();
+              };
+              style = window.getComputedStyle(dom, null);
+              for(var i = 0, l = style.length; i < l; i++){
+                  var prop = style[i];
+                  var camel = prop.replace(/\-([a-z])/g, camelize);
+                  var val = style.getPropertyValue(prop);
+                  returns[camel] = val;
+              };
+              return returns;
+          };
+          if(style = dom.currentStyle){
+              for(var prop in style){
+                  returns[prop] = style[prop];
+              };
+              return returns;
+          };
+          return element.css();
+        }
+
+        // guarda u obtiene los estilos de un elemento en el DOM
+        let saveOrSetStyles = function(action, element){
+          switch(element.prop("tagName").toUpperCase()){
+            case "TEXTAREA":
+                if (action.toLocaleLowerCase() === "save"){
+                  stylesDefaultTextarea = getStyleObject(element)
+                }else{
+                  element.css(stylesDefaultTextarea);
+                }
+              break;
+            case "INPUT":
+            if (action.toLocaleLowerCase() === "save"){
+              stylesDefaultInput = getStyleObject(element)
+            }else{
+              element.css(stylesDefaultInput);
+            }
+              break;
+          }
+        }
+
+        // guarda los estilos por defecto de los elementos del formulario
+        let saveDefaultStyles = function(inputs){
+          inputs.each(function(index, element) {
+            saveOrSetStyles("save", $(element))
+          });
+        }
+
         // valida inputs y textarea que no sean tipo submit, cuando existan.
 
-          let $inputs = $(":input:not([type='submit'])", $(this));
+          let $inputs = $("input[type='text'], textarea", $(this));
+
+          saveDefaultStyles($inputs);
+
           let $mapInpErr = new Map();
 
           if ($inputs.length > 0){
@@ -58,14 +118,21 @@
                           console.error(d);
                         }
                   );
+              }else{
+                  console.log($mapInpErr);
+                  $inputFocus = $mapInpErr.values().next().value;
+                  $inputFocus.focus();
               }
             });
             // cuando se haga blur
             $inputs.blur(function(){
+
+              //stylesDefault = $(this).getStyleObject();
+
               let $input = $(this);
-              let regexIndex = $(this).attr("tipo");
+              let regexIndex = $input.attr("tipo");
               //console.log(settings.patternsObj[regexIndex].test($(this).val()));
-              if (!settings.patternsObj[regexIndex][0].test($(this).val())){
+              if (!settings.patternsObj[regexIndex][0].test($input.val())){
                 $(this).css({
                   color: settings.css.color,
                   background: settings.css.backgroundcolor,
@@ -78,31 +145,17 @@
                 $mapInpErr.set(regexIndex,$input);
 
               }else{
-                $(this).css({
-                  color: "",
-                  background: "",
-                  border: "0px"
-                });
-                $(this).addClass(classs);
+                saveOrSetStyles("set", $(this));
                 $mapInpErr.delete(regexIndex);
               }
             });
 
-
             // cuando se haga focus
             $inputs.focus(function(){
-              $(this).css({
-                color: "",
-                background: "",
-                border: "0px"
-              });
-
-              $(this).addClass(classs);
+              saveOrSetStyles("set", $(this));
             });
 
           }
-
-
     };
 
 
