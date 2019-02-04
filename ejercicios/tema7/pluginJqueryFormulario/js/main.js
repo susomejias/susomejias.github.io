@@ -14,14 +14,11 @@ let init = function(){
     }
   },
 
-  // añadiendo la clase css para añadir cuando haga foco.
-  "input",
-
   // pasamos un objeto con los parámetros para el uso de ajax.
   {
     type: 'POST',
     url: './data.php',
-    element: $('#mostrarDatos')
+    element: $('#mostrarDatos') // elemento donde mostraremos los datos de ajax
   });
 }
 

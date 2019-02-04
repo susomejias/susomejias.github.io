@@ -1,6 +1,6 @@
 (function ( $ ) {
 
-    $.fn.validar = function( options, classs, infAjax ) {
+    $.fn.validar = function( options, infAjax ) {
 
         // patrones por defecto
         let patternsDefault = {
