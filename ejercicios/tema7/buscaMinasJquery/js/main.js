@@ -18,6 +18,7 @@ export let buscaMinas = {
   aperturaCasillas: new Set(),
   apeturaMinas: new Set(),
   coordenadasBanderas: new Set(),
+  seleccionaContiguas: new Set(),
 
 
   /**
@@ -30,7 +31,6 @@ export let buscaMinas = {
     buscaMinas.generarTableros();
     buscaMinas.generaMinas();
     buscaMinas.numerosAlrededorMinas();
-    buscaMinas.mostrar();
   },
   /**
    * Muestra los tableros al inicio
@@ -38,8 +38,8 @@ export let buscaMinas = {
   mostrar() {
     console.log("Tablero master \n");
     console.table(buscaMinas.tableroMaster);
-    console.log("Tablero visible \n");
-    console.table(buscaMinas.tableroVisible);
+    // console.log("Tablero visible \n");
+    // console.table(buscaMinas.tableroVisible);
   },
 
   /**
@@ -55,9 +55,9 @@ export let buscaMinas = {
         if (buscaMinas.numBanderas > 0) {
           buscaMinas.tableroVisible[x][y] = "!";
           buscaMinas.numBanderas--;
-          console.clear();
-          console.table(buscaMinas.tableroMaster);
-          console.table(buscaMinas.tableroVisible);
+          // console.clear();
+          // console.table(buscaMinas.tableroMaster);
+          //console.table(buscaMinas.tableroVisible);
         }
       } else if (
         buscaMinas.tableroPulsaciones[x][y] !== "p" &&
@@ -65,10 +65,10 @@ export let buscaMinas = {
       ) {
         buscaMinas.tableroVisible[x][y] = "#";
         buscaMinas.numBanderas++;
-        console.clear();
-        console.table(buscaMinas.tableroMaster);
-        console.table(buscaMinas.tableroVisible);
-        console.log(buscaMinas.numBanderas);
+        // console.clear();
+        // console.table(buscaMinas.tableroMaster);
+        // console.table(buscaMinas.tableroVisible);
+        // console.log(buscaMinas.numBanderas);
       }
       buscaMinas.comprobarGanadorBanderas();
   },
@@ -89,6 +89,8 @@ export let buscaMinas = {
      * juego.
      */
     despejar(x,y){
+
+      buscaMinas.seleccionaContiguas.clear();
 
       if (x > buscaMinas.filas || y > buscaMinas.columnas){
         throw new Error("Coordenadas no válidas");
@@ -144,6 +146,57 @@ export let buscaMinas = {
           }
         }
 
+      }else{
+
+        buscaMinas.seleccionaContiguas.clear();
+
+        if (x > 0 && y > 0){
+          if (buscaMinas.tableroVisible[x - 1][ y - 1] !== "!" && buscaMinas.tableroPulsaciones[x - 1][y - 1] !== "p"){
+            buscaMinas.seleccionaContiguas.add((x-1) + "-" + (y-1));
+          }
+        }
+
+        if ( y > 0){
+          if (buscaMinas.tableroVisible[x][y - 1] !== "!" && buscaMinas.tableroPulsaciones[x][y-1] !== "p"){
+            buscaMinas.seleccionaContiguas.add((x) + "-" + (y-1));
+          }
+        }
+
+        if (y > 0 && x < buscaMinas.filas - 1){
+          if (buscaMinas.tableroVisible[x + 1][y - 1] !== "!" && buscaMinas.tableroPulsaciones[x+1][y-1] !== "p"){
+            buscaMinas.seleccionaContiguas.add((x+1) + "-" + (y-1));
+          }
+        }
+
+        if (x > 0){
+          if (buscaMinas.tableroVisible[x - 1][y] !== "!" && buscaMinas.tableroPulsaciones[x-1][y] !== "p"){
+            buscaMinas.seleccionaContiguas.add((x-1) + "-" + (y));
+          }
+        }
+
+        if (x < buscaMinas.filas - 1 ){
+          if (buscaMinas.tableroVisible[x + 1][y] !== "!" && buscaMinas.tableroPulsaciones[x+1][y] !== "p"){
+            buscaMinas.seleccionaContiguas.add((x+1) + "-" + (y));
+          }
+        }
+
+        if (y < buscaMinas.columnas - 1){
+          if (buscaMinas.tableroVisible[x][y + 1] !== "!" && buscaMinas.tableroPulsaciones[x][y+1] !== "p"){
+            buscaMinas.seleccionaContiguas.add((x) + "-" + (y+1));
+          }
+        }
+
+        if (x < buscaMinas.filas - 1  && y < buscaMinas.columnas - 1){
+          if (buscaMinas.tableroVisible[x + 1][y + 1] !== "!" && buscaMinas.tableroPulsaciones[x+1][y+1] !== "p"){
+            buscaMinas.seleccionaContiguas.add((x+1) + "-" + (y+1));
+          }
+        }
+
+        if (x > 0  && y < buscaMinas.columnas - 1){
+          if (buscaMinas.tableroVisible[x - 1][y + 1] !== "!" && buscaMinas.tableroPulsaciones[x-1][y+1] !== "p"){
+            buscaMinas.seleccionaContiguas.add((x-1) + "-" + (y+1));
+          }
+        }
       }
     },
     /**
@@ -438,7 +491,6 @@ export let buscaMinas = {
           }
       }
     }else{
-      console.log("hola");
       for (
         let j = Math.max(x - 1, 0);
         j <= Math.min(x + 1, buscaMinas.filas - 1);
@@ -479,12 +531,12 @@ export let buscaMinas = {
       buscaMinas.abrirCeros(i, j);
       buscaMinas.cargarPulsacion(i, j);
       buscaMinas.actualizaCambios();
-      console.clear();
-      console.log("Tablero Master \n");
-      console.table(buscaMinas.tableroMaster);
-      console.log("Tablero Visible \n");
-      console.table(buscaMinas.tableroVisible);
-      console.table(buscaMinas.tableroPulsaciones);
+      // console.clear();
+      // console.log("Tablero Master \n");
+      // console.table(buscaMinas.tableroMaster);
+      // console.log("Tablero Visible \n");
+      // console.table(buscaMinas.tableroVisible);
+      // console.table(buscaMinas.tableroPulsaciones);
       buscaMinas.comprobarSiGana();
 
 
@@ -523,4 +575,5 @@ export let buscaMinas = {
       return;
     }
   }
+
 };

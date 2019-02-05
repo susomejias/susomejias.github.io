@@ -2,6 +2,10 @@
  * Módulo GUI para el juego buscaminas
  * @author Jesús Mejías Leiva
  */
+
+ /*
+ * TODO: ARREGLAR COLOR DE LAS MINAS
+ */
 import { buscaMinas } from "./main.js";
 
 let $container;
@@ -10,6 +14,10 @@ let $timer;
 let $time;
 
 let init = function() {
+
+
+
+
   $("#elegirNivel").change(buscaMinasGUI.initJuego);
   $("#instrucciones").click(buscaMinasGUI.abrirInstrucciones);
 
@@ -39,7 +47,21 @@ let buscaMinasGUI = {
     buscaMinasGUI.volverAjugar();
     buscaMinasGUI.cssAlEmpezar();
     buscaMinasGUI.disableContextMenu();
+    buscaMinasGUI.mostrarTableros();
+
   },
+  /*
+  * Muestra el tablero con las minas
+  */
+  mostrarTableros(){
+    let buscaminas = function(){
+      return {
+        mostrar: () => buscaMinas.mostrar()
+      }
+    }();
+
+   window.buscaminas = buscaminas;
+ },
   abrirInstrucciones() {
     window.open("./instrucciones.html", "", "");
   },
@@ -73,7 +95,17 @@ let buscaMinasGUI = {
 
         buscaMinasGUI.claseSegunNivel("violet", $input);
 
+        $input.click(function(ev) {
+          buscaMinasGUI.picarGui($(this));
+        });
+
+        let longpress = 900; // tiempo para detectar la pulsación larga
+        let start; // hora de comienzo
+
           $input.mousedown(function(ev) {
+            //calculamos la hora exacta de cuando pulsamos el touchpad
+            start = new Date().getTime();
+
             switch (ev.buttons) {
               case 2:
                   buscaMinasGUI.marcarGui($(this));
@@ -87,10 +119,18 @@ let buscaMinasGUI = {
 
           });
 
+          // función para detectar la pulsación larga
+          (function() {
+              $input.mouseleave(function(event) {
+                start = 0; // cuando perdemos el foco del ratón asigaamos a 0
+              });
 
-        $input.click(function(ev) {
-          buscaMinasGUI.picarGui($(this));
-        });
+              $input.mouseup(function(event) {
+                if (new Date().getTime() >= ( start + longpress )){
+                    buscaMinasGUI.despejarGui($(this));
+                }
+              });
+          }());
 
 
         $fragment.append($input)
@@ -150,7 +190,17 @@ let buscaMinasGUI = {
     let coordenada = buscaMinasGUI.extraerCoordenada(element);
     try {
         buscaMinas.despejar(coordenada.fila, coordenada.columna);
-        buscaMinasGUI.actualizarGui();
+        if (!buscaMinas.flagGanado && !buscaMinas.flagFinPartida){
+          buscaMinasGUI.actualizarGui();
+          if (buscaMinas.seleccionaContiguas.size > 0){
+            for (let casilla of buscaMinas.seleccionaContiguas) {
+
+                $("#" + casilla).addClass("selected", 500,
+                          ()=>$("#" + casilla).removeClass("selected"));
+            }
+          }
+        }
+
     } catch (e) {
       buscaMinasGUI.descubrirMinas();
       if (e.message === "¡¡¡ Felicidades has ganado !!!") {
@@ -179,9 +229,9 @@ let buscaMinasGUI = {
 
       buscaMinasGUI.actualizaNumBanderas();
 
-      let cont = 0;
+      let contDelay = 0;
       for (const item of buscaMinas.aperturaCasillas) {
-        cont++;
+        contDelay++;
         let fila = item.split("-")[0];
         let columna = item.split("-")[1];
 
@@ -203,11 +253,11 @@ let buscaMinasGUI = {
                  buscaMinasGUI.claseSegunNivel(
                    "blanco",
                    $element,
-                   "delay-" + cont + "s"
+                   "delay-" + contDelay + "s"
                  );
 
 
-                 if (cont === 1){
+                 if (contDelay === 1){
                    buscaMinasGUI.reproducirAudio("abrir.mp3");
                  }
 
@@ -331,11 +381,11 @@ let buscaMinasGUI = {
       text: message + "¿Desea jugar de nuevo?",
       icon: icon,
       buttons: {
-        Si: true,
+        Sí: true,
         No: true
       }
     }).then(result => {
-      if (result === "Si") {
+      if (result === "Sí") {
         $("#elegirNivel").val("");
         location.reload();
       }
@@ -369,7 +419,7 @@ let buscaMinasGUI = {
       case "experto":
             setTimeout(function(){
               buscaMinasGUI.swalVolverAJugar(message, "error");
-            }, 15000);
+            }, 12000);
         break;
       default:
         return;
@@ -381,17 +431,16 @@ let buscaMinasGUI = {
    */
   descubrirMinas() {
     buscaMinasGUI.eliminarBanderasGui();
-    let arrClassColores = ["gray", "marine","sky", "pink", "green-light", "lime", "teal-light", "lime-strong", "light-green-dark", "orange"]
-    let cont = 0;
+    let contDelay = 0;
 
     for (let mina of buscaMinas.apeturaMinas) {
-      cont++;
+      contDelay++;
       let $element = $("#" + mina);
 
       buscaMinasGUI.claseSegunNivel(
-        arrClassColores[Math.floor(Math.random() * ((arrClassColores.length - 1) - 0)) + 0],
+        "pink",
         $element,
-        "delay-" + cont + "s"
+        "delay-" + contDelay + "s"
       );
     }
   },
@@ -471,7 +520,6 @@ let buscaMinasGUI = {
     let $container = $("#container");
     let $div = $("<div></div>");
     $div.prop("id", "record");
-    $time.html(`<div id="record"></div>`);
 
     if (localStorage.getItem(buscaMinas.nivel) !== null) {
       $div.html(`<img src="images/record.svg" height="30px"/> ${localStorage.getItem(
@@ -489,8 +537,6 @@ let buscaMinasGUI = {
   comprobarRecord() {
     let tiempo = parseInt($("#timer p").text());
 
-    console.log(localStorage.getItem(buscaMinas.nivel));
-    console.log(tiempo);
     if (localStorage.getItem(buscaMinas.nivel) === null || localStorage.getItem(buscaMinas.nivel) > tiempo ) {
       localStorage.setItem(buscaMinas.nivel, tiempo);
     } else {
@@ -511,7 +557,7 @@ let buscaMinasGUI = {
     let interv = setInterval(() => {
       if (!buscaMinas.flagFinPartida && !buscaMinas.flagGanado) {
         seconds++;
-        time.textContent = seconds;
+        $("#time").text(seconds);
       } else {
         clearInterval(interv);
         if (buscaMinas.flagGanado) {
