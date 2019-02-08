@@ -25,15 +25,15 @@
    </noscript>
    <main>
      <h1>Plugin validación de formularios Jquery y AJAX</h1>
-     <form method="post" action="data.php">
+     <form method="GET" action="">
        <label for="nombre">Nombre</label>
        <input type="text" name="nombre" tipo="nombre" id="nombre">
        <label for="apellidos">Apellidos</label>
        <input type="text" name="apellidos" tipo="apellidos" id="apellidos">
        <label for="correo">Correo</label>
        <input type="text" name="correo" tipo="correo" id="correo">
-       <label for="textarea">Descripción</label>
-       <textarea name="textarea" tipo="textarea" rows="8" cols="60"></textarea>
+       <label for="textarea">Respuesta</label>
+       <textarea id="textAreaRespuesta" name="textarea" rows="8" cols="60"></textarea>
        <input type="submit" name="enviar" value="Enviar">
      </form>
      <div id="mostrarDatos">

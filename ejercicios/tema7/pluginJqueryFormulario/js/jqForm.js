@@ -1,6 +1,6 @@
 (function ( $ ) {
 
-    $.fn.validar = function( options, classs, infAjax ) {
+    $.fn.validar = function( patterns, infAjax,styles) {
 
         // patrones por defecto
         let patternsDefault = {
@@ -10,38 +10,22 @@
             textarea: [/(\w\s?.?\s?){10,}/, "Mínimo 10 caractéres."]
         }
 
-        let stylesDefaultInput = {};
-        let stylesDefaultTextarea = {};
+        let cssDefault = {
+            color: "#fff",
+            backgroundcolor: "rgba(244, 67, 54, .5)",
+            border: "1px solid rgba(255,255,255,0.4)"
+        };
+
+
         // opciones por defecto
-        let settings = $.extend({
-            patternsObj: patternsDefault,
+        let patternsExtend = $.extend(patternsDefault,patterns);
 
-            css: {
-              color: "#fff",
-              backgroundcolor: "rgba(244, 67, 54, .5)",
-              border: "1px solid rgba(255,255,255,0.4)"
-            },
+        let cssExtend = $.extend(cssDefault,styles);
 
 
 
 
-
-        }, options );
-
-
-        let ajax = function(data){
-          return new Promise(function(resolve,reject){
-            $.ajax({
-                type: infAjax.type,
-                url: infAjax.url,
-                data: data,
-            })
-            .done(resolve)
-            .fail(reject);
-          });
-
-        }
-
+        let stylesDefaultInput = {};
         // devuelve el css de un elemento del DOM
         let getStyleObject = function(element){
           var dom = element.get(0);
@@ -52,16 +36,16 @@
                   return b.toUpperCase();
               };
               style = window.getComputedStyle(dom, null);
-              for(var i = 0, l = style.length; i < l; i++){
-                  var prop = style[i];
-                  var camel = prop.replace(/\-([a-z])/g, camelize);
-                  var val = style.getPropertyValue(prop);
+              for(let i = 0, l = style.length; i < l; i++){
+                  let prop = style[i];
+                  let camel = prop.replace(/\-([a-z])/g, camelize);
+                  let val = style.getPropertyValue(prop);
                   returns[camel] = val;
               };
               return returns;
           };
           if(style = dom.currentStyle){
-              for(var prop in style){
+              for(let prop in style){
                   returns[prop] = style[prop];
               };
               return returns;
@@ -72,19 +56,12 @@
         // guarda u obtiene los estilos de un elemento en el DOM
         let saveOrSetStyles = function(action, element){
           switch(element.prop("tagName").toUpperCase()){
-            case "TEXTAREA":
-                if (action.toLocaleLowerCase() === "save"){
-                  stylesDefaultTextarea = getStyleObject(element)
-                }else{
-                  element.css(stylesDefaultTextarea);
-                }
-              break;
             case "INPUT":
-            if (action.toLocaleLowerCase() === "save"){
-              stylesDefaultInput = getStyleObject(element)
-            }else{
-              element.css(stylesDefaultInput);
-            }
+                if (action.toLocaleLowerCase() === "save"){
+                  stylesDefaultInput = getStyleObject(element)
+                }else{
+                  element.css(stylesDefaultInput);
+                }
               break;
           }
         };
@@ -98,57 +75,64 @@
 
         // valida inputs y textarea que no sean tipo submit, cuando existan.
 
-          let $inputs = $("input[type='text'], textarea", $(this));
+          let $inputs = $("input[type='text']", $(this));
 
           saveDefaultStyles($inputs);
 
-          let $mapInpErr = new Map();
+          let $inpErr = [];
 
           if ($inputs.length > 0){
 
             // cuando se haga submit
             $(this).submit(function(ev) {
               ev.preventDefault();
+              $inpErr = [];
               $inputs.trigger("blur");
               // cuando no existan errores se realiza la petición ajax
-              if ($mapInpErr.size === 0){
-                let data = $(this).serializeArray();
-                   ajax(data).then(
-                        function resolve(d){
-                          infAjax.element.html(d)
-                        },
-                        function reject(d){
-                          console.error(d);
-                        }
-                  );
+              if ($inpErr.length === 0){
+
+                fetch(infAjax.url)
+                  .then(function(response) {
+                    return response.text();
+                  })
+                  .then(function(text) {
+                    infAjax.element.val(text);
+                    saveDefaultStyles($inputs);
+                  });
+
               }else{
-                  $inputFocus = $mapInpErr.values().next().value;
-                  $inputFocus.focus();
+                  $inpErr[0].focus();
               }
             });
+            
             // cuando se haga blur
             $inputs.blur(function(){
 
-              //stylesDefault = $(this).getStyleObject();
-
               let $input = $(this);
+
+
+              if ($input.attr("tipo") === undefined){
+                return;
+              }
+
               let regexIndex = $input.attr("tipo");
-              if (!settings.patternsObj[regexIndex][0].test($input.val())){
+              if (!patterns[regexIndex][0].test($input.val())){
                 $(this).css({
-                  color: settings.css.color,
-                  background: settings.css.backgroundcolor,
-                  border: settings.css.border
+                  color: cssExtend.color,
+                  background: cssExtend.backgroundcolor,
+                  border: cssExtend.border
                 });
+
                 if (toastr){
-                  toastr.warning(settings.patternsObj[regexIndex][1], 'Formato ' + regexIndex + ' no válido .')
+                  toastr.warning(patternsExtend[regexIndex][1], 'Formato ' + regexIndex + ' no válido .')
                 }
 
-                $mapInpErr.set(regexIndex,$input);
+                $inpErr.push($input)
 
               }else{
                 saveOrSetStyles("set", $(this));
-                $mapInpErr.delete(regexIndex);
               }
+
             });
 
             // cuando se haga focus

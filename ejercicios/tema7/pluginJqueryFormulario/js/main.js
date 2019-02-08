@@ -10,10 +10,10 @@ let init = function(){
   };
 
   let infoAjax = {
-    type: 'POST',
-    url: './data.php',
-    element: $('#mostrarDatos')
+    url: './index.html',
+    element: $('#textAreaRespuesta')
   };
+
 
   // sobreescribiendo los patrones
   $("form").validar(patternsObj,infoAjax);
