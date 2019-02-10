@@ -93,6 +93,7 @@
 
                 fetch(infAjax.url)
                   .then(function(response) {
+                    saveDefaultStyles($inputs);
                     return response.text();
                   })
                   .then(function(text) {
@@ -104,7 +105,7 @@
                   $inpErr[0].focus();
               }
             });
-            
+
             // cuando se haga blur
             $inputs.blur(function(){
 
@@ -127,6 +128,7 @@
                   toastr.warning(patternsExtend[regexIndex][1], 'Formato ' + regexIndex + ' no válido .')
                 }
 
+                $("textarea").val("");
                 $inpErr.push($input)
 
               }else{
