@@ -4,8 +4,8 @@
 
         // patrones por defecto
         let patternsDefault = {
-            nombre: [/([a-zA-Z]{1,}\s?){1,3}/,"Mínimo un nombre."],
-            apellidos: [/([a-zA-Z]{1,}\s?){1,3}/, "Mínimo un apellido."],
+            nombre: [/([a-zA-ZÁÉÍÓÚñáéíóúÑ]{1,}\s?){1,3}/,"Mínimo un nombre."],
+            apellidos: [/([a-zA-ZÁÉÍÓÚñáéíóúÑ]{1,}\s?){1,3}/, "Mínimo un apellido."],
             correo: [/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i, "Formato correo no válido."],
             textarea: [/(\w\s?.?\s?){10,}/, "Mínimo 10 caractéres."]
         }
