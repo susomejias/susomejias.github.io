@@ -1,0 +1,15 @@
+[
+    { "type" : "Desarrollador Front-end",
+      "skills" : ["HTML", "CSS", "JavaScript"]
+    },
+
+    { "type" : "Desarrollador Back-end",
+      "skills" : ["ASP.NET", "PHP", "RUBY", "PYTHON", "NODE.JS", "JAVA"]
+    },
+
+    { "type" : "Desarrollador Full stack",
+      "skills" : ["Arquitectura del servidores y sistemas"]
+    }
+
+
+]

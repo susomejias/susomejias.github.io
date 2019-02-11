@@ -1,0 +1,21 @@
+[
+    { "skill" : "Autoconocimiento", "description" : "es el conocimiento de uno mismo, este es empleado en numerosos textos de sicología, sobre todo en la sicología evolutiva.  " },
+
+    { "skill" : "Empatía", "description" : "Participación afectiva de una persona en una realidad ajena a ella, generalmente en los sentimientos de otra persona." },
+
+    { "skill" : "Comunicación asertiva", "description" : "Forma en la que una persona expresa sus opiniones desde el respeto hacia el otro." },
+
+    { "skill" : "Relaciones interpersonales", "description" : "Interacción recíproca entre dos o más personas. Se trata de relaciones sociales que, como tales, se encuentran reguladas por las leyes e instituciones de la interacción social." },
+
+    { "skill" : "Toma de decisiones", "description" : "Proceso mediante el cual se realiza una elección entre diferentes opciones o formas posibles para resolver diferentes situaciones en la vida en diferentes contextos: empresarial, laboral, económico, familiar, personal, social, etc." },
+
+    { "skill" : "Solución de problemas y conflictos", "description" : "El conflicto es algo natural y necesario para el crecimiento de las personas y de la sociedad, se presenta por la diferencia de pensamientos, opiniones, acciones e intereses." },
+
+    { "skill" : "Pensamiento creativo", "description" : "La palabra pensamiento proviene del verbo latino pensare que es sinónimo de pensar o reflexionar, mientras que creativo procede de creare, también un verbo latino que puede traducirse como engendrar o producir. La creatividad es la facultad de crear." },
+
+    { "skill" : "Pensamiento crítico", "description" : "Proceso que se propone analizar, entender y evaluar la manera en la que se organizan los conocimientos que se pretenden interpretar y representar en el mundo, en particular las opiniones o afirmaciones que en la vida cotidiana suelen aceptarse como verdaderas." },
+
+    { "skill" : "Manejo de emociones y sentimientos", "description" : "Las emociones y los sentimientos son expresiones naturales que tiene el ser humano, se presentan a lo largo de la vida,en nuestras relaciones con las demas personas e implica aprender a manejarlas." },
+
+    { "skill" : "Manejo de tensiones y estrés", "description" : "El estrés es una función normal del organismo. No hay vida sin estrés, es una activación de nuestro organismo, aunque en exceso se convierte en un serio peligro para la salud. Muchas enfermedades psicológicas y físicas están estrechamente relacionadas con el. Hay estrés bueno y estrés malo; el primero nos ayuda a mantenernos alerta y en condiciones de enfrentar desafíos; el segundo, la intensidad y la permanencia de la activación origina alteraciones tanto físicas como psicológicas." }
+]
