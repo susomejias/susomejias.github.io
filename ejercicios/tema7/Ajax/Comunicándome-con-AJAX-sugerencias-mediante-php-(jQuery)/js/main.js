@@ -14,14 +14,13 @@ let init = function(){
             },
             dataType: "text",
             success: function(results){
-              console.log(results);
               let resultsJson = results !== "" && results !== "No se encontraron resultados" ? JSON.parse(results) : {};
               if (!$.isEmptyObject(resultsJson)){
                 $("#showSearch").html("")
                 let html = ``;
                 for (let i in resultsJson)
                 {
-                     html += `<p class="suggest ripple">${resultsJson[i].first_name} ${resultsJson[i].last_name}</p>`;
+                     html += `<p class="suggest ripple animated jackInTheBox delay-${i}s">${resultsJson[i].first_name} ${resultsJson[i].last_name}</p>`;
                 }
 
                 $("#showSearch").append(html);
