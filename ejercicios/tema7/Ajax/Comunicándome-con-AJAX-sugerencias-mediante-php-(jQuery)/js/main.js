@@ -28,7 +28,7 @@ let init = function(){
                   $("#search").val($(this).text())
                 });
               }else{
-                $("#showSearch").html("No se encontraron resultados");
+                $("#showSearch").html(`<p class="animated shake">No se encontraron resultados</p>`);
               }
 
             },
