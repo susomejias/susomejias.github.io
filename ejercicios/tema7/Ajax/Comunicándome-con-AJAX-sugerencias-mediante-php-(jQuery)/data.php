@@ -4,7 +4,7 @@ header('Content-type: text/plain; charset=utf-8');
 
 $students = array(
     array('first_name' => 'Jesús', 'last_name' => 'Mejías Leiva'),
-    array('first_name' => 'José Rafael', 'last_name' => 'Barbara'),
+    array('first_name' => 'José Rafael', 'last_name' => 'Álvarez Espino'),
     array('first_name' => 'Guillermo', 'last_name' => 'Boquizo Sánchez'),
     array('first_name' => 'Angelo', 'last_name' => 'Barbara'),
     array('first_name' => 'José Manuel', 'last_name' => 'Bravo Martínez'),
