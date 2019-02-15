@@ -13,8 +13,10 @@ Tipos de desarrolladores web y una lista de habilidades.
 
   let init = function(){
 
-      $("button").click(function(){
-        showJSON("./JSON/" + $(this).attr("jsonFile"));
+      $("#selectJson").change(function(event) {
+        if ($(this).val() !== ""){
+            showJSON("./JSON/" + $(this).val());
+        }
       });
 
 
