@@ -31,7 +31,7 @@ En la misma ruta, deja un fichero index2.html para probar la carga de otros fich
 
       $.ajax({
         method: "GET",
-        url: "index2.html",
+        url: $("#inpUrl").val(),
         beforeSend: ()=> actions += "<p>beforeSend</p>",
         complete: ()=> {
           actions += "<p>complete</p>";
