@@ -1,0 +1,70 @@
+// Mixings
+
+// Estilo para centrar en horizontal o vertical
+=flex-center($direction)
+    display: flex
+    flex-direction: $direction
+    justify-content: center
+    align-items: center
+
+// colors
+
+$primary: #7E57C2
+$primaryVariant: #fff
+
+body
+    margin: 0px
+    padding: 0px
+    font-family: 'Lato', sans-serif
+    +flex-center(column)
+    min-height: 100vh
+    background: $primaryVariant
+    color: #EDE7F6
+    main
+        width: 60%
+        min-height: 70vh;
+        +flex-center(column)
+        background: $primary
+        padding: 10px 15px
+        border-radius: 3px
+        -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+        -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+        -ms-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+        -o-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+        h1
+          text-align: center
+        #containerSelect
+          +flex-center(column)
+          padding: 10px
+          label
+            padding: 7px
+        #showInfo
+          min-height: 30vh
+          margin-top: 10px
+          width: 300px
+          text-align: center
+          +flex-center(column)
+          #container
+            width: 300px
+          b
+            background: #5E35B1
+            color: white
+            padding: 10px 15px
+            display: block
+            border-radius: 3px
+            margin: 10px
+          .skills
+            max-width: 300px
+select
+  background: #673AB7
+  border-width: 0px
+  border-radius: 3px
+  height: 40px
+  min-width: 100px
+  text-align-last: center
+  text-align: center
+  font-size: 1.2rem
+  color: #EDE7F6
+  outline: none
+  padding: 5px 10px

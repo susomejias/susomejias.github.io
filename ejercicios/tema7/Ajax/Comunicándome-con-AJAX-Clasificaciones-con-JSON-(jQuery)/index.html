@@ -10,23 +10,31 @@
 		 integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 		 crossorigin="anonymous"
 	 ></script>
+   <link rel="stylesheet" href="css/rippleEffect.css">
+   <link rel="stylesheet" href="css/style.min.css">
 	 <script type='text/javascript' src='js/main.js'></script>
+
  </head>
  <body>
 	 <noscript>
 		 Por favor, comprueba que tu navegador es compatible con javascrip, o bien', 'comprueba si lo tienes activado
 	 </noscript>
-   <h1>Comunicándome con AJAX: Clasificaciones con JSON (jQuery)</h1>
+    <main>
+      <h1>Comunicándome con AJAX:<br/> Clasificaciones con JSON (jQuery)</h1>
 
-   <select name="" id="selectJson">
-       <option value="">-- Selecciona una opción --</option>
-       <option value="skillLife.json">Habilidades de la vida</option>
-       <option value="profileIT.json">Perfiles IT más demandados</option>
-       <option value="webDev.json">Tipos de desarrolladores web</option>
-   </select>
+      <div class="" id="containerSelect">
+        <label for="selectJson">Elije la temática a mostrar</label>
+         <select name="" id="selectJson">
+             <option value="">-- Selecciona una opción --</option>
+             <option value="skillLife.json">Habilidades de la vida</option>
+             <option value="profileIT.json">Perfiles IT más demandados</option>
+             <option value="webDev.json">Tipos de desarrolladores web</option>
+         </select>
+      </div>
 
-   <div id="showInfo">
+       <div id="showInfo">
 
-   </div>
+       </div>
+    </main>
  </body>
  </html>
