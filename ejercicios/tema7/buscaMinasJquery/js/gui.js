@@ -197,6 +197,7 @@ let buscaMinasGUI = {
 
                 $("#" + casilla).addClass("selected", 500,
                           ()=>$("#" + casilla).removeClass("selected"));
+                //$("#" + casilla).switchClass("selected", "selected" , 500);
             }
           }
         }

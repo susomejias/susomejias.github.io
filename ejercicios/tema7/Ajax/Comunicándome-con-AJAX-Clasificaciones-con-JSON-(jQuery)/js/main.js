@@ -52,7 +52,8 @@ Tipos de desarrolladores web y una lista de habilidades.
                     `;
             for (let skill of value.skills) {
               devType += `
-                  <p>${skill}</p>
+
+                  <label><input type="checkbox">${skill}</label>
               `
             }
 
