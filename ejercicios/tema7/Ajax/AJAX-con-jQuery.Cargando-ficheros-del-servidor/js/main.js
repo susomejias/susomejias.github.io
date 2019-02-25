@@ -38,10 +38,16 @@ En la misma ruta, deja un fichero index2.html para probar la carga de otros fich
           $("#showState").html(actions);
         },
         success: (data)=> {
-          $("#showInfo").text(data);
-          actions += "<p>success</p>";
+
+            $("#showInfo").text(data);
+            actions += "<p>success</p>";
+
+
         },
-        error: ()=> actions += "<p>error</p>"
+        error: ()=> {
+          actions += "<p>error</p>";
+          $("#showInfo").text("");
+        }
       });
 
   }
