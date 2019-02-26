@@ -10,7 +10,7 @@ let init = function(){
   };
 
   let infoAjax = {
-    url: './index.html',
+    url: './autor.txt',
     element: $('#textAreaRespuesta')
   };
 
