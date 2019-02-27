@@ -116,7 +116,6 @@
           let $inpErr = [];
 
           if ($inputs.length > 0){
-
             // cuando se haga submit
             $(this).submit(function(ev) {
               ev.preventDefault();
@@ -150,8 +149,6 @@
                     infAjax.element.val(text);
                     saveDefaultStyles($inputs);
                   });
-
-
               }else{
                   $inpErr[0].focus();
               }
@@ -162,20 +159,17 @@
 
               let $input = $(this);
 
-
               if ($input.attr("tipo") === undefined){
                 return;
               }
 
               let regexIndex = $input.attr("tipo");
+
               if (!patterns[regexIndex][0].test($input.val())){
                 $(this).css(cssExtend);
-
-                  toastr.warning(patternsExtend[regexIndex][1], 'Formato ' + regexIndex + ' no válido .')
-
+                toastr.warning(patternsExtend[regexIndex][1], 'Formato ' + regexIndex + ' no válido .')
                 $("textarea").val("");
                 $inpErr.push($input)
-
               }else{
                 saveOrSetStyles("set", $(this));
               }
