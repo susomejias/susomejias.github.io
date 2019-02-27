@@ -112,13 +112,17 @@
               if ($inpErr.length === 0){
 
                 if (infAjax.url === undefined ||infAjax.url === "" ){
-                  toastr.error('Url usada para la petición ajax no válida, revisa los parámetros de invocación del plugin','Parámetros url incorrecto');
+                  if (toastr){
+                    toastr.error('Url usada para la petición ajax no válida, revisa los parámetros de invocación del plugin','Parámetros url incorrecto');
+                  }
                   return;
                   //throw new Error("Url no válida.")
                 }
 
                 if (infAjax.element === undefined ||infAjax.element === "" ){
-                  toastr.error('Elemento donde se mostrará la información ajax no válido, revisa los parámetros de invocación del plugin','Parámetros element incorrecto');
+                  if (toastr){
+                    toastr.error('Elemento donde se mostrará la información ajax no válido, revisa los parámetros de invocación del plugin','Parámetros element incorrecto');
+                  }
                   //throw new Error("Elemento no válido.")
                   return;
                 }
