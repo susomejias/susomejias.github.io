@@ -17,7 +17,6 @@ let init = function(){
 
   // sobreescribiendo los patrones
   $("form").validar(patternsObj,infoAjax);
-
   // usando solo la info de ajax
   //$("form").validar(infoAjax);
 
