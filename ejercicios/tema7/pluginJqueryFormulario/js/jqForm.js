@@ -19,19 +19,23 @@
             textarea: [/(\w\s?.?\s?){10,}/, "Mínimo 10 caractéres."]
         }
 
+        // css por defecto
         let cssDefault = {
             color: "#fff",
             background: "rgba(244, 67, 54, .5)",
             border: "1px solid rgba(255,255,255,0.4)"
         };
 
-        // opciones por defecto
+        // opciones extendidas
         let patternsExtend = $.extend(patternsDefault,patterns);
 
         let cssExtend = $.extend(cssDefault,styles);
 
 
+        // estilos por defectos de los inputs
+
         let stylesDefaultInput = {};
+
         // devuelve el css de un elemento del DOM
         let getStyleObject = function(element){
           var dom = element.get(0);
@@ -69,9 +73,11 @@
                   element.css(stylesDefaultInput);
                 }
               break;
+            // usaré más cases si tenemos varios tipos de inputs, date, textarea etc
           }
         };
 
+        // añadiendo opciones personalizadas a librería toastr
         let toastOptions = function(){
             toastr.options.preventDuplicates = true;
             toastr.options.closeButton = true;
@@ -98,13 +104,13 @@
           });
         };
 
-        // valida inputs y textarea que no sean tipo submit, cuando existan.
-
-
-
+          // obtengo todos los inputs de tipo text
           let $inputs = $("input[type='text']", $(this));
+
+          //cargo opciones de la librería
           toastOptions();
 
+          // guardo estilos
           saveDefaultStyles($inputs);
 
           let $inpErr = [];
@@ -115,6 +121,8 @@
             $(this).submit(function(ev) {
               ev.preventDefault();
               $inpErr = [];
+
+              // trigger para hacer los blur al enviar
               $inputs.trigger("blur");
 
               // cuando no existan errores se realiza la petición ajax
@@ -132,6 +140,7 @@
                   return;
                 }
 
+                // realizo petición ajax con fetch
                 fetch(infAjax.url)
                   .then(function(response) {
                     saveDefaultStyles($inputs);
