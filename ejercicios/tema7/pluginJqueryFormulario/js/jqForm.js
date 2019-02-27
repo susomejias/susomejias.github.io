@@ -1,6 +1,6 @@
 (function ( $ ) {
 
-    $.fn.validar = function( patterns, infAjax,styles) {
+    $.fn.validar = function( styles, patterns, infAjax ) {
 
         // patrones por defecto
         let patternsDefault = {
@@ -12,17 +12,14 @@
 
         let cssDefault = {
             color: "#fff",
-            backgroundcolor: "rgba(244, 67, 54, .5)",
+            background: "rgba(244, 67, 54, .5)",
             border: "1px solid rgba(255,255,255,0.4)"
         };
-
 
         // opciones por defecto
         let patternsExtend = $.extend(patternsDefault,patterns);
 
         let cssExtend = $.extend(cssDefault,styles);
-
-
 
 
         let stylesDefaultInput = {};
@@ -66,6 +63,27 @@
           }
         };
 
+        let toastOptions = function(){
+          if (toastr){
+            toastr.options.preventDuplicates = true;
+            toastr.options.closeButton = true;
+
+            toastr.options.timeOut = 2250;
+            toastr.options.extendedTimeOut = 3100;
+
+            toastr.options.showEasing = 'swing';
+            toastr.options.hideEasing = 'linear';
+            toastr.options.closeEasing = 'linear';
+
+            toastr.options.showMethod = 'slideDown';
+            toastr.options.hideMethod = 'slideUp';
+            toastr.options.closeMethod = 'slideUp';
+
+            toastr.options.progressBar = true;
+            toastr.options.newestOnTop = false;
+        }
+      }
+
         // guarda los estilos por defecto de los elementos del formulario
         let saveDefaultStyles = function(inputs){
           inputs.each(function(index, element) {
@@ -76,6 +94,7 @@
         // valida inputs y textarea que no sean tipo submit, cuando existan.
 
           let $inputs = $("input[type='text']", $(this));
+          toastOptions();
 
           saveDefaultStyles($inputs);
 
@@ -88,8 +107,21 @@
               ev.preventDefault();
               $inpErr = [];
               $inputs.trigger("blur");
+
               // cuando no existan errores se realiza la petición ajax
               if ($inpErr.length === 0){
+
+                if (infAjax.url === undefined ||infAjax.url === "" ){
+                  toastr.error('Url usada para la petición ajax no válida, revisa los parámetros de invocación del plugin','Parámetros url incorrecto');
+                  return;
+                  //throw new Error("Url no válida.")
+                }
+
+                if (infAjax.element === undefined ||infAjax.element === "" ){
+                  toastr.error('Elemento donde se mostrará la información ajax no válido, revisa los parámetros de invocación del plugin','Parámetros element incorrecto');
+                  //throw new Error("Elemento no válido.")
+                  return;
+                }
 
                 fetch(infAjax.url)
                   .then(function(response) {
@@ -100,6 +132,7 @@
                     infAjax.element.val(text);
                     saveDefaultStyles($inputs);
                   });
+
 
               }else{
                   $inpErr[0].focus();
@@ -118,11 +151,8 @@
 
               let regexIndex = $input.attr("tipo");
               if (!patterns[regexIndex][0].test($input.val())){
-                $(this).css({
-                  color: cssExtend.color,
-                  background: cssExtend.backgroundcolor,
-                  border: cssExtend.border
-                });
+                $(this).css(cssExtend);
+
 
                 if (toastr){
                   toastr.warning(patternsExtend[regexIndex][1], 'Formato ' + regexIndex + ' no válido .')
