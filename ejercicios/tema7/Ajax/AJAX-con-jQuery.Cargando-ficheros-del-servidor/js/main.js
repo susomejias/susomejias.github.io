@@ -20,7 +20,6 @@ En la misma ruta, deja un fichero index2.html para probar la carga de otros fich
 
 
   let init = function(){
-
     $("#btnShow").click(GetHtml);
 
   }
@@ -28,27 +27,29 @@ En la misma ruta, deja un fichero index2.html para probar la carga de otros fich
   let GetHtml = function(){
 
       let actions = "";
+      if ($("#inpUrl").val() === ""){
+        $("#showInfo").text("")
+        $("#showState").text("");
+        return;
+      }
+        $.ajax({
+          method: "GET",
+          url: $("#inpUrl").val(),
+          beforeSend: ()=> actions += "<p>beforeSend</p>",
+          complete: ()=> {
+            actions += "<p>complete</p>";
+            $("#showState").html(actions);
+          },
+          success: (data)=> {
+              $("#showInfo").text(data);
+              actions += "<p>success</p>";
+          },
+          error: ()=> {
+            actions += "<p>error</p>";
+            $("#showInfo").text("");
+          }
+        });
 
-      $.ajax({
-        method: "GET",
-        url: $("#inpUrl").val(),
-        beforeSend: ()=> actions += "<p>beforeSend</p>",
-        complete: ()=> {
-          actions += "<p>complete</p>";
-          $("#showState").html(actions);
-        },
-        success: (data)=> {
-
-            $("#showInfo").text(data);
-            actions += "<p>success</p>";
-
-
-        },
-        error: ()=> {
-          actions += "<p>error</p>";
-          $("#showInfo").text("");
-        }
-      });
 
   }
 
