@@ -2,6 +2,15 @@
 
     $.fn.validar = function( styles, patterns, infAjax ) {
 
+        // control de la librería toast
+        try{
+          toastr
+        }catch(e){
+          if (e instanceof ReferenceError) {
+            throw new Error("La dependencia toastr no esta instalado, puede instalarlo desde aquí: https://github.com/CodeSeven/toastr")
+          }
+        }
+
         // patrones por defecto
         let patternsDefault = {
             nombre: [/([a-zA-ZÁÉÍÓÚñáéíóúÑ]{1,}\s?){1,3}/,"Mínimo un nombre."],
@@ -64,7 +73,6 @@
         };
 
         let toastOptions = function(){
-          if (toastr){
             toastr.options.preventDuplicates = true;
             toastr.options.closeButton = true;
 
@@ -81,7 +89,6 @@
 
             toastr.options.progressBar = true;
             toastr.options.newestOnTop = false;
-        }
       }
 
         // guarda los estilos por defecto de los elementos del formulario
@@ -92,6 +99,8 @@
         };
 
         // valida inputs y textarea que no sean tipo submit, cuando existan.
+
+
 
           let $inputs = $("input[type='text']", $(this));
           toastOptions();
@@ -112,17 +121,13 @@
               if ($inpErr.length === 0){
 
                 if (infAjax.url === undefined ||infAjax.url === "" ){
-                  if (toastr){
                     toastr.error('Url usada para la petición ajax no válida, revisa los parámetros de invocación del plugin','Parámetros url incorrecto');
-                  }
                   return;
                   //throw new Error("Url no válida.")
                 }
 
                 if (infAjax.element === undefined ||infAjax.element === "" ){
-                  if (toastr){
                     toastr.error('Elemento donde se mostrará la información ajax no válido, revisa los parámetros de invocación del plugin','Parámetros element incorrecto');
-                  }
                   //throw new Error("Elemento no válido.")
                   return;
                 }
@@ -157,10 +162,7 @@
               if (!patterns[regexIndex][0].test($input.val())){
                 $(this).css(cssExtend);
 
-
-                if (toastr){
                   toastr.warning(patternsExtend[regexIndex][1], 'Formato ' + regexIndex + ' no válido .')
-                }
 
                 $("textarea").val("");
                 $inpErr.push($input)

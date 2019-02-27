@@ -13130,13 +13130,13 @@ var intersect = $.ui.intersect = ( function() {
 				isOverAxis( event.pageX, l, droppable.proportions().width );
 		case "touch":
 			return (
-				( y1 >= t && y1 <= b ) || // Top edge touching
-				( y2 >= t && y2 <= b ) || // Bottom edge touching
-				( y1 < t && y2 > b ) // Surrounded vertically
+				(// Bottom edge touching
+                ( y1 >= t && y1 <= b ) || // Top edge touching
+				( y2 >= t && y2 <= b ) || y1 < t && y2 > b) // Surrounded vertically
 			) && (
-				( x1 >= l && x1 <= r ) || // Left edge touching
-				( x2 >= l && x2 <= r ) || // Right edge touching
-				( x1 < l && x2 > r ) // Surrounded horizontally
+				(// Right edge touching
+                ( x1 >= l && x1 <= r ) || // Left edge touching
+				( x2 >= l && x2 <= r ) || x1 < l && x2 > r) // Surrounded horizontally
 			);
 		default:
 			return false;
