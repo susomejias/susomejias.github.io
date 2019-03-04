@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+	<title>Examen jQuery (marzo-2018)</title>
+	<link rel="stylesheet" href="./css/css.css" type="text/css">
+	<script src="./js/jquery-3.3.1.min.js" type="text/javascript"></script>
+	<script src="./js/plugin.js" type="text/javascript"></script>
+	<script src="./js/main.js" type="text/javascript"></script>
+</head>
+
+<body>
+<div id="container">
+
+	  <div class="section">
+       <h1>Examen jQuery. Marzo de 2018. Nombre Apellido1 Apellido2</h1>
+
+			 <!-- Parte derecha-->
+       <div class="domtree">
+         <h3>Esta parte de la derecha variará según los botones de la izquierda. SOLO la parte de la derecha. Concretamente aquí sube y baja con el botón de la izquierda.</h3>
+
+         <div id="miId">Estoy en un div tal que así <code>&lt;div id="miId"&gt;</code>. A continuación una línea horizontal.</div>
+         <hr>
+         <p>Aquí un parrafito <code>&lt;p&gt;</code> <span>y</span> <code>&lt;/p&gt;</code>. Las etiquetas "p" previas están envueltas en <code>&lt;code&gt;</code>.</p>
+         <ul>
+           <li>El primer elemento de la lista sin orden (<code>&lt;li&gt;</code>) in an unordered list (<code>&lt;ul&gt;</code>). </li>
+           <li>El segundo elemento de la lista sin orden. It has a in it.</li>
+           <li class="myclass otherclass">El tercer elemento de la lista sin orden. It has a <code>class</code> of "myclass otherclass"</li>
+           <li>El cuarto elemento de la lista sin orden. It has <strong>strong</strong> text and <em>em</em>phasized <em>text</em>.
+             <ul>
+               <li>Segundo nivel. Elemento 1</li>
+               <li>Segundo nivel. Elemento 2</li>
+             </ul>
+           </li>
+         </ul>
+         <p class="myclass">He aquí otro párrafo. Soy un poco repetitivo. He aquí otro párrafo. Soy un poco repetitivo. He aquí otro párrafo. Soy un poco repetitivo. He aquí otro párrafo. Soy un poco repetitivo. </p>
+
+		 <p>Y a continuación el fantástico fooooooooooooooormulario.</p>
+           <form action ="" method="get" accept-charset="utf-8">
+             <div class="left">
+
+                 <div><input type="text" value="text input"></div>
+                 <div><input type="text" value="disabled text input" disabled="disabled"></div>
+                 <div><input type="password" name="password" value="password"></div>
+                <div><select>
+                   <option>select list w/ options</option>
+                   <option>another option</option>
+                   <option>a third option</option>
+                 </select>
+               </div>
+             </div>
+             <textarea class="left" rows="5" cols="20">This is a textarea</textarea>
+			 <div><select size="5" style="margin-left:10px">
+                   <option>select list w/ options</option>
+                   <option selected="selected">another option</option>
+                   <option>a third option</option>
+                 </select></div>
+             <div class="clear-left"><label for="radio1">
+               <input class="left" name="radiobtn" type="radio" id="radio1" value="checkedradio" checked="checked">
+               Radio Checked
+             </label>
+             <label class="left clear-left" for="radio2">
+               <input class="left" id="radio2" name="radiobtn" type="radio" value="not">
+                 Radio Not Checked
+             </label>
+             <label class="left clear-left" for="check1">
+               <input class="left" id="check1" name="checkbx" type="checkbox" value="checked" checked="checked">
+               Checkbox Checked
+             </label>
+             <label class="left clear-left" for="check2">
+               <input class="left" id="check2" name="checkbx" type="checkbox" value="not">
+                 Checkbox Not Checked
+             </label>
+             <label class="left clear-left" for="check3">
+               <input class="left" id="check3" name="checkbx" type="checkbox" value="not">
+                 Another checkbox Not Checked
+             </label>
+             </div>
+
+             <div class="left clear-left"><input type="submit" value="Submit input"></div>
+             <div class="left"><input type="button" value="Button input"></div>
+             <div class="left"><input type="reset" value="Reset input"></div>
+             <div class="left"><button>Button button</button></div>
+             <div class="left clear-left"><input type="file" name="fileinput" value="file input" id="fileinput"></div>
+           </form>
+       </div>
+<!-- Parte izquierda-->
+	   <div class="example">
+         <h3>Bienvenido al examen de jQuery y AJAX</h3>
+				 <p>Aquí mostrarás el resultado de tu solicitud ajax</p>
+         <textarea rows="3" id="customInput" style="width:250px;"></textarea>
+         <input type="submit" value="AJAX" id="toggleCustom">
+       </div>
+
+       <div class="example">
+         <h3>Comenzamos</h3>
+         <div class="content">
+					 <div class="sample-code">Fíjate en el h3 de la derecha. </div>
+           		<input type="submit" value="sube/baja">
+					 <div class="sample-code">Anima la lista al completo. </div>
+            	<input type="submit" value="desaparece/aparece">
+				   <div class="sample-code">Anima la sublista como un acordeón.</div>
+		           <input type="submit" value="efectos">
+				   <div class="sample-code">Primer parrafito: anima ancho a 0 y el alto a su estado normal</div>
+		           <input type="submit" value="ancho/alto">
+				   <div class="sample-code">Seleccionados a verde</div>
+		           <input type="submit" value="verde">
+				   <div class="sample-code">Aplica clase 'highlight' y anima</div>
+		           <input type="submit" value="anima">
+         </div>
+       </div>
+
+
+     </div>  <!-- end of section  -->
+
+</div>
+
+</body></html>
